@@ -14,9 +14,14 @@
         <header style="border-bottom: 1px solid #ddd; padding-bottom: 15px; margin-bottom: 20px;">
             <h1>{{ entry.title }}</h1>
             <p style="color: #666; margin: 0;">
-                Written on {{ entry.created_at|date:"l, F j, Y" }} at {{ entry.created_at|time:"g:i A" }}
+                📅 Diary entry for {{ entry.date|date:"l, F j, Y" }}
+                {% if entry.created_at.date != entry.date %}
+                    <br><em style="color: #6c757d; font-size: 0.9em;">Actually written on {{ entry.created_at|date:"l, F j, Y" }} at {{ entry.created_at|time:"g:i A" }}</em>
+                {% else %}
+                    <br><em style="color: #6c757d; font-size: 0.9em;">Written at {{ entry.created_at|time:"g:i A" }}</em>
+                {% endif %}
                 {% if entry.updated_at != entry.created_at %}
-                    <br><em>Last updated: {{ entry.updated_at|date:"l, F j, Y" }} at {{ entry.updated_at|time:"g:i A" }}</em>
+                    <br><em style="color: #6c757d; font-size: 0.85em;">Last updated: {{ entry.updated_at|date:"M j, Y" }} at {{ entry.updated_at|time:"g:i A" }}</em>
                 {% endif %}
                 {% if entry.is_private %}
                     <span style="background-color: #ffc107; color: #856404; padding: 2px 6px; border-radius: 3px; font-size: 0.8em; margin-left: 10px;">Private</span>

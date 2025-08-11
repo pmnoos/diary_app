@@ -326,6 +326,30 @@ textarea.form-control {
     resize: vertical;
 }
 
+/* Date Input Specific Styles */
+input[type="date"].form-control {
+    position: relative;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5.5 3.5v9M10.5 3.5v9M2.5 8.5h11'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+input[type="date"].form-control::-webkit-calendar-picker-indicator {
+    background: transparent;
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+}
+
 .help-text {
     font-size: 14px;
     color: #6c757d;

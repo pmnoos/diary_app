@@ -11,6 +11,7 @@ def user_directory_path(instance, filename):
 class Entry(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
+    date = models.DateField(default=timezone.now, help_text="The date this diary entry is for")
     image = models.ImageField(upload_to=user_directory_path, blank=True, null=True, 
                              help_text="Optional: Upload an image for your diary entry")
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='diary_entries')
@@ -19,7 +20,7 @@ class Entry(models.Model):
     is_private = models.BooleanField(default=True)  # For future feature to share entries
     
     class Meta:
-        ordering = ['-created_at']  # Show newest entries first
+        ordering = ['-date', '-created_at']  # Show entries by diary date, then creation time
         verbose_name_plural = "entries"
     
     def __str__(self):

@@ -1,6 +1,8 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.utils import timezone
+from datetime import timedelta
 from .models import Entry
 
 
@@ -13,7 +15,8 @@ class EntryModelTest(TestCase):
         self.entry = Entry.objects.create(
             title='Test Entry',
             content='This is a test entry.',
-            author=self.user
+            author=self.user,
+            date=timezone.now().date()
         )
 
     def test_entry_creation(self):
@@ -27,14 +30,16 @@ class EntryModelTest(TestCase):
         self.assertEqual(str(self.entry), 'Test Entry by testuser')
 
     def test_entry_ordering(self):
-        """Test that entries are ordered by creation date"""
+        """Test that entries are ordered by date"""
+        yesterday = timezone.now().date() - timedelta(days=1)
         entry2 = Entry.objects.create(
             title='Second Entry',
             content='This is the second entry.',
-            author=self.user
+            author=self.user,
+            date=yesterday
         )
         entries = Entry.objects.all()
-        self.assertEqual(entries[0], entry2)  # Newest first
+        self.assertEqual(entries[0], self.entry)  # Today's entry first (newer date)
 
 
 class EntryViewTest(TestCase):

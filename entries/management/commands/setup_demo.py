@@ -115,6 +115,7 @@ Definitely adding this to my regular cooking rotation!''',
                     title=entry_data['title'],
                     content=entry_data['content'],
                     author=demo_user,
+                    date=(entry_data['created_at'].date()),  # Use the same date as diary date
                     created_at=entry_data['created_at'],
                     updated_at=entry_data['created_at']
                 )

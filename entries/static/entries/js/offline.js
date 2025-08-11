@@ -71,6 +71,7 @@ class OfflineEntryManager {
         const formData = new FormData(form);
         const entryData = {
             title: formData.get('title'),
+            date: formData.get('date'),
             content: formData.get('content'),
             is_private: formData.get('is_private') === 'on'
         };
@@ -143,6 +144,7 @@ class OfflineEntryManager {
     async syncEntry(entry) {
         const formData = new FormData();
         formData.append('title', entry.title);
+        formData.append('date', entry.date);
         formData.append('content', entry.content);
         formData.append('is_private', entry.is_private);
         formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
