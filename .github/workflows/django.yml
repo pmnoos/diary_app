@@ -11,10 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.12]  # Simplified to just one version for now
+        python-version: [3.13]  # Match our local environment
 
     env:
-      DJANGO_SETTINGS_MODULE: core.settings_test
+      DJANGO_SETTINGS_MODULE: core.settings
+      DEBUG: False
 
     steps:
     - uses: actions/checkout@v4
@@ -29,10 +30,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
+    - name: Check Django installation
+      run: |
+        python -c "import django; print(f'Django version: {django.get_version()}')"
+        python manage.py check
+    
     - name: Run migrations
       run: |
-        python manage.py migrate
+        python manage.py migrate --verbosity=2
     
     - name: Run tests
       run: |
-        python manage.py test --verbosity=2
+        python manage.py test --verbosity=2 --parallel

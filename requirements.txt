@@ -1,4 +1,13 @@
-# Development requirements
+# Core Django requirements
 Django>=5.2,<6.0
 Pillow>=10.0.0
 sqlparse>=0.5.0
+
+# Production requirements  
+gunicorn>=23.0.0
+whitenoise>=6.9.0
+dj-database-url>=2.3.0
+
+# Development/Testing requirements
+asgiref>=3.8.1
+tzdata>=2025.2

@@ -29,8 +29,8 @@ def main():
     print("🧪 Running CI/CD Tests Locally...")
     print("=" * 50)
     
-    # Set environment variable
-    os.environ['DJANGO_SETTINGS_MODULE'] = 'core.settings_test'
+    # Set environment variable to regular settings
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'core.settings'
     
     # Install dependencies
     if not run_command("pip install -r requirements.txt", "Installing dependencies"):
