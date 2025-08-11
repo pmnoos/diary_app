@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Diary App{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'entries/css/diary.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="page-title">{% block page_title %}My Diary{% endblock %}</h1>
+            <nav class="nav">
+                <div>
+                    <a href="{% url 'home' %}">Home</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'entry_list' %}">My Entries</a>
+                        <a href="{% url 'entry_create' %}">New Entry</a>
+                    {% else %}
+                        <a href="{% url 'login' %}">Login</a>
+                        <a href="{% url 'signup' %}">Sign up</a>
+                    {% endif %}
+                </div>
+                <div>
+                    {% if user.is_authenticated %}
+                        <span>Welcome, {{ user.username }}!</span>
+                        <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-small" style="background: #6c757d; margin-left: 10px;">Logout</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </nav>
+        </header>
+
+        <main class="content">
+            {% block content %}
+            {% endblock %}
+        </main>
+
+        <footer style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e9ecef; color: #6c757d;">
+            <p>&copy; 2025 My Diary App</p>
+        </footer>
+    </div>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

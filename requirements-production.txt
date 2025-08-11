@@ -1,0 +1,8 @@
+# requirements.txt for production deployment
+Django>=5.2,<6.0
+Pillow>=10.0.0
+psycopg2-binary>=2.9.0  # For PostgreSQL
+gunicorn>=21.0.0  # WSGI server
+whitenoise>=6.0.0  # Static file serving
+python-decouple>=3.8  # Environment variables
+dj-database-url>=2.0.0  # Database URL parsing

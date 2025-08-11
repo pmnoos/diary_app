@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if object %}Edit Entry{% else %}New Entry{% endif %} - Diary App
+{% endblock %}
+
+{% block page_title %}
+    {% if object %}Edit Entry{% else %}Write New Entry{% endif %}
+{% endblock %}
+
+{% block content %}
+    <div style="margin-bottom: 20px;">
+        <a href="{% url 'entry_list' %}" style="color: #007bff; text-decoration: none;">&larr; Back to All Entries</a>
+    </div>
+
+    <div style="max-width: 700px; margin: 0 auto;">
+        <form method="post" enctype="multipart/form-data" style="background-color: #f8f9fa; padding: 20px; border-radius: 5px;">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+                <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+                    <strong>Please correct the following errors:</strong>
+                    {{ form.errors }}
+                </div>
+            {% endif %}
+
+            <div style="margin-bottom: 20px;">
+                <label for="{{ form.title.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ form.title.label }}</label>
+                {{ form.title }}
+                {% if form.title.help_text %}
+                    <small style="color: #666; display: block; margin-top: 5px;">{{ form.title.help_text }}</small>
+                {% endif %}
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label for="{{ form.content.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ form.content.label }}</label>
+                {{ form.content }}
+                {% if form.content.help_text %}
+                    <small style="color: #666; display: block; margin-top: 5px;">{{ form.content.help_text }}</small>
+                {% endif %}
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label for="{{ form.image.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ form.image.label }}</label>
+                {% if object and object.image %}
+                    <div style="margin-bottom: 10px;">
+                        <img src="{{ object.image.url }}" alt="Current image" style="max-width: 200px; max-height: 150px; border-radius: 5px;">
+                        <p style="margin: 5px 0; font-size: 0.9em; color: #666;">Current image</p>
+                    </div>
+                {% endif %}
+                {{ form.image }}
+                {% if form.image.help_text %}
+                    <small style="color: #666; display: block; margin-top: 5px;">{{ form.image.help_text }}</small>
+                {% endif %}
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <div style="display: flex; align-items: center;">
+                    {{ form.is_private }}
+                    <label for="{{ form.is_private.id_for_label }}" style="margin-left: 8px;">{{ form.is_private.label }}</label>
+                </div>
+                {% if form.is_private.help_text %}
+                    <small style="color: #666; display: block; margin-top: 5px;">{{ form.is_private.help_text }}</small>
+                {% endif %}
+            </div>
+
+            <div style="text-align: center;">
+                <button type="submit" style="background-color: #007bff; color: white; padding: 12px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-right: 10px;">
+                    {% if object %}Update Entry{% else %}Save Entry{% endif %}
+                </button>
+                <a href="{% url 'entry_list' %}" style="background-color: #6c757d; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+    .form-control:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    }
+    .form-check-input {
+        margin-right: 5px;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Logged Out - Diary App{% endblock %}
+
+{% block page_title %}You have been logged out{% endblock %}
+
+{% block content %}
+    <div style="text-align: center; padding: 40px; background-color: #f8f9fa; border-radius: 5px;">
+        <h2>You have been successfully logged out</h2>
+        <p>Thank you for using your diary app!</p>
+        <p>
+            <a href="{% url 'home' %}" class="btn" style="background-color: #007bff;">Go Home</a>
+            <a href="{% url 'login' %}" class="btn" style="background-color: #28a745;">Login Again</a>
+        </p>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .btn {
+        display: inline-block;
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        margin: 5px;
+    }
+    .btn:hover {
+        background-color: #0056b3;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}

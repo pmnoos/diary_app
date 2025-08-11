@@ -1,0 +1,2 @@
+# PWA-specific requirements (add to production requirements)
+django-pwa>=1.0.10  # PWA utilities for Django
