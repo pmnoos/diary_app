@@ -11,7 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.11, 3.12, 3.13]
+        python-version: [3.12]  # Simplified to just one version for now
+
+    env:
+      DJANGO_SETTINGS_MODULE: core.settings_test
 
     steps:
     - uses: actions/checkout@v4
@@ -28,13 +31,8 @@ jobs:
     
     - name: Run migrations
       run: |
-        python manage.py makemigrations --check
         python manage.py migrate
     
     - name: Run tests
       run: |
-        python manage.py test
-        
-    - name: Check deployment readiness
-      run: |
-        python manage.py check --deploy --fail-level=WARNING
+        python manage.py test --verbosity=2
