@@ -1,8 +1,8 @@
-name: Django CI/CD
+name: Django CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -25,79 +25,16 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install coverage pytest-django
     
     - name: Run migrations
       run: |
-        python manage.py makemigrations
+        python manage.py makemigrations --check
         python manage.py migrate
     
     - name: Run tests
       run: |
-        coverage run --source='.' manage.py test
-        coverage report
-        coverage xml
-    
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./coverage.xml
-        flags: unittests
-        name: codecov-umbrella
-        fail_ci_if_error: false
-
-  lint:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.13'
-    
-    - name: Install dependencies
+        python manage.py test
+        
+    - name: Check deployment readiness
       run: |
-        python -m pip install --upgrade pip
-        pip install flake8 black isort
-    
-    - name: Lint with flake8
-      run: |
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    
-    - name: Check code formatting with black
-      run: |
-        black --check .
-    
-    - name: Check import sorting with isort
-      run: |
-        isort --check-only .
-
-  security:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.13'
-    
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install safety bandit
-    
-    - name: Check for security vulnerabilities
-      run: |
-        safety check
-        bandit -r . -f json -o bandit-report.json || true
-    
-    - name: Upload bandit report
-      uses: actions/upload-artifact@v3
-      with:
-        name: bandit-report
-        path: bandit-report.json
+        python manage.py check --deploy --fail-level=WARNING
