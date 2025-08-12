@@ -48,6 +48,9 @@ A Progressive Web App (PWA) built with Django that allows users to write, manage
    ```
 
 3. **Install dependencies**
+   
+   **For Linux users:** If you encounter installation errors, see [LINUX_SETUP.md](LINUX_SETUP.md) for detailed Linux-specific instructions.
+   
    ```bash
    pip install -r requirements.txt
    ```
