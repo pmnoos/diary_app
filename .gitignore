@@ -145,8 +145,9 @@ dmypy.json
 ehthumbs.db
 Thumbs.db
 
-# Media uploads (optional - remove if you want to track uploaded images)
+# Media uploads - keep personal images private
 media/uploads/
+media/diary_images/
 
 # Static files collected for production
 staticfiles/
