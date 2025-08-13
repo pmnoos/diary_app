@@ -1,31 +1,26 @@
 import os
-from decouple import config
 import dj_database_url
 from .settings import *
 
 # Production settings override
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+SECRET_KEY = os.environ.get('SECRET_KEY', SECRET_KEY)
+ALLOWED_HOSTS = [
+    '.herokuapp.com',
+    'localhost',
+    '127.0.0.1',
+] + os.environ.get('ALLOWED_HOSTS', '').split(',')
 
-DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost').split(',')
-
-# Database - supports both SQLite and PostgreSQL
-DATABASE_URL = config('DATABASE_URL', default=None)
+# Database - use Heroku PostgreSQL if available
+DATABASE_URL = os.environ.get('DATABASE_URL')
 if DATABASE_URL:
-    # Use PostgreSQL (or other URL-based database)
     DATABASES = {
-        'default': dj_database_url.parse(DATABASE_URL)
-    }
-else:
-    # Keep SQLite for development
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+        'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
     }
 
 # Static files (production)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files (production)
