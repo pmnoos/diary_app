@@ -49,32 +49,70 @@
             <div style="margin-bottom: 20px;">
                 <label for="{{ form.content.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ form.content.label }}</label>
                 
-                <!-- Emoji Picker -->
-                <div style="margin-bottom: 10px; padding: 10px; background-color: #fff; border: 1px solid #ddd; border-radius: 5px;">
-                    <small style="color: #666; margin-bottom: 8px; display: block;">✨ Quick Emojis (click to add):</small>
-                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                        <!-- Mood emojis -->
-                        <button type="button" onclick="addEmoji('😊')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Happy">😊</button>
-                        <button type="button" onclick="addEmoji('😢')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Sad">😢</button>
-                        <button type="button" onclick="addEmoji('😴')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Tired">😴</button>
-                        <button type="button" onclick="addEmoji('😍')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Love">😍</button>
-                        <button type="button" onclick="addEmoji('😤')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Frustrated">😤</button>
-                        <button type="button" onclick="addEmoji('🤔')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Thinking">🤔</button>
-                        <!-- Activity emojis -->
-                        <button type="button" onclick="addEmoji('🍕')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Food">🍕</button>
-                        <button type="button" onclick="addEmoji('☕')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Coffee">☕</button>
-                        <button type="button" onclick="addEmoji('🎉')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Celebration">🎉</button>
-                        <button type="button" onclick="addEmoji('📚')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Study">📚</button>
-                        <button type="button" onclick="addEmoji('💼')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Work">💼</button>
-                        <button type="button" onclick="addEmoji('🏃‍♂️')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Exercise">🏃‍♂️</button>
-                        <!-- Weather emojis -->
-                        <button type="button" onclick="addEmoji('☀️')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Sunny">☀️</button>
-                        <button type="button" onclick="addEmoji('🌧️')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Rainy">🌧️</button>
-                        <button type="button" onclick="addEmoji('❄️')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Snow">❄️</button>
-                        <button type="button" onclick="addEmoji('🌙')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Night">🌙</button>
-                        <!-- Hearts -->
-                        <button type="button" onclick="addEmoji('❤️')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Heart">❤️</button>
-                        <button type="button" onclick="addEmoji('💚')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Green Heart">💚</button>
+                <!-- Emoji Folder/Panel -->
+                <div style="margin-bottom: 10px;">
+                    <button type="button" id="emoji-toggle" style="background: #e9ecef; border: 1px solid #ddd; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 8px; width: fit-content;">
+                        <span>😊</span>
+                        <span>Add Emojis</span>
+                        <span id="emoji-arrow" style="transition: transform 0.3s;">▼</span>
+                    </button>
+                    
+                    <div id="emoji-panel" style="display: none; margin-top: 8px; padding: 15px; background-color: #fff; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                        <div style="margin-bottom: 12px;">
+                            <strong style="color: #666; font-size: 13px;">😊 MOODS</strong>
+                            <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px;">
+                                <button type="button" onclick="addEmoji('😊')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Happy">😊</button>
+                                <button type="button" onclick="addEmoji('😢')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Sad">😢</button>
+                                <button type="button" onclick="addEmoji('😴')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Tired">😴</button>
+                                <button type="button" onclick="addEmoji('😍')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Love">😍</button>
+                                <button type="button" onclick="addEmoji('😤')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Frustrated">😤</button>
+                                <button type="button" onclick="addEmoji('🤔')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Thinking">🤔</button>
+                                <button type="button" onclick="addEmoji('😎')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Cool">😎</button>
+                                <button type="button" onclick="addEmoji('🥳')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Party">🥳</button>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 12px;">
+                            <strong style="color: #666; font-size: 13px;">🍕 ACTIVITIES</strong>
+                            <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px;">
+                                <button type="button" onclick="addEmoji('🍕')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Food">🍕</button>
+                                <button type="button" onclick="addEmoji('☕')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Coffee">☕</button>
+                                <button type="button" onclick="addEmoji('🎉')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Celebration">🎉</button>
+                                <button type="button" onclick="addEmoji('📚')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Study">📚</button>
+                                <button type="button" onclick="addEmoji('💼')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Work">💼</button>
+                                <button type="button" onclick="addEmoji('🏃‍♂️')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Exercise">🏃‍♂️</button>
+                                <button type="button" onclick="addEmoji('🎮')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Gaming">🎮</button>
+                                <button type="button" onclick="addEmoji('🛒')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Shopping">🛒</button>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 12px;">
+                            <strong style="color: #666; font-size: 13px;">☀️ WEATHER</strong>
+                            <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px;">
+                                <button type="button" onclick="addEmoji('☀️')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Sunny">☀️</button>
+                                <button type="button" onclick="addEmoji('🌧️')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Rainy">🌧️</button>
+                                <button type="button" onclick="addEmoji('❄️')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Snow">❄️</button>
+                                <button type="button" onclick="addEmoji('🌙')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Night">🌙</button>
+                                <button type="button" onclick="addEmoji('⛅')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Cloudy">⛅</button>
+                                <button type="button" onclick="addEmoji('🌈')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Rainbow">🌈</button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <strong style="color: #666; font-size: 13px;">❤️ HEARTS & SYMBOLS</strong>
+                            <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px;">
+                                <button type="button" onclick="addEmoji('❤️')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Heart">❤️</button>
+                                <button type="button" onclick="addEmoji('💚')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Green Heart">💚</button>
+                                <button type="button" onclick="addEmoji('💙')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Blue Heart">💙</button>
+                                <button type="button" onclick="addEmoji('⭐')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Star">⭐</button>
+                                <button type="button" onclick="addEmoji('✨')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Sparkles">✨</button>
+                                <button type="button" onclick="addEmoji('🔥')" style="background: none; border: none; font-size: 1.8em; cursor: pointer; padding: 6px; border-radius: 4px; transition: background-color 0.2s;" title="Fire">🔥</button>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #eee; font-size: 12px; color: #666; text-align: center;">
+                            💡 Click any emoji to add it to your entry
+                        </div>
                     </div>
                 </div>
                 
@@ -160,8 +198,28 @@
             }
         }
 
-        // Add hover effect to emoji buttons
+        function toggleEmojiPanel() {
+            const panel = document.getElementById('emoji-panel');
+            const arrow = document.getElementById('emoji-arrow');
+            
+            if (panel.style.display === 'none' || panel.style.display === '') {
+                panel.style.display = 'block';
+                arrow.style.transform = 'rotate(180deg)';
+            } else {
+                panel.style.display = 'none';
+                arrow.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Add hover effect to emoji buttons and setup toggle
         document.addEventListener('DOMContentLoaded', function() {
+            // Setup emoji toggle button
+            const emojiToggle = document.getElementById('emoji-toggle');
+            if (emojiToggle) {
+                emojiToggle.addEventListener('click', toggleEmojiPanel);
+            }
+            
+            // Add hover effects to emoji buttons
             const emojiButtons = document.querySelectorAll('button[onclick^="addEmoji"]');
             emojiButtons.forEach(button => {
                 button.addEventListener('mouseenter', function() {
