@@ -37,7 +37,19 @@
             <p>
                 <a href="{% url 'entry_create' %}" class="btn">Write New Entry</a>
                 <a href="{% url 'entry_list' %}" class="btn">View All Entries</a>
+                <a href="{% url 'reminder_dashboard' %}" class="btn" style="background-color: #17a2b8;">📅 View Reminders</a>
             </p>
+        </div>
+        
+        <!-- Quick Reminder Widget -->
+        <div style="background-color: #e9ecef; padding: 15px; border-radius: 8px; margin-top: 20px;">
+            <h4 style="margin-top: 0; color: #495057;">🔔 Quick Reminder</h4>
+            <p style="color: #6c757d; margin-bottom: 15px;">Need to remember something? Add a quick reminder for later.</p>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <a href="{% url 'reminder_create' %}" class="btn" style="background-color: #28a745;">➕ Add Reminder</a>
+                <a href="{% url 'reminder_list' %}?filter=today" class="btn" style="background-color: #ffc107; color: #212529;">Today's Tasks</a>
+                <a href="{% url 'reminder_list' %}?filter=this_week" class="btn" style="background-color: #17a2b8;">This Week</a>
+            </div>
         </div>
     {% else %}
         <div style="margin-bottom: 30px;">

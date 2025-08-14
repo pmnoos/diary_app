@@ -9,6 +9,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),  # built-in auth routes
     path('accounts/', include('accounts.urls')),  # custom accounts routes (signup)
     path('entries/', include('entries.urls')),  # diary entries routes
+    path('reminders/', include('reminders.urls')),  # reminder system routes
     path('', home_view, name='home'),
 ]
 

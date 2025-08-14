@@ -82,6 +82,7 @@
                     {% if user.is_authenticated %}
                         <a href="{% url 'entry_list' %}">My Entries</a>
                         <a href="{% url 'entry_create' %}">New Entry</a>
+                        <a href="{% url 'reminder_dashboard' %}">📅 Reminders</a>
                     {% else %}
                         <a href="{% url 'login' %}">Login</a>
                         <a href="{% url 'signup' %}">Sign up</a>

@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if object %}Edit Reminder{% else %}New Reminder{% endif %} - Diary App
+{% endblock %}
+
+{% block page_title %}
+    {% if object %}📝 Edit Reminder{% else %}➕ New Reminder{% endif %}
+{% endblock %}
+
+{% block content %}
+    <div style="margin-bottom: 20px;">
+        <a href="{% url 'reminder_dashboard' %}" style="color: #007bff; text-decoration: none;">&larr; Back to Dashboard</a>
+    </div>
+
+    <div style="max-width: 700px; margin: 0 auto;">
+        <form method="post" style="background-color: #f8f9fa; padding: 20px; border-radius: 5px;">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+                <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+                    <strong>Please correct the following errors:</strong>
+                    {{ form.errors }}
+                </div>
+            {% endif %}
+
+            <div style="margin-bottom: 20px;">
+                <label for="{{ form.title.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ form.title.label }}</label>
+                {{ form.title }}
+                {% if form.title.help_text %}
+                    <small style="color: #666; display: block; margin-top: 5px;">{{ form.title.help_text }}</small>
+                {% endif %}
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label for="{{ form.description.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ form.description.label }}</label>
+                {{ form.description }}
+                {% if form.description.help_text %}
+                    <small style="color: #666; display: block; margin-top: 5px;">{{ form.description.help_text }}</small>
+                {% endif %}
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                <div>
+                    <label for="{{ form.date.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ form.date.label }}</label>
+                    {{ form.date }}
+                    {% if form.date.help_text %}
+                        <small style="color: #666; display: block; margin-top: 5px;">{{ form.date.help_text }}</small>
+                    {% endif %}
+                </div>
+                <div>
+                    <label for="{{ form.time.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ form.time.label }}</label>
+                    {{ form.time }}
+                    {% if form.time.help_text %}
+                        <small style="color: #666; display: block; margin-top: 5px;">{{ form.time.help_text }}</small>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                <div>
+                    <label for="{{ form.category.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ form.category.label }}</label>
+                    {{ form.category }}
+                </div>
+                <div>
+                    <label for="{{ form.priority.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ form.priority.label }}</label>
+                    {{ form.priority }}
+                </div>
+                <div>
+                    <label for="{{ form.alert_preference.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ form.alert_preference.label }}</label>
+                    {{ form.alert_preference }}
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label for="{{ form.location.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ form.location.label }}</label>
+                {{ form.location }}
+                {% if form.location.help_text %}
+                    <small style="color: #666; display: block; margin-top: 5px;">{{ form.location.help_text }}</small>
+                {% endif %}
+            </div>
+
+            {% if object %}
+                <div style="margin-bottom: 20px;">
+                    <div style="display: flex; align-items: center;">
+                        {{ form.is_completed }}
+                        <label for="{{ form.is_completed.id_for_label }}" style="margin-left: 8px;">{{ form.is_completed.label }}</label>
+                    </div>
+                    {% if form.is_completed.help_text %}
+                        <small style="color: #666; display: block; margin-top: 5px;">{{ form.is_completed.help_text }}</small>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            <div style="text-align: center;">
+                <button type="submit" style="background-color: #007bff; color: white; padding: 12px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-right: 10px;">
+                    {% if object %}Update Reminder{% else %}Save Reminder{% endif %}
+                </button>
+                <a href="{% url 'reminder_dashboard' %}" style="background-color: #6c757d; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+    .form-control:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    }
+    select.form-control {
+        height: auto;
+    }
+    textarea.form-control {
+        min-height: 100px;
+        resize: vertical;
+    }
+</style>
+{% endblock %}
