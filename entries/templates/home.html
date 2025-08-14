@@ -13,6 +13,12 @@
 {% endblock %}
 
 {% block content %}
+    <!-- Reminder Notifications -->
+    {% include 'reminders/alerts/notification_banner.html' %}
+    
+    <!-- Reminder Quick Widget -->
+    {% include 'reminders/alerts/quick_widget.html' %}
+    
     <!-- PWA Install Banner -->
     <div id="pwa-install-button" style="display: none; background: linear-gradient(135deg, #007bff, #0056b3); color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; cursor: pointer;">
         <h4 style="margin: 0 0 10px 0;">📱 Install Diary App</h4>

@@ -6,8 +6,14 @@
 {% block page_title %}My Diary Entries{% endblock %}
 
 {% block content %}
-    <div style="margin-bottom: 20px;">
+    <!-- Reminder Notifications -->
+    {% include 'reminders/alerts/notification_banner.html' %}
+    
+    <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
         <a href="{% url 'entry_create' %}" class="btn" style="background-color: #28a745;">Write New Entry</a>
+        <a href="{% url 'entry_search' %}" style="background-color: #007bff; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">🔍 Search</a>
+        <a href="{% url 'archive_dashboard' %}" style="background-color: #6c757d; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">📦 Archive</a>
+        <a href="{% url 'reminder_list' %}" style="background-color: #ffc107; color: #212529; padding: 10px 15px; text-decoration: none; border-radius: 5px;">⏰ Reminders</a>
     </div>
 
     {% if entries %}

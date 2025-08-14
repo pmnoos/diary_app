@@ -92,6 +92,11 @@ class Reminder(models.Model):
         return 0 <= self.days_until <= 7
     
     @property
+    def is_urgent(self):
+        """Check if reminder is urgent (due today, tomorrow, or high priority)"""
+        return (self.days_until <= 1 and not self.is_completed) or self.priority in ['high', 'urgent']
+    
+    @property
     def urgency_level(self):
         """Get urgency based on days until and priority"""
         days = self.days_until

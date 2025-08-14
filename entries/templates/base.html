@@ -91,6 +91,7 @@
                 <div>
                     {% if user.is_authenticated %}
                         <span>Welcome, {{ user.username }}!</span>
+                        {% include 'reminders/alerts/nav_badge.html' %}
                         <span id="connection-status" style="margin-left: 15px; font-size: 0.9em;"></span>
                         <form method="post" action="{% url 'logout' %}" style="display: inline;">
                             {% csrf_token %}

@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Entries - Diary App{% endblock %}
+
+{% block page_title %}🔍 Search Your Diary{% endblock %}
+
+{% block content %}
+    <div style="margin-bottom: 20px;">
+        <a href="{% url 'entry_list' %}" style="color: #007bff; text-decoration: none;">&larr; Back to Entries</a>
+    </div>
+
+    <!-- Advanced Search Form -->
+    <div style="background-color: #f8f9fa; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+        <form method="get" style="display: grid; gap: 15px;">
+            <div>
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Search Text:</label>
+                <input type="text" name="q" value="{{ query }}" placeholder="Search in titles, content, and tags..." 
+                       style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Mood:</label>
+                    <select name="mood" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                        <option value="">Any Mood</option>
+                        <option value="happy" {% if mood_filter == 'happy' %}selected{% endif %}>😊 Happy</option>
+                        <option value="sad" {% if mood_filter == 'sad' %}selected{% endif %}>😢 Sad</option>
+                        <option value="excited" {% if mood_filter == 'excited' %}selected{% endif %}>🎉 Excited</option>
+                        <option value="calm" {% if mood_filter == 'calm' %}selected{% endif %}>😌 Calm</option>
+                        <option value="stressed" {% if mood_filter == 'stressed' %}selected{% endif %}>😰 Stressed</option>
+                        <option value="grateful" {% if mood_filter == 'grateful' %}selected{% endif %}>🙏 Grateful</option>
+                        <option value="reflective" {% if mood_filter == 'reflective' %}selected{% endif %}>🤔 Reflective</option>
+                        <option value="energetic" {% if mood_filter == 'energetic' %}selected{% endif %}>⚡ Energetic</option>
+                        <option value="peaceful" {% if mood_filter == 'peaceful' %}selected{% endif %}>☮️ Peaceful</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">From Date:</label>
+                    <input type="date" name="date_from" value="{{ date_from }}" 
+                           style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">To Date:</label>
+                    <input type="date" name="date_to" value="{{ date_to }}" 
+                           style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <label style="display: flex; align-items: center; gap: 5px;">
+                    <input type="checkbox" name="include_archived" {% if include_archived %}checked{% endif %}>
+                    <span>Include archived entries</span>
+                </label>
+                
+                <button type="submit" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                    🔍 Search
+                </button>
+                
+                <a href="{% url 'entry_search' %}" style="color: #6c757d; text-decoration: none;">Clear</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Search Results -->
+    {% if query %}
+        <div style="margin-bottom: 20px;">
+            <h3>Search Results ({{ total_results }} found)</h3>
+            {% if query %}
+                <p style="color: #666;">Searching for: "<strong>{{ query }}</strong>"</p>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    {% if entries %}
+        <div class="entries-list">
+            {% for entry in entries %}
+                <div style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 5px; display: flex; gap: 15px; {% if entry.is_archived %}background-color: #f8f9fa; opacity: 0.8;{% endif %}">
+                    {% if entry.image %}
+                        <div style="flex-shrink: 0;">
+                            <img src="{{ entry.image.url }}" alt="{{ entry.title }}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;">
+                        </div>
+                    {% endif %}
+                    <div style="flex: 1;">
+                        <h3>
+                            <a href="{% url 'entry_detail' entry.pk %}" style="text-decoration: none; color: #333;">{{ entry.title }}</a>
+                            {% if entry.is_archived %}
+                                <span style="background-color: #6c757d; color: white; padding: 2px 6px; border-radius: 3px; font-size: 0.8em;">📦 Archived</span>
+                            {% endif %}
+                        </h3>
+                        <p style="color: #666; font-size: 0.9em;">
+                            📅 <strong>{{ entry.date|date:"l, F j, Y" }}</strong>
+                            {% if entry.mood %}
+                                <span style="margin-left: 10px;">{{ entry.get_mood_display }}</span>
+                            {% endif %}
+                            {% if entry.word_count %}
+                                <span style="color: #6c757d; font-size: 0.85em; margin-left: 10px;">({{ entry.word_count }} words)</span>
+                            {% endif %}
+                        </p>
+                        {% if entry.tags %}
+                            <div style="margin: 5px 0;">
+                                {% for tag in entry.get_tag_list %}
+                                    <span style="background-color: #e9ecef; color: #495057; padding: 2px 6px; border-radius: 3px; font-size: 0.8em; margin-right: 5px;">
+                                        #{{ tag }}
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <p>{{ entry.get_snippet|truncatewords:25 }}</p>
+                        <div style="margin-top: 10px;">
+                            <a href="{% url 'entry_detail' entry.pk %}" style="color: #007bff; text-decoration: none; margin-right: 10px;">Read More</a>
+                            <a href="{% url 'entry_update' entry.pk %}" style="color: #28a745; text-decoration: none; margin-right: 10px;">Edit</a>
+                            <a href="{% url 'toggle_archive_entry' entry.pk %}" style="color: #6c757d; text-decoration: none; margin-right: 10px;">
+                                {% if entry.is_archived %}📤 Restore{% else %}📦 Archive{% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if is_paginated %}
+            <div style="text-align: center; margin-top: 30px;">
+                <div style="display: inline-block;">
+                    {% if page_obj.has_previous %}
+                        <a href="?q={{ query }}&mood={{ mood_filter }}&date_from={{ date_from }}&date_to={{ date_to }}&{% if include_archived %}include_archived=on&{% endif %}page=1" style="background-color: #007bff; color: white; padding: 8px 12px; text-decoration: none; border-radius: 3px; margin: 0 2px;">First</a>
+                        <a href="?q={{ query }}&mood={{ mood_filter }}&date_from={{ date_from }}&date_to={{ date_to }}&{% if include_archived %}include_archived=on&{% endif %}page={{ page_obj.previous_page_number }}" style="background-color: #007bff; color: white; padding: 8px 12px; text-decoration: none; border-radius: 3px; margin: 0 2px;">Previous</a>
+                    {% endif %}
+                    
+                    <span style="padding: 8px 12px; margin: 0 10px;">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </span>
+                    
+                    {% if page_obj.has_next %}
+                        <a href="?q={{ query }}&mood={{ mood_filter }}&date_from={{ date_from }}&date_to={{ date_to }}&{% if include_archived %}include_archived=on&{% endif %}page={{ page_obj.next_page_number }}" style="background-color: #007bff; color: white; padding: 8px 12px; text-decoration: none; border-radius: 3px; margin: 0 2px;">Next</a>
+                        <a href="?q={{ query }}&mood={{ mood_filter }}&date_from={{ date_from }}&date_to={{ date_to }}&{% if include_archived %}include_archived=on&{% endif %}page={{ page_obj.paginator.num_pages }}" style="background-color: #007bff; color: white; padding: 8px 12px; text-decoration: none; border-radius: 3px; margin: 0 2px;">Last</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        {% if query %}
+            <div style="text-align: center; padding: 40px; color: #666;">
+                <h4>No entries found</h4>
+                <p>Try adjusting your search terms or filters.</p>
+            </div>
+        {% else %}
+            <div style="text-align: center; padding: 40px; color: #666;">
+                <h4>Search Your Diary</h4>
+                <p>Use the search form above to find specific entries, moods, or date ranges.</p>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}

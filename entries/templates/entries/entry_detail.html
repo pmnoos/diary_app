@@ -40,6 +40,9 @@
 
     <div style="margin-top: 30px; text-align: center;">
         <a href="{% url 'entry_update' entry.pk %}" class="btn" style="background-color: #28a745; margin-right: 10px;">Edit Entry</a>
+        <a href="{% url 'toggle_archive_entry' entry.pk %}" class="btn" style="background-color: #6c757d; margin-right: 10px;">
+            {% if entry.is_archived %}📤 Restore{% else %}📦 Archive{% endif %}
+        </a>
         <a href="{% url 'entry_delete' entry.pk %}" class="btn" style="background-color: #dc3545;">Delete Entry</a>
     </div>
 {% endblock %}
