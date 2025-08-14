@@ -48,10 +48,41 @@
 
             <div style="margin-bottom: 20px;">
                 <label for="{{ form.content.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ form.content.label }}</label>
+                
+                <!-- Emoji Picker -->
+                <div style="margin-bottom: 10px; padding: 10px; background-color: #fff; border: 1px solid #ddd; border-radius: 5px;">
+                    <small style="color: #666; margin-bottom: 8px; display: block;">✨ Quick Emojis (click to add):</small>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        <!-- Mood emojis -->
+                        <button type="button" onclick="addEmoji('😊')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Happy">😊</button>
+                        <button type="button" onclick="addEmoji('😢')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Sad">😢</button>
+                        <button type="button" onclick="addEmoji('😴')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Tired">😴</button>
+                        <button type="button" onclick="addEmoji('😍')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Love">😍</button>
+                        <button type="button" onclick="addEmoji('😤')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Frustrated">😤</button>
+                        <button type="button" onclick="addEmoji('🤔')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Thinking">🤔</button>
+                        <!-- Activity emojis -->
+                        <button type="button" onclick="addEmoji('🍕')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Food">🍕</button>
+                        <button type="button" onclick="addEmoji('☕')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Coffee">☕</button>
+                        <button type="button" onclick="addEmoji('🎉')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Celebration">🎉</button>
+                        <button type="button" onclick="addEmoji('📚')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Study">📚</button>
+                        <button type="button" onclick="addEmoji('💼')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Work">💼</button>
+                        <button type="button" onclick="addEmoji('🏃‍♂️')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Exercise">🏃‍♂️</button>
+                        <!-- Weather emojis -->
+                        <button type="button" onclick="addEmoji('☀️')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Sunny">☀️</button>
+                        <button type="button" onclick="addEmoji('🌧️')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Rainy">🌧️</button>
+                        <button type="button" onclick="addEmoji('❄️')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Snow">❄️</button>
+                        <button type="button" onclick="addEmoji('🌙')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Night">🌙</button>
+                        <!-- Hearts -->
+                        <button type="button" onclick="addEmoji('❤️')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Heart">❤️</button>
+                        <button type="button" onclick="addEmoji('💚')" style="background: none; border: none; font-size: 1.5em; cursor: pointer; padding: 4px; border-radius: 3px;" title="Green Heart">💚</button>
+                    </div>
+                </div>
+                
                 {{ form.content }}
                 {% if form.content.help_text %}
                     <small style="color: #666; display: block; margin-top: 5px;">{{ form.content.help_text }}</small>
                 {% endif %}
+                <small style="color: #666; display: block; margin-top: 5px;">💡 You can also type emojis directly or paste them from your keyboard!</small>
             </div>
 
             <div style="margin-bottom: 20px;">
@@ -111,6 +142,36 @@
             const formattedDate = targetDate.toISOString().split('T')[0];
             dateInput.value = formattedDate;
         }
+
+        function addEmoji(emoji) {
+            const contentTextarea = document.querySelector('textarea[name="content"]');
+            if (contentTextarea) {
+                // Get current cursor position
+                const cursorPos = contentTextarea.selectionStart;
+                const currentText = contentTextarea.value;
+                
+                // Insert emoji at cursor position
+                const newText = currentText.slice(0, cursorPos) + emoji + currentText.slice(cursorPos);
+                contentTextarea.value = newText;
+                
+                // Move cursor after the emoji
+                contentTextarea.focus();
+                contentTextarea.setSelectionRange(cursorPos + emoji.length, cursorPos + emoji.length);
+            }
+        }
+
+        // Add hover effect to emoji buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const emojiButtons = document.querySelectorAll('button[onclick^="addEmoji"]');
+            emojiButtons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#e9ecef';
+                });
+                button.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = 'transparent';
+                });
+            });
+        });
     </script>
 {% endblock %}
 

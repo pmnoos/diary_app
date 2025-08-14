@@ -22,12 +22,12 @@
                     <div style="flex: 1;">
                         <h3><a href="{% url 'entry_detail' entry.pk %}" style="text-decoration: none; color: #333;">{{ entry.title }}</a></h3>
                         <p style="color: #666; font-size: 0.9em;">
-                            📅 {{ entry.date|date:"l, F j, Y" }}
+                            📅 <strong>{{ entry.date|date:"l, F j, Y" }}</strong>
                             {% if entry.created_at.date != entry.date %}
-                                <span style="color: #6c757d; font-size: 0.85em;">(written {{ entry.created_at|date:"M j" }})</span>
+                                <span style="color: #6c757d; font-size: 0.85em;">(✍️ actually written {{ entry.created_at|date:"M j" }})</span>
                             {% endif %}
                             {% if entry.is_private %}
-                                <span style="background-color: #ffc107; color: #856404; padding: 2px 6px; border-radius: 3px; font-size: 0.8em;">Private</span>
+                                <span style="background-color: #ffc107; color: #856404; padding: 2px 6px; border-radius: 3px; font-size: 0.8em;">🔒 Private</span>
                             {% endif %}
                             {% if entry.image %}
                                 <span style="background-color: #28a745; color: white; padding: 2px 6px; border-radius: 3px; font-size: 0.8em;">📷 Photo</span>
