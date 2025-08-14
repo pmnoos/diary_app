@@ -9,94 +9,183 @@
 {% endblock %}
 
 {% block content %}
-    <div style="margin-bottom: 20px;">
-        <a href="{% url 'reminder_dashboard' %}" style="color: #007bff; text-decoration: none;">&larr; Back to Dashboard</a>
+    <!-- Back Navigation -->
+    <div class="breadcrumb-nav">
+        <a href="{% url 'reminder_dashboard' %}" class="back-link">
+            <i class="icon">←</i> Back to Dashboard
+        </a>
     </div>
 
-    <div style="max-width: 700px; margin: 0 auto;">
-        <form method="post" style="background-color: #f8f9fa; padding: 20px; border-radius: 5px;">
+    <!-- Main Form Container -->
+    <div class="form-container">
+        <div class="form-header">
+            <h2>{% if object %}📝 Edit Your Reminder{% else %}➕ Create New Reminder{% endif %}</h2>
+            <p class="form-subtitle">Set up your reminder with all the details you need</p>
+        </div>
+
+        <form method="post" class="modern-form">
             {% csrf_token %}
             
             {% if form.errors %}
-                <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
-                    <strong>Please correct the following errors:</strong>
-                    {{ form.errors }}
-                </div>
-            {% endif %}
-
-            <div style="margin-bottom: 20px;">
-                <label for="{{ form.title.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ form.title.label }}</label>
-                {{ form.title }}
-                {% if form.title.help_text %}
-                    <small style="color: #666; display: block; margin-top: 5px;">{{ form.title.help_text }}</small>
-                {% endif %}
-            </div>
-
-            <div style="margin-bottom: 20px;">
-                <label for="{{ form.description.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ form.description.label }}</label>
-                {{ form.description }}
-                {% if form.description.help_text %}
-                    <small style="color: #666; display: block; margin-top: 5px;">{{ form.description.help_text }}</small>
-                {% endif %}
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
-                <div>
-                    <label for="{{ form.date.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ form.date.label }}</label>
-                    {{ form.date }}
-                    {% if form.date.help_text %}
-                        <small style="color: #666; display: block; margin-top: 5px;">{{ form.date.help_text }}</small>
-                    {% endif %}
-                </div>
-                <div>
-                    <label for="{{ form.time.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ form.time.label }}</label>
-                    {{ form.time }}
-                    {% if form.time.help_text %}
-                        <small style="color: #666; display: block; margin-top: 5px;">{{ form.time.help_text }}</small>
-                    {% endif %}
-                </div>
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px;">
-                <div>
-                    <label for="{{ form.category.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ form.category.label }}</label>
-                    {{ form.category }}
-                </div>
-                <div>
-                    <label for="{{ form.priority.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ form.priority.label }}</label>
-                    {{ form.priority }}
-                </div>
-                <div>
-                    <label for="{{ form.alert_preference.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ form.alert_preference.label }}</label>
-                    {{ form.alert_preference }}
-                </div>
-            </div>
-
-            <div style="margin-bottom: 20px;">
-                <label for="{{ form.location.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">{{ form.location.label }}</label>
-                {{ form.location }}
-                {% if form.location.help_text %}
-                    <small style="color: #666; display: block; margin-top: 5px;">{{ form.location.help_text }}</small>
-                {% endif %}
-            </div>
-
-            {% if object %}
-                <div style="margin-bottom: 20px;">
-                    <div style="display: flex; align-items: center;">
-                        {{ form.is_completed }}
-                        <label for="{{ form.is_completed.id_for_label }}" style="margin-left: 8px;">{{ form.is_completed.label }}</label>
+                <div class="alert alert-error">
+                    <div class="alert-icon">⚠️</div>
+                    <div class="alert-content">
+                        <strong>Please correct the following errors:</strong>
+                        {{ form.errors }}
                     </div>
-                    {% if form.is_completed.help_text %}
-                        <small style="color: #666; display: block; margin-top: 5px;">{{ form.is_completed.help_text }}</small>
-                    {% endif %}
                 </div>
             {% endif %}
 
-            <div style="text-align: center;">
-                <button type="submit" style="background-color: #007bff; color: white; padding: 12px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-right: 10px;">
+            <!-- Title Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>📝 Basic Information</h3>
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.title.id_for_label }}" class="form-label required">
+                        {{ form.title.label }}
+                    </label>
+                    <div class="input-wrapper">
+                        {{ form.title }}
+                    </div>
+                    {% if form.title.help_text %}
+                        <small class="form-help">{{ form.title.help_text }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.description.id_for_label }}" class="form-label">
+                        {{ form.description.label }}
+                    </label>
+                    <div class="input-wrapper">
+                        {{ form.description }}
+                    </div>
+                    {% if form.description.help_text %}
+                        <small class="form-help">{{ form.description.help_text }}</small>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Date & Time Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>📅 When</h3>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ form.date.id_for_label }}" class="form-label required">
+                            <i class="icon">📅</i> {{ form.date.label }}
+                        </label>
+                        <div class="input-wrapper">
+                            {{ form.date }}
+                        </div>
+                        {% if form.date.help_text %}
+                            <small class="form-help">{{ form.date.help_text }}</small>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.time.id_for_label }}" class="form-label">
+                            <i class="icon">⏰</i> {{ form.time.label }}
+                        </label>
+                        <div class="input-wrapper">
+                            {{ form.time }}
+                        </div>
+                        {% if form.time.help_text %}
+                            <small class="form-help">{{ form.time.help_text }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Properties Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>🎯 Properties</h3>
+                </div>
+                
+                <div class="form-row three-col">
+                    <div class="form-group">
+                        <label for="{{ form.category.id_for_label }}" class="form-label">
+                            <i class="icon">🏷️</i> {{ form.category.label }}
+                        </label>
+                        <div class="input-wrapper">
+                            {{ form.category }}
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.priority.id_for_label }}" class="form-label">
+                            <i class="icon">⭐</i> {{ form.priority.label }}
+                        </label>
+                        <div class="input-wrapper">
+                            {{ form.priority }}
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.alert_preference.id_for_label }}" class="form-label">
+                            <i class="icon">🔔</i> {{ form.alert_preference.label }}
+                        </label>
+                        <div class="input-wrapper">
+                            {{ form.alert_preference }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>📍 Location</h3>
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.location.id_for_label }}" class="form-label">
+                        <i class="icon">📍</i> {{ form.location.label }}
+                    </label>
+                    <div class="input-wrapper">
+                        {{ form.location }}
+                    </div>
+                    {% if form.location.help_text %}
+                        <small class="form-help">{{ form.location.help_text }}</small>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Completion Status (Edit only) -->
+            {% if object %}
+                <div class="form-section">
+                    <div class="section-header">
+                        <h3>✅ Status</h3>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-wrapper">
+                            {{ form.is_completed }}
+                            <label for="{{ form.is_completed.id_for_label }}" class="checkbox-label">
+                                <span class="checkbox-text">{{ form.is_completed.label }}</span>
+                            </label>
+                        </div>
+                        {% if form.is_completed.help_text %}
+                            <small class="form-help">{{ form.is_completed.help_text }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="icon">💾</i>
                     {% if object %}Update Reminder{% else %}Save Reminder{% endif %}
                 </button>
-                <a href="{% url 'reminder_dashboard' %}" style="background-color: #6c757d; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">Cancel</a>
+                <a href="{% url 'reminder_dashboard' %}" class="btn btn-secondary">
+                    <i class="icon">↩️</i>
+                    Cancel
+                </a>
             </div>
         </form>
     </div>
@@ -104,24 +193,344 @@
 
 {% block extra_css %}
 <style>
-    .form-control {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
+    /* Container Styles */
+    .breadcrumb-nav {
+        margin-bottom: 30px;
+    }
+    
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #6366f1;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 8px 16px;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        background: rgba(99, 102, 241, 0.1);
+    }
+    
+    .back-link:hover {
+        background: rgba(99, 102, 241, 0.2);
+        transform: translateX(-2px);
+    }
+    
+    .form-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border-radius: 16px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+    
+    .form-header {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        color: white;
+        padding: 32px;
+        text-align: center;
+    }
+    
+    .form-header h2 {
+        margin: 0 0 8px 0;
+        font-size: 28px;
+        font-weight: 700;
+    }
+    
+    .form-subtitle {
+        margin: 0;
+        opacity: 0.9;
+        font-size: 16px;
+    }
+    
+    .modern-form {
+        padding: 32px;
+    }
+    
+    /* Alert Styles */
+    .alert {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px;
+        border-radius: 12px;
+        margin-bottom: 24px;
+        border: 1px solid;
+    }
+    
+    .alert-error {
+        background: #fef2f2;
+        border-color: #fecaca;
+        color: #991b1b;
+    }
+    
+    .alert-icon {
+        font-size: 20px;
+        flex-shrink: 0;
+    }
+    
+    .alert-content {
+        flex: 1;
+    }
+    
+    /* Form Section Styles */
+    .form-section {
+        margin-bottom: 32px;
+        background: #ffffff;
+        border-radius: 12px;
+        border: 1px solid #e5e7eb;
+        overflow: hidden;
+    }
+    
+    .section-header {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        padding: 16px 24px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .section-header h3 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+        color: #374151;
+    }
+    
+    /* Form Group Styles */
+    .form-group {
+        padding: 20px 24px;
+    }
+    
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+    }
+    
+    .form-row.three-col {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    
+    .form-row .form-group {
+        padding: 0;
+        margin-bottom: 0;
+    }
+    
+    .form-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 8px;
         font-size: 14px;
     }
-    .form-control:focus {
+    
+    .form-label.required::after {
+        content: '*';
+        color: #ef4444;
+        margin-left: 4px;
+    }
+    
+    .form-label .icon {
+        font-size: 16px;
+    }
+    
+    /* Input Styles */
+    .input-wrapper {
+        position: relative;
+    }
+    
+    input[type="text"],
+    input[type="date"],
+    input[type="time"],
+    textarea,
+    select {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.2s ease;
+        background: #ffffff;
+        font-family: inherit;
+    }
+    
+    input[type="text"]:focus,
+    input[type="date"]:focus,
+    input[type="time"]:focus,
+    textarea:focus,
+    select:focus {
         outline: none;
-        border-color: #007bff;
-        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        border-color: #6366f1;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        transform: translateY(-1px);
     }
-    select.form-control {
-        height: auto;
-    }
-    textarea.form-control {
+    
+    textarea {
         min-height: 100px;
         resize: vertical;
+        font-family: inherit;
+    }
+    
+    select {
+        cursor: pointer;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        background-size: 16px;
+        appearance: none;
+        padding-right: 40px;
+    }
+    
+    /* Checkbox Styles */
+    .checkbox-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        border: 2px solid #d1d5db;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    input[type="checkbox"]:checked {
+        background-color: #6366f1;
+        border-color: #6366f1;
+    }
+    
+    .checkbox-label {
+        cursor: pointer;
+        margin: 0;
+        font-weight: 500;
+        color: #374151;
+    }
+    
+    .checkbox-text {
+        font-size: 14px;
+    }
+    
+    /* Help Text */
+    .form-help {
+        display: block;
+        margin-top: 6px;
+        color: #6b7280;
+        font-size: 12px;
+        line-height: 1.4;
+    }
+    
+    /* Button Styles */
+    .form-actions {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 32px;
+        padding-top: 24px;
+        border-top: 1px solid #e5e7eb;
+    }
+    
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 28px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        min-width: 140px;
+        justify-content: center;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        color: white;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-secondary {
+        background: #f8fafc;
+        color: #6b7280;
+        border: 2px solid #e5e7eb;
+    }
+    
+    .btn-secondary:hover {
+        background: #f1f5f9;
+        border-color: #d1d5db;
+        transform: translateY(-1px);
+    }
+    
+    .btn .icon {
+        font-size: 16px;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .form-container {
+            margin: 16px;
+            border-radius: 12px;
+        }
+        
+        .form-header {
+            padding: 24px 20px;
+        }
+        
+        .modern-form {
+            padding: 24px 20px;
+        }
+        
+        .form-row,
+        .form-row.three-col {
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+        
+        .form-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .btn {
+            width: 100%;
+        }
+    }
+    
+    /* Animation for form appearance */
+    .form-container {
+        animation: slideUp 0.4s ease-out;
+    }
+    
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Focus indicators for accessibility */
+    .btn:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible,
+    select:focus-visible {
+        outline: 2px solid #6366f1;
+        outline-offset: 2px;
     }
 </style>
 {% endblock %}
