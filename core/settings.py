@@ -26,8 +26,7 @@ SECRET_KEY = 'django-insecure-u5gsbb^2#&t*ob3bzvsimv9-%(k77&d$03@@k3c()j4+vsr&g3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['diary-app-012de9a17a4f.herokuapp.com']
-
+ALLOWED_HOSTS = ['diary-app-012de9a17a4f.herokuapp.com', '127.0.0.1', 'localhost']
 
 # Application definition
 
@@ -76,12 +75,19 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# Default to SQLite for development
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# Use PostgreSQL if DATABASE_URL is available (Heroku)
+import dj_database_url
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    DATABASES['default'] = dj_database_url.parse(DATABASE_URL, conn_max_age=600)
 
 
 # Password validation
