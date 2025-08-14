@@ -11,11 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.13]  # Match our local environment
+        python-version: ["3.12", "3.13"]  # Test multiple versions including 3.12 for better CI support
 
     env:
       DJANGO_SETTINGS_MODULE: core.settings
       DEBUG: False
+      SECRET_KEY: 'test-secret-key-for-ci-only'
+      DATABASE_URL: 'sqlite:///test.db'
 
     steps:
     - uses: actions/checkout@v4
@@ -33,7 +35,11 @@ jobs:
     - name: Check Django installation
       run: |
         python -c "import django; print(f'Django version: {django.get_version()}')"
-        python manage.py check
+        python manage.py check --verbosity=2
+    
+    - name: Collect static files
+      run: |
+        python manage.py collectstatic --noinput --verbosity=2
     
     - name: Run migrations
       run: |
