@@ -134,26 +134,59 @@
             });
         }
 
-        // PWA Install Prompt
+        // PWA Install Prompt - Enhanced for cross-browser compatibility
         let deferredPrompt;
+        let isStandalone = false;
+        
+        // Check if already installed/running as PWA
+        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+            isStandalone = true;
+        }
+        
+        // Show manual install instructions for browsers that don't support beforeinstallprompt
+        function showManualInstallButton() {
+            const installButton = document.getElementById('pwa-install-button');
+            if (installButton && !isStandalone) {
+                // Update button to show manual instructions
+                installButton.innerHTML = `
+                    <h4 style="margin: 0 0 10px 0;">📱 Install Diary App</h4>
+                    <p style="margin: 0; font-size: 14px;">
+                        <strong>Chrome/Edge:</strong> Click the ⊕ icon in the address bar<br>
+                        <strong>Firefox:</strong> Bookmark this page for quick access<br>
+                        <strong>Safari:</strong> Tap Share → Add to Home Screen
+                    </p>
+                `;
+                installButton.style.display = 'block';
+                installButton.style.cursor = 'default';
+                installButton.removeEventListener('click', handleInstallClick);
+            }
+        }
+        
+        function handleInstallClick() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the PWA install prompt');
+                    }
+                    deferredPrompt = null;
+                    const installButton = document.getElementById('pwa-install-button');
+                    if (installButton) {
+                        installButton.style.display = 'none';
+                    }
+                });
+            }
+        }
+
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
             
-            // Show custom install button if user hasn't installed yet
+            // Show custom install button
             const installButton = document.getElementById('pwa-install-button');
-            if (installButton) {
+            if (installButton && !isStandalone) {
                 installButton.style.display = 'block';
-                installButton.addEventListener('click', () => {
-                    deferredPrompt.prompt();
-                    deferredPrompt.userChoice.then((choiceResult) => {
-                        if (choiceResult.outcome === 'accepted') {
-                            console.log('User accepted the PWA install prompt');
-                        }
-                        deferredPrompt = null;
-                        installButton.style.display = 'none';
-                    });
-                });
+                installButton.addEventListener('click', handleInstallClick);
             }
         });
 
@@ -164,6 +197,16 @@
             if (installButton) {
                 installButton.style.display = 'none';
             }
+            isStandalone = true;
+        });
+        
+        // For browsers that don't fire beforeinstallprompt (like Firefox, some Linux browsers)
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (!deferredPrompt && !isStandalone) {
+                    showManualInstallButton();
+                }
+            }, 2000); // Wait 2 seconds to see if beforeinstallprompt fires
         });
 
         // Connection Status Indicator
