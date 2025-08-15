@@ -25,8 +25,10 @@
                                 <div class="preview-line short"></div>
                             </div>
                         </div>
-                        <span class="theme-name">Purple Professional</span>
-                        <span class="theme-badge current" id="badge-default">Current</span>
+                        <div class="theme-info">
+                            <span class="theme-name">Purple Professional</span>
+                            <span class="theme-badge current" id="badge-default">Current</span>
+                        </div>
                     </div>
                     
                     <div class="theme-option" data-theme="ocean" onclick="setTheme('ocean')">
@@ -37,8 +39,10 @@
                                 <div class="preview-line short"></div>
                             </div>
                         </div>
-                        <span class="theme-name">Ocean Blue</span>
-                        <span class="theme-badge" id="badge-ocean"></span>
+                        <div class="theme-info">
+                            <span class="theme-name">Ocean Blue</span>
+                            <span class="theme-badge" id="badge-ocean"></span>
+                        </div>
                     </div>
                     
                     <div class="theme-option" data-theme="forest" onclick="setTheme('forest')">
@@ -49,8 +53,10 @@
                                 <div class="preview-line short"></div>
                             </div>
                         </div>
-                        <span class="theme-name">Forest Green</span>
-                        <span class="theme-badge" id="badge-forest"></span>
+                        <div class="theme-info">
+                            <span class="theme-name">Forest Green</span>
+                            <span class="theme-badge" id="badge-forest"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -67,8 +73,10 @@
                                 <div class="preview-line short"></div>
                             </div>
                         </div>
-                        <span class="theme-name">Warm Sunset</span>
-                        <span class="theme-badge" id="badge-sunset"></span>
+                        <div class="theme-info">
+                            <span class="theme-name">Warm Sunset</span>
+                            <span class="theme-badge" id="badge-sunset"></span>
+                        </div>
                     </div>
                     
                     <div class="theme-option" data-theme="rose" onclick="setTheme('rose')">
@@ -79,8 +87,10 @@
                                 <div class="preview-line short"></div>
                             </div>
                         </div>
-                        <span class="theme-name">Soft Rose</span>
-                        <span class="theme-badge" id="badge-rose"></span>
+                        <div class="theme-info">
+                            <span class="theme-name">Soft Rose</span>
+                            <span class="theme-badge" id="badge-rose"></span>
+                        </div>
                     </div>
                     
                     <div class="theme-option" data-theme="midnight" onclick="setTheme('midnight')">
@@ -91,8 +101,10 @@
                                 <div class="preview-line short"></div>
                             </div>
                         </div>
-                        <span class="theme-name">Midnight</span>
-                        <span class="theme-badge" id="badge-midnight"></span>
+                        <div class="theme-info">
+                            <span class="theme-name">Midnight</span>
+                            <span class="theme-badge" id="badge-midnight"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -315,13 +327,124 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+    .theme-toggle-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+        gap: 6px;
+    }
+    
+    .theme-text {
+        display: none; /* Show only icon on mobile */
+    }
+    
     .theme-panel {
-        width: 280px;
-        right: -20px;
+        width: calc(100vw - 20px);
+        max-width: 320px;
+        right: -10px;
+        left: auto;
+    }
+    
+    .theme-header {
+        padding: 16px;
+    }
+    
+    .theme-header h4 {
+        font-size: 15px;
+    }
+    
+    .theme-subtitle {
+        font-size: 11px;
+    }
+    
+    .theme-categories {
+        padding: 12px;
+    }
+    
+    .theme-category {
+        margin-bottom: 16px;
+    }
+    
+    .theme-options {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    
+    .theme-option {
+        padding: 10px;
+    }
+    
+    .theme-preview {
+        width: 50px;
+        height: 32px;
+        margin-bottom: 6px;
+    }
+    
+    .preview-header {
+        height: 12px;
+    }
+    
+    .preview-content {
+        padding: 3px 4px;
+        height: 20px;
+    }
+    
+    .preview-line {
+        height: 2px;
+        margin-bottom: 2px;
+    }
+    
+    .theme-name {
+        font-size: 11px;
+        margin-bottom: 3px;
+    }
+    
+    .theme-badge {
+        font-size: 9px;
+        padding: 1px 4px;
+    }
+    
+    .theme-footer {
+        padding: 10px 16px;
+    }
+    
+    .theme-footer small {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .theme-panel {
+        width: calc(100vw - 16px);
+        right: -8px;
     }
     
     .theme-options {
         grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .theme-option {
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-align: left;
+    }
+    
+    .theme-preview {
+        width: 40px;
+        height: 28px;
+        margin: 0;
+        flex-shrink: 0;
+    }
+    
+    .theme-info {
+        flex: 1;
+    }
+    
+    .theme-name {
+        margin-bottom: 2px;
+        font-size: 12px;
     }
 }
 </style>

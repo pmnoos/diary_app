@@ -479,17 +479,57 @@
     
     /* Responsive Design */
     @media (max-width: 768px) {
+        .breadcrumb-nav {
+            margin-bottom: 16px;
+            padding: 0 8px;
+        }
+        
+        .back-link {
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+        
         .form-container {
-            margin: 16px;
-            border-radius: 12px;
+            margin: 8px;
+            border-radius: 16px;
         }
         
         .form-header {
-            padding: 24px 20px;
+            padding: 20px 16px;
+        }
+        
+        .form-header h2 {
+            font-size: 24px;
+            margin-bottom: 6px;
+        }
+        
+        .form-subtitle {
+            font-size: 14px;
         }
         
         .modern-form {
-            padding: 24px 20px;
+            padding: 20px 16px;
+        }
+        
+        .form-section {
+            margin-bottom: 24px;
+        }
+        
+        .section-header {
+            padding: 12px 16px;
+        }
+        
+        .section-header h3 {
+            font-size: 16px;
+        }
+        
+        .form-group {
+            padding: 16px;
+        }
+        
+        .form-label {
+            font-size: 13px;
+            margin-bottom: 6px;
         }
         
         .form-row,
@@ -498,13 +538,81 @@
             gap: 16px;
         }
         
+        .form-row .form-group {
+            padding: 12px 0;
+        }
+        
+        input[type="text"],
+        input[type="date"],
+        input[type="time"],
+        textarea,
+        select {
+            padding: 14px 12px;
+            font-size: 16px; /* Prevents zoom on iOS */
+            border-radius: 8px;
+        }
+        
+        textarea {
+            min-height: 100px;
+        }
+        
+        .checkbox-wrapper {
+            gap: 8px;
+        }
+        
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .checkbox-text {
+            font-size: 15px;
+        }
+        
         .form-actions {
             flex-direction: column;
             align-items: stretch;
+            gap: 12px;
+            margin-top: 24px;
         }
         
         .btn {
             width: 100%;
+            padding: 16px 24px;
+            font-size: 16px;
+            border-radius: 12px;
+        }
+        
+        .btn .icon {
+            font-size: 18px;
+        }
+    }
+    
+    /* Extra small screens (phones in portrait) */
+    @media (max-width: 480px) {
+        .form-container {
+            margin: 4px;
+            border-radius: 12px;
+        }
+        
+        .form-header {
+            padding: 16px 12px;
+        }
+        
+        .modern-form {
+            padding: 16px 12px;
+        }
+        
+        .form-group {
+            padding: 12px;
+        }
+        
+        .form-row .form-group {
+            padding: 8px 0;
+        }
+        
+        .section-header {
+            padding: 10px 12px;
         }
     }
     
