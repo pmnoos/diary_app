@@ -8,8 +8,8 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.6;
-    color: #333;
-    background-color: #f8f9fa;
+    color: var(--theme-text, #333);
+    background-color: var(--theme-secondary, #f8f9fa);
     margin: 0;
     padding: 0;
 }
@@ -23,15 +23,15 @@ body {
 
 /* Header Styles */
 .header {
-    background-color: #fff;
-    border-bottom: 1px solid #e9ecef;
+    background-color: var(--theme-background, #fff);
+    border-bottom: 1px solid var(--theme-border, #e9ecef);
     padding: 1rem 0;
     margin-bottom: 2rem;
 }
 
 .page-title {
     text-align: center;
-    color: #333;
+    color: var(--theme-text, #333);
     margin: 0;
     font-size: 2rem;
     font-weight: 300;
@@ -48,7 +48,7 @@ body {
 }
 
 .nav a {
-    color: #007bff;
+    color: var(--theme-primary, #007bff);
     text-decoration: none;
     padding: 8px 12px;
     border-radius: 4px;
@@ -56,19 +56,19 @@ body {
 }
 
 .nav a:hover {
-    background-color: #e9ecef;
+    background-color: var(--theme-hover, #e9ecef);
     text-decoration: none;
 }
 
 .nav span {
-    color: #6c757d;
+    color: var(--theme-text-light, #6c757d);
     font-weight: 500;
 }
 
 /* Button Styles */
 .btn {
     display: inline-block;
-    background-color: #007bff;
+    background: var(--theme-gradient, #007bff);
     color: white !important;
     padding: 10px 20px;
     text-decoration: none;
@@ -77,12 +77,13 @@ body {
     font-weight: 500;
     border: none;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s;
 }
 
 .btn:hover {
-    background-color: #0056b3;
+    background: var(--theme-primary-dark, #0056b3);
     text-decoration: none;
+    transform: translateY(-1px);
 }
 
 .btn-secondary {

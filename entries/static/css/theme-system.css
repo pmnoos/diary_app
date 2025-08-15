@@ -16,6 +16,12 @@
   --theme-shadow: rgba(99, 102, 241, 0.1);
   --theme-border: #e5e7eb;
   --theme-hover: rgba(99, 102, 241, 0.2);
+  
+  /* Aliases for backward compatibility */
+  --primary-gradient: var(--theme-gradient);
+  --section-background: var(--theme-gradient-light);
+  --form-background: var(--theme-background);
+  --border-color: var(--theme-border);
 }
 
 /* Theme: Ocean Blue (Professional) */
@@ -33,6 +39,12 @@
   --theme-shadow: rgba(14, 165, 233, 0.1);
   --theme-border: #e2e8f0;
   --theme-hover: rgba(14, 165, 233, 0.2);
+  
+  /* Aliases for backward compatibility */
+  --primary-gradient: var(--theme-gradient);
+  --section-background: var(--theme-gradient-light);
+  --form-background: var(--theme-background);
+  --border-color: var(--theme-border);
 }
 
 /* Theme: Forest Green (Professional) */
@@ -50,6 +62,12 @@
   --theme-shadow: rgba(5, 150, 105, 0.1);
   --theme-border: #d1d5db;
   --theme-hover: rgba(5, 150, 105, 0.2);
+  
+  /* Aliases for backward compatibility */
+  --primary-gradient: var(--theme-gradient);
+  --section-background: var(--theme-gradient-light);
+  --form-background: var(--theme-background);
+  --border-color: var(--theme-border);
 }
 
 /* Theme: Warm Sunset (Personal - Current Orange) */
@@ -67,6 +85,12 @@
   --theme-shadow: rgba(245, 158, 11, 0.1);
   --theme-border: #e5e7eb;
   --theme-hover: rgba(245, 158, 11, 0.2);
+  
+  /* Aliases for backward compatibility */
+  --primary-gradient: var(--theme-gradient);
+  --section-background: var(--theme-gradient-light);
+  --form-background: var(--theme-background);
+  --border-color: var(--theme-border);
 }
 
 /* Theme: Soft Rose (Personal) */
@@ -84,6 +108,12 @@
   --theme-shadow: rgba(244, 63, 94, 0.1);
   --theme-border: #f3f4f6;
   --theme-hover: rgba(244, 63, 94, 0.2);
+  
+  /* Aliases for backward compatibility */
+  --primary-gradient: var(--theme-gradient);
+  --section-background: var(--theme-gradient-light);
+  --form-background: var(--theme-background);
+  --border-color: var(--theme-border);
 }
 
 /* Theme: Midnight (Personal - Dark Mode) */
@@ -101,6 +131,12 @@
   --theme-shadow: rgba(139, 92, 246, 0.2);
   --theme-border: #4b5563;
   --theme-hover: rgba(139, 92, 246, 0.3);
+  
+  /* Aliases for backward compatibility */
+  --primary-gradient: var(--theme-gradient);
+  --section-background: var(--theme-gradient-light);
+  --form-background: var(--theme-background);
+  --border-color: var(--theme-border);
 }
 
 /* ===== THEME-AWARE COMPONENTS ===== */
