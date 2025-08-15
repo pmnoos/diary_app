@@ -1,0 +1,417 @@
+<!-- Theme Selector Component -->
+<div class="theme-selector">
+    <div class="theme-toggle-btn" onclick="toggleThemeSelector()">
+        <span class="theme-icon">🎨</span>
+        <span class="theme-text">Themes</span>
+        <span class="theme-arrow" id="theme-arrow">▼</span>
+    </div>
+    
+    <div class="theme-panel" id="theme-panel" style="display: none;">
+        <div class="theme-header">
+            <h4>🎨 Choose Your Theme</h4>
+            <p class="theme-subtitle">Personalize your diary experience</p>
+        </div>
+        
+        <div class="theme-categories">
+            <!-- Professional Themes -->
+            <div class="theme-category">
+                <h5>💼 Professional</h5>
+                <div class="theme-options">
+                    <div class="theme-option" data-theme="default" onclick="setTheme('default')">
+                        <div class="theme-preview purple-preview">
+                            <div class="preview-header"></div>
+                            <div class="preview-content">
+                                <div class="preview-line"></div>
+                                <div class="preview-line short"></div>
+                            </div>
+                        </div>
+                        <span class="theme-name">Purple Professional</span>
+                        <span class="theme-badge current" id="badge-default">Current</span>
+                    </div>
+                    
+                    <div class="theme-option" data-theme="ocean" onclick="setTheme('ocean')">
+                        <div class="theme-preview ocean-preview">
+                            <div class="preview-header"></div>
+                            <div class="preview-content">
+                                <div class="preview-line"></div>
+                                <div class="preview-line short"></div>
+                            </div>
+                        </div>
+                        <span class="theme-name">Ocean Blue</span>
+                        <span class="theme-badge" id="badge-ocean"></span>
+                    </div>
+                    
+                    <div class="theme-option" data-theme="forest" onclick="setTheme('forest')">
+                        <div class="theme-preview forest-preview">
+                            <div class="preview-header"></div>
+                            <div class="preview-content">
+                                <div class="preview-line"></div>
+                                <div class="preview-line short"></div>
+                            </div>
+                        </div>
+                        <span class="theme-name">Forest Green</span>
+                        <span class="theme-badge" id="badge-forest"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Personal Themes -->
+            <div class="theme-category">
+                <h5>💝 Personal</h5>
+                <div class="theme-options">
+                    <div class="theme-option" data-theme="sunset" onclick="setTheme('sunset')">
+                        <div class="theme-preview sunset-preview">
+                            <div class="preview-header"></div>
+                            <div class="preview-content">
+                                <div class="preview-line"></div>
+                                <div class="preview-line short"></div>
+                            </div>
+                        </div>
+                        <span class="theme-name">Warm Sunset</span>
+                        <span class="theme-badge" id="badge-sunset"></span>
+                    </div>
+                    
+                    <div class="theme-option" data-theme="rose" onclick="setTheme('rose')">
+                        <div class="theme-preview rose-preview">
+                            <div class="preview-header"></div>
+                            <div class="preview-content">
+                                <div class="preview-line"></div>
+                                <div class="preview-line short"></div>
+                            </div>
+                        </div>
+                        <span class="theme-name">Soft Rose</span>
+                        <span class="theme-badge" id="badge-rose"></span>
+                    </div>
+                    
+                    <div class="theme-option" data-theme="midnight" onclick="setTheme('midnight')">
+                        <div class="theme-preview midnight-preview">
+                            <div class="preview-header"></div>
+                            <div class="preview-content">
+                                <div class="preview-line"></div>
+                                <div class="preview-line short"></div>
+                            </div>
+                        </div>
+                        <span class="theme-name">Midnight</span>
+                        <span class="theme-badge" id="badge-midnight"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="theme-footer">
+            <small>✨ Themes apply instantly and save automatically</small>
+        </div>
+    </div>
+</div>
+
+<style>
+/* ===== THEME SELECTOR STYLES ===== */
+.theme-selector {
+    position: relative;
+    display: inline-block;
+}
+
+.theme-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--theme-gradient);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.theme-toggle-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.theme-arrow {
+    transition: transform 0.3s ease;
+    font-size: 12px;
+}
+
+.theme-toggle-btn.active .theme-arrow {
+    transform: rotate(180deg);
+}
+
+.theme-panel {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    background: white;
+    border: 1px solid var(--theme-border);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    width: 320px;
+    z-index: 1000;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.theme-header {
+    padding: 20px 20px 16px 20px;
+    border-bottom: 1px solid var(--theme-border);
+    text-align: center;
+}
+
+.theme-header h4 {
+    margin: 0 0 4px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--theme-text);
+}
+
+.theme-subtitle {
+    margin: 0;
+    font-size: 12px;
+    color: var(--theme-text-light);
+}
+
+.theme-categories {
+    padding: 16px;
+}
+
+.theme-category {
+    margin-bottom: 20px;
+}
+
+.theme-category:last-child {
+    margin-bottom: 0;
+}
+
+.theme-category h5 {
+    margin: 0 0 12px 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--theme-text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.theme-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.theme-option {
+    cursor: pointer;
+    padding: 12px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    text-align: center;
+    position: relative;
+}
+
+.theme-option:hover {
+    border-color: var(--theme-primary);
+    transform: translateY(-2px);
+}
+
+.theme-option.active {
+    border-color: var(--theme-primary);
+    background: var(--theme-shadow);
+}
+
+.theme-preview {
+    width: 60px;
+    height: 40px;
+    border-radius: 6px;
+    margin: 0 auto 8px auto;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.preview-header {
+    height: 16px;
+    width: 100%;
+}
+
+.preview-content {
+    padding: 4px 6px;
+    height: 24px;
+    background: white;
+}
+
+.preview-line {
+    height: 3px;
+    border-radius: 2px;
+    margin-bottom: 3px;
+    background: #e5e7eb;
+}
+
+.preview-line.short {
+    width: 60%;
+}
+
+/* Theme Preview Colors */
+.purple-preview .preview-header { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); }
+.ocean-preview .preview-header { background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%); }
+.forest-preview .preview-header { background: linear-gradient(135deg, #059669 0%, #10b981 100%); }
+.sunset-preview .preview-header { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+.rose-preview .preview-header { background: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%); }
+.midnight-preview .preview-header { background: linear-gradient(135deg, #1f2937 0%, #374151 100%); }
+.midnight-preview .preview-content { background: #374151; }
+.midnight-preview .preview-line { background: #6b7280; }
+
+.theme-name {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--theme-text);
+    margin-bottom: 4px;
+}
+
+.theme-badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.theme-badge.current {
+    background: var(--theme-primary);
+    color: white;
+}
+
+.theme-badge:not(.current) {
+    background: var(--theme-secondary);
+    color: var(--theme-text-light);
+}
+
+.theme-footer {
+    padding: 12px 20px;
+    border-top: 1px solid var(--theme-border);
+    text-align: center;
+    background: var(--theme-secondary);
+    border-radius: 0 0 12px 12px;
+}
+
+.theme-footer small {
+    color: var(--theme-text-light);
+    font-size: 11px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .theme-panel {
+        width: 280px;
+        right: -20px;
+    }
+    
+    .theme-options {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<script>
+// ===== THEME SYSTEM JAVASCRIPT =====
+let currentTheme = localStorage.getItem('diary-theme') || 'default';
+
+// Apply theme on page load
+document.addEventListener('DOMContentLoaded', function() {
+    applyTheme(currentTheme);
+    updateThemeBadges();
+});
+
+function toggleThemeSelector() {
+    const panel = document.getElementById('theme-panel');
+    const toggleBtn = document.querySelector('.theme-toggle-btn');
+    
+    if (panel.style.display === 'none' || panel.style.display === '') {
+        panel.style.display = 'block';
+        toggleBtn.classList.add('active');
+    } else {
+        panel.style.display = 'none';
+        toggleBtn.classList.remove('active');
+    }
+}
+
+function setTheme(themeName) {
+    currentTheme = themeName;
+    applyTheme(themeName);
+    localStorage.setItem('diary-theme', themeName);
+    updateThemeBadges();
+    
+    // Visual feedback
+    const option = document.querySelector(`[data-theme="${themeName}"]`);
+    if (option) {
+        option.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            option.style.transform = 'scale(1)';
+        }, 150);
+    }
+    
+    // Auto-close theme panel after selection
+    setTimeout(() => {
+        document.getElementById('theme-panel').style.display = 'none';
+        document.querySelector('.theme-toggle-btn').classList.remove('active');
+    }, 500);
+}
+
+function applyTheme(themeName) {
+    if (themeName === 'default') {
+        document.documentElement.removeAttribute('data-theme');
+    } else {
+        document.documentElement.setAttribute('data-theme', themeName);
+    }
+}
+
+function updateThemeBadges() {
+    // Remove all current badges
+    document.querySelectorAll('.theme-badge').forEach(badge => {
+        badge.textContent = '';
+        badge.classList.remove('current');
+    });
+    
+    // Add current badge to active theme
+    const currentBadge = document.getElementById(`badge-${currentTheme}`);
+    if (currentBadge) {
+        currentBadge.textContent = 'Current';
+        currentBadge.classList.add('current');
+    }
+    
+    // Update active state
+    document.querySelectorAll('.theme-option').forEach(option => {
+        option.classList.remove('active');
+    });
+    
+    const activeOption = document.querySelector(`[data-theme="${currentTheme}"]`);
+    if (activeOption) {
+        activeOption.classList.add('active');
+    }
+}
+
+// Close theme panel when clicking outside
+document.addEventListener('click', function(event) {
+    const themeSelector = document.querySelector('.theme-selector');
+    const panel = document.getElementById('theme-panel');
+    
+    if (themeSelector && !themeSelector.contains(event.target) && panel.style.display === 'block') {
+        panel.style.display = 'none';
+        document.querySelector('.theme-toggle-btn').classList.remove('active');
+    }
+});
+</script>
