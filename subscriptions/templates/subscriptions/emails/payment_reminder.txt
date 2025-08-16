@@ -1,0 +1,9 @@
+Dear {{ user.username }},
+
+This is a reminder that your subscription will expire in {{ days_left }} days.
+
+Please renew your subscription to continue enjoying premium features:
+{{ renewal_url }}
+
+Thank you,
+Diary App Team

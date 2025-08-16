@@ -10,6 +10,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),  # custom accounts routes (signup)
     path('entries/', include('entries.urls')),  # diary entries routes
     path('reminders/', include('reminders.urls')),  # reminder system routes
+    path('subscriptions/', include('subscriptions.urls')),  # subscription management
     path('', home_view, name='home'),
 ]
 

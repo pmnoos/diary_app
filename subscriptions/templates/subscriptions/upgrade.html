@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Upgrade Subscription - Diary App{% endblock %}
+
+{% block content %}
+<div class="upgrade-plan">
+    <h2>Upgrade to {{ plan.name }}</h2>
+    <p class="plan-type">{{ plan.get_plan_type_display }}</p>
+    <p class="plan-price">${{ plan.price }} {% if plan.duration_days == 0 %}Lifetime{% elif plan.duration_days <= 31 %}/month{% elif plan.duration_days <= 366 %}/year{% endif %}</p>
+    <ul class="plan-features">
+        {% for key, value in plan.features.items %}
+        <li><strong>{{ key|capfirst }}:</strong> {{ value }}</li>
+        {% endfor %}
+    </ul>
+    {% if stripe_available %}
+        <form id="stripe-form" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">Proceed to Payment</button>
+        </form>
+        <div id="stripe-error" style="color: red; margin-top: 10px;"></div>
+        <script>
+        document.getElementById('stripe-form').onsubmit = async function(e) {
+            e.preventDefault();
+            const response = await fetch('', {
+                method: 'POST',
+                headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+            });
+            const data = await response.json();
+            if (data.checkout_url) {
+                window.location.href = data.checkout_url;
+            } else if (data.error) {
+                document.getElementById('stripe-error').innerText = data.error;
+            }
+        };
+        </script>
+    {% else %}
+        <div class="alert alert-warning">Payment processing is currently unavailable. Please contact support.</div>
+    {% endif %}
+    <a href="{% url 'subscriptions:plans' %}" class="btn btn-secondary">Back to Plans</a>
+</div>
+{% endblock %}
