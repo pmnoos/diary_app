@@ -81,6 +81,16 @@
                         <div class="input-wrapper">
                             {{ form.date }}
                         </div>
+                        
+                        <!-- Date Shortcuts -->
+                        <div class="date-shortcuts">
+                            <span class="shortcuts-label">Quick select:</span>
+                            <button type="button" class="date-btn" onclick="setDate('today')">Today</button>
+                            <button type="button" class="date-btn" onclick="setDate('tomorrow')">Tomorrow</button>
+                            <button type="button" class="date-btn" onclick="setDate('next_week')">Next Week</button>
+                            <button type="button" class="date-btn" onclick="setDate('next_month')">Next Month</button>
+                        </div>
+                        
                         {% if form.date.help_text %}
                             <small class="form-help">{{ form.date.help_text }}</small>
                         {% endif %}
@@ -93,6 +103,16 @@
                         <div class="input-wrapper">
                             {{ form.time }}
                         </div>
+                        
+                        <!-- Time Shortcuts -->
+                        <div class="time-shortcuts">
+                            <span class="shortcuts-label">Common times:</span>
+                            <button type="button" class="time-btn" onclick="setTime('09:00')">9:00 AM</button>
+                            <button type="button" class="time-btn" onclick="setTime('12:00')">12:00 PM</button>
+                            <button type="button" class="time-btn" onclick="setTime('17:00')">5:00 PM</button>
+                            <button type="button" class="time-btn" onclick="setTime('19:00')">7:00 PM</button>
+                        </div>
+                        
                         {% if form.time.help_text %}
                             <small class="form-help">{{ form.time.help_text }}</small>
                         {% endif %}
@@ -182,7 +202,7 @@
                     <i class="icon">💾</i>
                     {% if object %}Update Reminder{% else %}Save Reminder{% endif %}
                 </button>
-                <a href="{% url 'reminder_dashboard' %}" class="btn btn-secondary">
+                <a href="{% url 'reminder_dashboard' %}" class="btn btn-info">
                     <i class="icon">↩️</i>
                     Cancel
                 </a>
@@ -192,453 +212,11 @@
 {% endblock %}
 
 {% block extra_css %}
-<style>
-    /* Container Styles */
-    .breadcrumb-nav {
-        margin-bottom: 30px;
-    }
-    
-    .back-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        color: #6366f1;
-        text-decoration: none;
-        font-weight: 500;
-        padding: 8px 16px;
-        border-radius: 8px;
-        transition: all 0.2s ease;
-        background: rgba(99, 102, 241, 0.1);
-    }
-    
-    .back-link:hover {
-        background: rgba(99, 102, 241, 0.2);
-        transform: translateX(-2px);
-    }
-    
-    .form-container {
-        max-width: 800px;
-        margin: 0 auto;
-        background: var(--form-background);
-        border-radius: 16px;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-    }
-    
-    .form-header {
-        background: var(--primary-gradient);
-        color: white;
-        padding: 32px;
-        text-align: center;
-    }
-    
-    .form-header h2 {
-        margin: 0 0 8px 0;
-        font-size: 28px;
-        font-weight: 700;
-    }
-    
-    .form-subtitle {
-        margin: 0;
-        opacity: 0.9;
-        font-size: 16px;
-    }
-    
-    .modern-form {
-        padding: 32px;
-    }
-    
-    /* Alert Styles */
-    .alert {
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-        padding: 16px;
-        border-radius: 12px;
-        margin-bottom: 24px;
-        border: 1px solid;
-    }
-    
-    .alert-error {
-        background: #fef2f2;
-        border-color: #fecaca;
-        color: #991b1b;
-    }
-    
-    .alert-icon {
-        font-size: 20px;
-        flex-shrink: 0;
-    }
-    
-    .alert-content {
-        flex: 1;
-    }
-    
-    /* Form Section Styles */
-    .form-section {
-        margin-bottom: 32px;
-        background: #ffffff;
-        border-radius: 12px;
-        border: 1px solid #e5e7eb;
-        overflow: hidden;
-    }
-    
-    .section-header {
-        background: var(--section-background);
-        padding: 16px 24px;
-        border-bottom: 1px solid var(--border-color);
-    }
-    
-    .section-header h3 {
-        margin: 0;
-        font-size: 18px;
-        font-weight: 600;
-        color: #374151;
-    }
-    
-    /* Form Group Styles */
-    .form-group {
-        padding: 20px 24px;
-    }
-    
-    .form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 24px;
-    }
-    
-    .form-row.three-col {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
-    
-    .form-row .form-group {
-        padding: 0;
-        margin-bottom: 0;
-    }
-    
-    .form-label {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-weight: 600;
-        color: #374151;
-        margin-bottom: 8px;
-        font-size: 14px;
-    }
-    
-    .form-label.required::after {
-        content: '*';
-        color: #ef4444;
-        margin-left: 4px;
-    }
-    
-    .form-label .icon {
-        font-size: 16px;
-    }
-    
-    /* Input Styles */
-    .input-wrapper {
-        position: relative;
-    }
-    
-    input[type="text"],
-    input[type="date"],
-    input[type="time"],
-    textarea,
-    select {
-        width: 100%;
-        padding: 12px 16px;
-        border: 2px solid #e5e7eb;
-        border-radius: 8px;
-        font-size: 14px;
-        transition: all 0.2s ease;
-        background: #ffffff;
-        font-family: inherit;
-    }
-    
-    input[type="text"]:focus,
-    input[type="date"]:focus,
-    input[type="time"]:focus,
-    textarea:focus,
-    select:focus {
-        outline: none;
-        border-color: #6366f1;
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        transform: translateY(-1px);
-    }
-    
-    textarea {
-        min-height: 100px;
-        resize: vertical;
-        font-family: inherit;
-    }
-    
-    select {
-        cursor: pointer;
-        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
-        background-repeat: no-repeat;
-        background-position: right 12px center;
-        background-size: 16px;
-        appearance: none;
-        padding-right: 40px;
-    }
-    
-    /* Checkbox Styles */
-    .checkbox-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-    
-    input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-        border: 2px solid #d1d5db;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-    
-    input[type="checkbox"]:checked {
-        background-color: #6366f1;
-        border-color: #6366f1;
-    }
-    
-    .checkbox-label {
-        cursor: pointer;
-        margin: 0;
-        font-weight: 500;
-        color: #374151;
-    }
-    
-    .checkbox-text {
-        font-size: 14px;
-    }
-    
-    /* Help Text */
-    .form-help {
-        display: block;
-        margin-top: 6px;
-        color: #6b7280;
-        font-size: 12px;
-        line-height: 1.4;
-    }
-    
-    /* Button Styles */
-    .form-actions {
-        display: flex;
-        justify-content: center;
-        gap: 16px;
-        margin-top: 32px;
-        padding-top: 24px;
-        border-top: 1px solid #e5e7eb;
-    }
-    
-    .btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 14px 28px;
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 14px;
-        text-decoration: none;
-        border: none;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        min-width: 140px;
-        justify-content: center;
-    }
-    
-    .btn-primary {
-        background: var(--primary-gradient);
-        color: white;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    }
-    
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    }
-    
-    .btn-secondary {
-        background: #f8fafc;
-        color: #6b7280;
-        border: 2px solid #e5e7eb;
-    }
-    
-    .btn-secondary:hover {
-        background: #f1f5f9;
-        border-color: #d1d5db;
-        transform: translateY(-1px);
-    }
-    
-    .btn .icon {
-        font-size: 16px;
-    }
-    
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        .breadcrumb-nav {
-            margin-bottom: 16px;
-            padding: 0 8px;
-        }
-        
-        .back-link {
-            padding: 6px 12px;
-            font-size: 14px;
-        }
-        
-        .form-container {
-            margin: 8px;
-            border-radius: 16px;
-        }
-        
-        .form-header {
-            padding: 20px 16px;
-        }
-        
-        .form-header h2 {
-            font-size: 24px;
-            margin-bottom: 6px;
-        }
-        
-        .form-subtitle {
-            font-size: 14px;
-        }
-        
-        .modern-form {
-            padding: 20px 16px;
-        }
-        
-        .form-section {
-            margin-bottom: 24px;
-        }
-        
-        .section-header {
-            padding: 12px 16px;
-        }
-        
-        .section-header h3 {
-            font-size: 16px;
-        }
-        
-        .form-group {
-            padding: 16px;
-        }
-        
-        .form-label {
-            font-size: 13px;
-            margin-bottom: 6px;
-        }
-        
-        .form-row,
-        .form-row.three-col {
-            grid-template-columns: 1fr;
-            gap: 16px;
-        }
-        
-        .form-row .form-group {
-            padding: 12px 0;
-        }
-        
-        input[type="text"],
-        input[type="date"],
-        input[type="time"],
-        textarea,
-        select {
-            padding: 14px 12px;
-            font-size: 16px; /* Prevents zoom on iOS */
-            border-radius: 8px;
-        }
-        
-        textarea {
-            min-height: 100px;
-        }
-        
-        .checkbox-wrapper {
-            gap: 8px;
-        }
-        
-        input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-        }
-        
-        .checkbox-text {
-            font-size: 15px;
-        }
-        
-        .form-actions {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 12px;
-            margin-top: 24px;
-        }
-        
-        .btn {
-            width: 100%;
-            padding: 16px 24px;
-            font-size: 16px;
-            border-radius: 12px;
-        }
-        
-        .btn .icon {
-            font-size: 18px;
-        }
-    }
-    
-    /* Extra small screens (phones in portrait) */
-    @media (max-width: 480px) {
-        .form-container {
-            margin: 4px;
-            border-radius: 12px;
-        }
-        
-        .form-header {
-            padding: 16px 12px;
-        }
-        
-        .modern-form {
-            padding: 16px 12px;
-        }
-        
-        .form-group {
-            padding: 12px;
-        }
-        
-        .form-row .form-group {
-            padding: 8px 0;
-        }
-        
-        .section-header {
-            padding: 10px 12px;
-        }
-    }
-    
-    /* Animation for form appearance */
-    .form-container {
-        animation: slideUp 0.4s ease-out;
-    }
-    
-    @keyframes slideUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    /* Focus indicators for accessibility */
-    .btn:focus-visible,
-    input:focus-visible,
-    textarea:focus-visible,
-    select:focus-visible {
-        outline: 2px solid #6366f1;
-        outline-offset: 2px;
-    }
-</style>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'reminders/css/forms.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    {% load static %}
+    <script src="{% static 'reminders/js/forms.js' %}"></script>
 {% endblock %}

@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.utils import timezone
 from django.db.models import Q
 from .models import Reminder
+from .forms import ReminderForm, QuickReminderForm
 from entries.models import Entry
 
 
@@ -70,8 +71,7 @@ class ReminderDetailView(LoginRequiredMixin, DetailView):
 class ReminderCreateView(LoginRequiredMixin, CreateView):
     model = Reminder
     template_name = 'reminders/reminder_form.html'
-    fields = ['title', 'description', 'date', 'time', 'category', 'priority', 
-              'alert_preference', 'location']
+    form_class = ReminderForm
     
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -85,8 +85,7 @@ class ReminderCreateView(LoginRequiredMixin, CreateView):
 class ReminderUpdateView(LoginRequiredMixin, UpdateView):
     model = Reminder
     template_name = 'reminders/reminder_form.html'
-    fields = ['title', 'description', 'date', 'time', 'category', 'priority', 
-              'alert_preference', 'location', 'is_completed']
+    form_class = ReminderForm
     
     def get_queryset(self):
         return Reminder.objects.filter(author=self.request.user)
