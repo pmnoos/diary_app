@@ -40,7 +40,7 @@ def manage_subscription(request):
     usage = getattr(request.user, 'usage', None)
     
     if not subscription:
-        return redirect('subscription_plans')
+        return redirect('subscriptions:plans')
     
     # Get payment history
     payments = PaymentHistory.objects.filter(user=request.user)[:10]
