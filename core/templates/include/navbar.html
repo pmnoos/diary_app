@@ -1,0 +1,29 @@
+<nav class="nav">
+    <div>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'landing' %}">Welcome</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'entry_list' %}">My Entries</a>
+            <a href="{% url 'entry_create' %}">New Entry</a>
+            <a href="{% url 'entry_search' %}">🔍 Search</a>
+            <a href="{% url 'reminder_dashboard' %}">📅 Reminders</a>
+            <a href="{% url 'subscriptions:plans' %}">Subscription Plans</a>
+            <a href="{% url 'subscriptions:manage' %}">Manage Subscription</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'signup' %}">Sign up</a>
+        {% endif %}
+    </div>
+    <div>
+        {% if user.is_authenticated %}
+            <span>Welcome, {{ user.username }}!</span>
+            {% include 'reminders/alerts/nav_badge.html' %}
+            {% include 'theme_selector.html' %}
+            <span id="connection-status" style="margin-left: 15px; font-size: 0.9em;"></span>
+            <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-small" style="background: #6c757d; margin-left: 10px;">Logout</button>
+            </form>
+        {% endif %}
+    </div>
+</nav>

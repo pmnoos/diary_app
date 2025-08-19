@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 
 {% block title %}
     {% if object %}Edit Entry{% else %}New Entry{% endif %} - Diary App
@@ -10,338 +11,253 @@
 
 {% block content %}
     <!-- Back Navigation -->
-    <div class="breadcrumb-nav">
-        <a href="{% url 'entry_list' %}" class="back-link">
-            <i class="icon">←</i> Back to All Entries
-        </a>
-    </div>
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="{% url 'entry_list' %}"><span class="icon">←</span> Back to All Entries</a></li>
+        </ul>
+    </nav>
 
-    <!-- Main Form Container -->
-    <div class="form-container">
-        <div class="form-header">
-            <h2>{% if object %}📝 Edit Your Diary Entry{% else %}✍️ Write & Keep Your Memories{% endif %}</h2>
-            <p class="form-subtitle">Capture your thoughts, memories, and moments</p>
+
+    {% if form.errors %}
+        <div class="notification is-danger">
+            <strong>Please correct the following errors:</strong>
+            {{ form.errors }}
         </div>
-
-        <form method="post" enctype="multipart/form-data" class="modern-form">
-            {% csrf_token %}
-            
-            {% if form.errors %}
-                <div class="alert alert-error">
-                    <div class="alert-icon">⚠️</div>
-                    <div class="alert-content">
-                        <strong>Please correct the following errors:</strong>
-                        {{ form.errors }}
-                    </div>
-                </div>
-            {% endif %}
+    {% endif %}
 
             <!-- Basic Information Section -->
-            <div class="form-section">
-                <div class="section-header">
-                    <h3>📝 Entry Details</h3>
-                </div>
-                
-                <div class="form-group">
-                    <label for="{{ form.title.id_for_label }}" class="form-label required">
-                        <i class="icon">📌</i> {{ form.title.label }}
-                    </label>
-                    <div class="input-wrapper">
-                        {{ form.title }}
+            <div class="box">
+                <h3 class="title is-5">📝 Entry Details</h3>
+                <div class="field">
+                    <label class="label" for="{{ form.title.id_for_label }}"><span class="icon">📌</span> {{ form.title.label }}</label>
+                    <div class="control">
+                        {{ form.title|add_class:'input' }}
                     </div>
                     {% if form.title.help_text %}
-                        <small class="form-help">{{ form.title.help_text }}</small>
+                        <p class="help">{{ form.title.help_text }}</p>
                     {% endif %}
                 </div>
-
-                <div class="form-group">
-                    <label for="{{ form.date.id_for_label }}" class="form-label required">
-                        <i class="icon">📅</i> {{ form.date.label }}
-                    </label>
-                    <div class="input-wrapper">
-                        {{ form.date }}
+                <div class="field">
+                    <label class="label" for="{{ form.date.id_for_label }}"><span class="icon">📅</span> {{ form.date.label }}</label>
+                    <div class="control">
+                        {{ form.date|add_class:'input' }}
                     </div>
-                    <div class="date-shortcuts">
-                        <small class="shortcuts-label">Quick options:</small>
-                        <button type="button" onclick="setDate('today')" class="date-btn">Today</button>
-                        <button type="button" onclick="setDate('yesterday')" class="date-btn">Yesterday</button>
-                        <button type="button" onclick="setDate('2days')" class="date-btn">2 days ago</button>
+                    <div class="buttons are-small mt-2">
+                        <button type="button" onclick="setDate('today')" class="button is-light">Today</button>
+                        <button type="button" onclick="setDate('yesterday')" class="button is-light">Yesterday</button>
+                        <button type="button" onclick="setDate('2days')" class="button is-light">2 days ago</button>
                     </div>
                     {% if form.date.help_text %}
-                        <small class="form-help">{{ form.date.help_text }}</small>
+                        <p class="help">{{ form.date.help_text }}</p>
                     {% endif %}
                 </div>
             </div>
 
             <!-- Content Section -->
-            <div class="form-section">
-                <div class="section-header">
-                    <h3>✍️ Your Story</h3>
-                </div>
-                
-                <div class="form-group">
-                    <label for="{{ form.content.id_for_label }}" class="form-label required">
-                        <i class="icon">📖</i> {{ form.content.label }}
-                    </label>
-                    
+            <div class="box">
+                <h3 class="title is-5">✍️ Your Story</h3>
+                <div class="field">
+                    <label class="label" for="{{ form.content.id_for_label }}"><span class="icon">📖</span> {{ form.content.label }}</label>
                     <!-- Enhanced Emoji Panel -->
-                    <div class="emoji-container">
-                        <button type="button" id="emoji-toggle" class="emoji-toggle-btn">
-                            <span class="emoji-icon">😊</span>
+                    <div class="mb-2">
+                        <button type="button" id="emoji-toggle" class="button is-small is-info">
+                            <span class="emoji-icon">�</span>
                             <span class="emoji-text">Add Emojis</span>
                             <span id="emoji-arrow" class="emoji-arrow">▼</span>
                         </button>
-                        
                         <div id="emoji-panel" class="emoji-panel">
-                            <div class="emoji-category">
-                                <div class="category-header">
-                                    <span class="category-icon">😊</span>
-                                    <strong class="category-title">MOODS</strong>
-                                </div>
-                                <div class="emoji-grid">
-                                    <button type="button" onclick="addEmoji('😊')" class="emoji-btn" title="Happy">😊</button>
-                                    <button type="button" onclick="addEmoji('😢')" class="emoji-btn" title="Sad">😢</button>
-                                    <button type="button" onclick="addEmoji('😴')" class="emoji-btn" title="Tired">😴</button>
-                                    <button type="button" onclick="addEmoji('😍')" class="emoji-btn" title="Love">😍</button>
-                                    <button type="button" onclick="addEmoji('😤')" class="emoji-btn" title="Frustrated">😤</button>
-                                    <button type="button" onclick="addEmoji('🤔')" class="emoji-btn" title="Thinking">🤔</button>
-                                    <button type="button" onclick="addEmoji('😎')" class="emoji-btn" title="Cool">😎</button>
-                                    <button type="button" onclick="addEmoji('🥳')" class="emoji-btn" title="Party">🥳</button>
-                                </div>
-                            </div>
-                            
-                            <div class="emoji-category">
-                                <div class="category-header">
-                                    <span class="category-icon">🍕</span>
-                                    <strong class="category-title">ACTIVITIES</strong>
-                                </div>
-                                <div class="emoji-grid">
-                                    <button type="button" onclick="addEmoji('🍕')" class="emoji-btn" title="Food">🍕</button>
-                                    <button type="button" onclick="addEmoji('☕')" class="emoji-btn" title="Coffee">☕</button>
-                                    <button type="button" onclick="addEmoji('🎉')" class="emoji-btn" title="Celebration">🎉</button>
-                                    <button type="button" onclick="addEmoji('📚')" class="emoji-btn" title="Study">📚</button>
-                                    <button type="button" onclick="addEmoji('💼')" class="emoji-btn" title="Work">💼</button>
-                                    <button type="button" onclick="addEmoji('🏃‍♂️')" class="emoji-btn" title="Exercise">🏃‍♂️</button>
-                                    <button type="button" onclick="addEmoji('🎮')" class="emoji-btn" title="Gaming">🎮</button>
-                                    <button type="button" onclick="addEmoji('🛒')" class="emoji-btn" title="Shopping">🛒</button>
-                                </div>
-                            </div>
-                            
-                            <div class="emoji-category">
-                                <div class="category-header">
-                                    <span class="category-icon">☀️</span>
-                                    <strong class="category-title">WEATHER</strong>
-                                </div>
-                                <div class="emoji-grid">
-                                    <button type="button" onclick="addEmoji('☀️')" class="emoji-btn" title="Sunny">☀️</button>
-                                    <button type="button" onclick="addEmoji('🌧️')" class="emoji-btn" title="Rainy">🌧️</button>
-                                    <button type="button" onclick="addEmoji('❄️')" class="emoji-btn" title="Snow">❄️</button>
-                                    <button type="button" onclick="addEmoji('🌙')" class="emoji-btn" title="Night">🌙</button>
-                                    <button type="button" onclick="addEmoji('⛅')" class="emoji-btn" title="Cloudy">⛅</button>
-                                    <button type="button" onclick="addEmoji('🌈')" class="emoji-btn" title="Rainbow">🌈</button>
-                                </div>
-                            </div>
-                            
-                            <div class="emoji-category">
-                                <div class="category-header">
-                                    <span class="category-icon">❤️</span>
-                                    <strong class="category-title">HEARTS & SYMBOLS</strong>
-                                </div>
-                                <div class="emoji-grid">
-                                    <button type="button" onclick="addEmoji('❤️')" class="emoji-btn" title="Heart">❤️</button>
-                                    <button type="button" onclick="addEmoji('💚')" class="emoji-btn" title="Green Heart">💚</button>
-                                    <button type="button" onclick="addEmoji('💙')" class="emoji-btn" title="Blue Heart">💙</button>
-                                    <button type="button" onclick="addEmoji('⭐')" class="emoji-btn" title="Star">⭐</button>
-                                    <button type="button" onclick="addEmoji('✨')" class="emoji-btn" title="Sparkles">✨</button>
-                                    <button type="button" onclick="addEmoji('🔥')" class="emoji-btn" title="Fire">🔥</button>
-                                </div>
-                            </div>
-                            
-                            <div class="emoji-footer">
-                                <i class="icon">💡</i> Click any emoji to add it to your entry
+                            <div class="emoji-grid">
+                                <button type="button" class="emoji-btn" onclick="addEmoji('😊')">😊</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('😢')">😢</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('😴')">😴</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('😍')">😍</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('😤')">😤</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('🤔')">🤔</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('😎')">😎</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('🥳')">🥳</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('🍕')">🍕</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('☕')">☕</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('🎉')">🎉</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('📚')">📚</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('💼')">💼</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('🏃‍♂️')">🏃‍♂️</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('🎮')">🎮</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('🛒')">🛒</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('☀️')">☀️</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('🌧️')">🌧️</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('❄️')">❄️</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('🌙')">🌙</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('⛅')">⛅</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('🌈')">🌈</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('❤️')">❤️</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('💚')">💚</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('💙')">💙</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('⭐')">⭐</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('✨')">✨</button>
+                                <button type="button" class="emoji-btn" onclick="addEmoji('🔥')">🔥</button>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="input-wrapper">
-                        {{ form.content }}
+                    <div class="control">
+                        {{ form.content|add_class:'textarea' }}
                     </div>
                     {% if form.content.help_text %}
-                        <small class="form-help">{{ form.content.help_text }}</small>
+                        <p class="help">{{ form.content.help_text }}</p>
                     {% endif %}
-                    <small class="form-help">💡 You can also type emojis directly or paste them from your keyboard!</small>
+                    <p class="help">💡 You can also type emojis directly or paste them from your keyboard!</p>
                 </div>
             </div>
 
             <!-- Media Section -->
-            <div class="form-section">
-                <div class="section-header">
-                    <h3>🖼️ Add Image</h3>
-                </div>
-                
-                <div class="form-group">
-                    <label for="{{ form.image.id_for_label }}" class="form-label">
-                        <i class="icon">📸</i> {{ form.image.label }}
-                    </label>
-                    
+            <div class="box">
+                <h3 class="title is-5">🖼️ Add Image</h3>
+                <div class="field">
+                    <label class="label" for="{{ form.image.id_for_label }}"><span class="icon">📸</span> {{ form.image.label }}</label>
                     {% if object and object.image %}
-                        <div class="current-image">
-                            <img src="{{ object.image.url }}" alt="Current image" class="preview-image">
-                            <p class="image-caption">Current image</p>
+                        <div class="mb-2">
+                            <img src="{{ object.image.url }}" alt="Current image" class="image is-128x128">
+                            <p class="has-text-grey">Current image</p>
                         </div>
                     {% endif %}
-                    
-                    <div class="file-input-wrapper">
-                        {{ form.image }}
+                    <div class="control">
+                        {{ form.image|add_class:'file-input' }}
                     </div>
                     {% if form.image.help_text %}
-                        <small class="form-help">{{ form.image.help_text }}</small>
+                        <p class="help">{{ form.image.help_text }}</p>
                     {% endif %}
                 </div>
             </div>
 
             <!-- Privacy Section -->
-            <div class="form-section">
-                <div class="section-header">
-                    <h3>🔒 Privacy Settings</h3>
-                </div>
-                
-                <div class="form-group">
-                    <div class="checkbox-wrapper">
-                        {{ form.is_private }}
-                        <label for="{{ form.is_private.id_for_label }}" class="checkbox-label">
-                            <span class="checkbox-text">{{ form.is_private.label }}</span>
+            <div class="box">
+                <h3 class="title is-5">🔒 Privacy Settings</h3>
+                <div class="field">
+                    <div class="control">
+                        <label class="checkbox">
+                            {{ form.is_private }} {{ form.is_private.label }}
                         </label>
                     </div>
                     {% if form.is_private.help_text %}
-                        <small class="form-help">{{ form.is_private.help_text }}</small>
+                        <p class="help">{{ form.is_private.help_text }}</p>
                     {% endif %}
                 </div>
             </div>
 
             <!-- Form Actions -->
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">
-                    <i class="icon">💾</i>
-                    {% if object %}Update Entry{% else %}Save Entry{% endif %}
-                </button>
-                <a href="{% url 'entry_list' %}" class="btn btn-secondary">
-                    <i class="icon">↩️</i>
-                    Cancel
-                </a>
+            <div class="field is-grouped mt-4">
+                <div class="control">
+                    <button type="submit" class="button is-primary">
+                        <span class="icon">💾</span>
+                        <span>{% if object %}Update Entry{% else %}Save Entry{% endif %}</span>
+                    </button>
+                </div>
+                <div class="control">
+                    <a href="{% url 'entry_list' %}" class="button is-light">
+                        <span class="icon">↩️</span>
+                        <span>Cancel</span>
+                    </a>
+                </div>
             </div>
         </form>
     </div>
 
-    <script>
-        function setDate(option) {
-            const dateInput = document.querySelector('input[type="date"]');
-            const today = new Date();
-            let targetDate;
-            
-            switch(option) {
-                case 'today':
-                    targetDate = today;
-                    break;
-                case 'yesterday':
-                    targetDate = new Date(today);
-                    targetDate.setDate(today.getDate() - 1);
-                    break;
-                case '2days':
-                    targetDate = new Date(today);
-                    targetDate.setDate(today.getDate() - 2);
-                    break;
-            }
-            
-            // Format date as YYYY-MM-DD for the input
-            const formattedDate = targetDate.toISOString().split('T')[0];
-            dateInput.value = formattedDate;
-            
+        <script>
+    // Set date shortcut buttons
+    function setDate(option) {
+        const dateInput = document.querySelector('input[type="date"]');
+        const today = new Date();
+        let targetDate;
+        switch(option) {
+            case 'today':
+                targetDate = today;
+                break;
+            case 'yesterday':
+                targetDate = new Date(today);
+                targetDate.setDate(today.getDate() - 1);
+                break;
+            case '2days':
+                targetDate = new Date(today);
+                targetDate.setDate(today.getDate() - 2);
+                break;
+        }
+        // Format date as YYYY-MM-DD for the input
+        const formattedDate = targetDate.toISOString().split('T')[0];
+        dateInput.value = formattedDate;
+        // Add visual feedback
+        dateInput.style.transform = 'scale(1.02)';
+        setTimeout(() => { dateInput.style.transform = 'scale(1)'; }, 200);
+    }
+
+    // Add emoji to textarea at cursor
+    function addEmoji(emoji) {
+        const contentTextarea = document.querySelector('textarea[name="content"]');
+        if (contentTextarea) {
+            // Get current cursor position
+            const cursorPos = contentTextarea.selectionStart;
+            const currentText = contentTextarea.value;
+            // Insert emoji at cursor position
+            const newText = currentText.slice(0, cursorPos) + emoji + currentText.slice(cursorPos);
+            contentTextarea.value = newText;
+            // Move cursor after the emoji
+            contentTextarea.focus();
+            contentTextarea.setSelectionRange(cursorPos + emoji.length, cursorPos + emoji.length);
             // Add visual feedback
-            dateInput.style.transform = 'scale(1.02)';
-            setTimeout(() => {
-                dateInput.style.transform = 'scale(1)';
-            }, 200);
+            contentTextarea.style.boxShadow = '0 0 0 3px rgba(34, 197, 94, 0.2)';
+            setTimeout(() => { contentTextarea.style.boxShadow = ''; }, 300);
         }
+    }
 
-        function addEmoji(emoji) {
-            const contentTextarea = document.querySelector('textarea[name="content"]');
-            if (contentTextarea) {
-                // Get current cursor position
-                const cursorPos = contentTextarea.selectionStart;
-                const currentText = contentTextarea.value;
-                
-                // Insert emoji at cursor position
-                const newText = currentText.slice(0, cursorPos) + emoji + currentText.slice(cursorPos);
-                contentTextarea.value = newText;
-                
-                // Move cursor after the emoji
-                contentTextarea.focus();
-                contentTextarea.setSelectionRange(cursorPos + emoji.length, cursorPos + emoji.length);
-                
-                // Add visual feedback
-                contentTextarea.style.boxShadow = '0 0 0 3px rgba(34, 197, 94, 0.2)';
-                setTimeout(() => {
-                    contentTextarea.style.boxShadow = '';
-                }, 300);
-            }
+    // Toggle emoji panel
+    function toggleEmojiPanel() {
+        const panel = document.getElementById('emoji-panel');
+        const arrow = document.getElementById('emoji-arrow');
+        const toggle = document.getElementById('emoji-toggle');
+        if (panel.style.display === 'none' || panel.style.display === '') {
+            panel.style.display = 'block';
+            arrow.style.transform = 'rotate(180deg)';
+            toggle.classList.add('active');
+        } else {
+            panel.style.display = 'none';
+            arrow.style.transform = 'rotate(0deg)';
+            toggle.classList.remove('active');
         }
+    }
 
-        function toggleEmojiPanel() {
-            const panel = document.getElementById('emoji-panel');
-            const arrow = document.getElementById('emoji-arrow');
-            const toggle = document.getElementById('emoji-toggle');
-            
-            if (panel.style.display === 'none' || panel.style.display === '') {
-                panel.style.display = 'block';
-                arrow.style.transform = 'rotate(180deg)';
-                toggle.classList.add('active');
-            } else {
-                panel.style.display = 'none';
-                arrow.style.transform = 'rotate(0deg)';
-                toggle.classList.remove('active');
-            }
+    // Enhanced DOM ready functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        // Setup emoji toggle button
+        const emojiToggle = document.getElementById('emoji-toggle');
+        if (emojiToggle) {
+            emojiToggle.addEventListener('click', toggleEmojiPanel);
         }
-
-        // Enhanced DOM ready functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Setup emoji toggle button
-            const emojiToggle = document.getElementById('emoji-toggle');
-            if (emojiToggle) {
-                emojiToggle.addEventListener('click', toggleEmojiPanel);
-            }
-            
-            // Enhanced emoji button interactions
-            const emojiButtons = document.querySelectorAll('.emoji-btn');
-            emojiButtons.forEach(button => {
-                button.addEventListener('mouseenter', function() {
-                    this.style.transform = 'scale(1.2)';
-                    this.style.backgroundColor = '#f3f4f6';
-                });
-                button.addEventListener('mouseleave', function() {
-                    this.style.transform = 'scale(1)';
-                    this.style.backgroundColor = 'transparent';
-                });
-                button.addEventListener('click', function() {
-                    this.style.transform = 'scale(0.9)';
-                    setTimeout(() => {
-                        this.style.transform = 'scale(1)';
-                    }, 100);
-                });
+        // Enhanced emoji button interactions
+        const emojiButtons = document.querySelectorAll('.emoji-btn');
+        emojiButtons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.2)';
+                this.style.backgroundColor = '#f3f4f6';
             });
-            
-            // Add focus effects to form inputs
-            const inputs = document.querySelectorAll('input, textarea, select');
-            inputs.forEach(input => {
-                input.addEventListener('focus', function() {
-                    this.parentElement.classList.add('focused');
-                });
-                input.addEventListener('blur', function() {
-                    this.parentElement.classList.remove('focused');
-                });
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+                this.style.backgroundColor = 'transparent';
+            });
+            button.addEventListener('click', function() {
+                this.style.transform = 'scale(0.9)';
+                setTimeout(() => { this.style.transform = 'scale(1)'; }, 100);
             });
         });
+        // Add focus effects to form inputs
+        const inputs = document.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('focused');
+            });
+            input.addEventListener('blur', function() {
+                this.parentElement.classList.remove('focused');
+            });
+        });
+    });
     </script>
 {% endblock %}
 
-{% endblock %}
+

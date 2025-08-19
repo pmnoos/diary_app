@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
+def landing(request):
+    return render(request, 'subscriptions/landing.html')
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -48,6 +50,38 @@ class EntryListView(LoginRequiredMixin, ListView):
             queryset = queryset.filter(mood=mood_filter)
         
         return queryset.order_by('-date', '-created_at')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['view_type'] = self.request.GET.get('view', 'active')
+        context['time_filter'] = self.request.GET.get('time', '')
+        context['mood_filter'] = self.request.GET.get('mood', '')
+        
+        # Add filter summary for display
+        filter_summary = []
+        if context['view_type'] != 'active':
+            filter_summary.append(f"View: {context['view_type']}")
+        if context['time_filter']:
+            filter_summary.append(f"Time: {context['time_filter']}")
+        if context['mood_filter']:
+            filter_summary.append(f"Mood: {context['mood_filter']}")
+        context['filter_summary'] = filter_summary
+        
+        # Statistics for the user
+        user_entries = Entry.objects.filter(author=self.request.user)
+        context['stats'] = {
+            'total': user_entries.count(),
+            'active': user_entries.filter(is_archived=False).count(),
+            'archived': user_entries.filter(is_archived=True).count(),
+            'this_year': user_entries.filter(date__year=timezone.now().year).count(),
+            'can_auto_archive': user_entries.filter(is_archived=False).exclude(date__gte=timezone.now().date() - timedelta(days=180)).count(),
+        }
+        
+        # Popular moods
+        mood_stats = user_entries.exclude(mood='').values('mood').annotate(count=Count('mood')).order_by('-count')[:5]
+        context['popular_moods'] = mood_stats
+        
+        return context
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -160,12 +194,37 @@ class EntrySearchView(LoginRequiredMixin, ListView):
         queryset = Entry.objects.filter(author=self.request.user)
         
         if query:
-            # Search in title, content, and tags
+            # Search in title, content, and tags with ranking
+            title_matches = Q(title__icontains=query)
+            content_matches = Q(content__icontains=query)
+            tags_matches = Q(tags__icontains=query)
+            
+            # Combine all matches
             queryset = queryset.filter(
-                Q(title__icontains=query) |
-                Q(content__icontains=query) |
-                Q(tags__icontains=query)
+                title_matches | content_matches | tags_matches
             ).distinct()
+            
+            # Simple ranking: entries with query in title get higher priority
+            if '"' in query and query.count('"') >= 2:
+                # Exact phrase search
+                exact_query = query.split('"')[1] if len(query.split('"')) > 1 else query
+                queryset = queryset.extra(
+                    select={
+                        'is_exact_title': "CASE WHEN title LIKE %s THEN 1 ELSE 0 END",
+                        'is_exact_content': "CASE WHEN content LIKE %s THEN 1 ELSE 0 END",
+                    },
+                    select_params=[f'%{exact_query}%', f'%{exact_query}%'],
+                    order_by=['-is_exact_title', '-is_exact_content', '-date', '-created_at']
+                )
+            else:
+                # Regular search with title priority
+                queryset = queryset.extra(
+                    select={
+                        'is_title_match': "CASE WHEN title LIKE %s THEN 1 ELSE 0 END",
+                    },
+                    select_params=[f'%{query}%'],
+                    order_by=['-is_title_match', '-date', '-created_at']
+                )
         
         # Additional filters
         include_archived = self.request.GET.get('include_archived', '') == 'on'
@@ -176,6 +235,11 @@ class EntrySearchView(LoginRequiredMixin, ListView):
         if mood_filter:
             queryset = queryset.filter(mood=mood_filter)
         
+        # Tag filter
+        tag_filter = self.request.GET.get('tag', '')
+        if tag_filter:
+            queryset = queryset.filter(tags__icontains=tag_filter)
+        
         # Date range filters
         date_from = self.request.GET.get('date_from', '')
         date_to = self.request.GET.get('date_to', '')
@@ -185,16 +249,33 @@ class EntrySearchView(LoginRequiredMixin, ListView):
         if date_to:
             queryset = queryset.filter(date__lte=date_to)
         
-        return queryset.order_by('-date', '-created_at')
+        # Order by relevance when searching, otherwise by date
+        if query:
+            # When searching, order by date (newest first) as a simple relevance measure
+            return queryset.order_by('-date', '-created_at')
+        else:
+            # When not searching, order by date
+            return queryset.order_by('-date', '-created_at')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['query'] = self.request.GET.get('q', '')
         context['include_archived'] = self.request.GET.get('include_archived', '') == 'on'
         context['mood_filter'] = self.request.GET.get('mood', '')
+        context['tag_filter'] = self.request.GET.get('tag', '')
         context['date_from'] = self.request.GET.get('date_from', '')
         context['date_to'] = self.request.GET.get('date_to', '')
         context['total_results'] = self.get_queryset().count()
+        
+        # Get all unique tags for the user
+        user_entries = Entry.objects.filter(author=self.request.user)
+        all_tags = set()
+        for entry in user_entries:
+            if entry.tags:
+                tags = entry.get_tag_list()
+                all_tags.update(tags)
+        context['all_tags'] = sorted(list(all_tags))
+        
         return context
 
 
@@ -331,3 +412,12 @@ def archive_dashboard(request):
     }
     
     return render(request, 'entries/archive_dashboard.html', context)
+
+def about_view(request):
+    return render(request, 'entries/about.html')
+
+def privacy_view(request):
+    return render(request, 'entries/privacy.html')
+
+def terms_view(request):
+    return render(request, 'entries/terms.html')

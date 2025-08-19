@@ -38,3 +38,13 @@ def urlize_target_blank(text):
     text = url_pattern.sub(replace_url, text)
     
     return mark_safe(text)
+
+@register.filter
+def count_char(text, char):
+    """
+    Count the occurrences of a character in a string.
+    Usage: {{ text|count_char:"\"" }}
+    """
+    if not isinstance(text, str):
+        return 0
+    return text.count(char)

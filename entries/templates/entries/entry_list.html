@@ -16,6 +16,75 @@
         <a href="{% url 'reminder_list' %}" style="background-color: #ffc107; color: #212529; padding: 10px 15px; text-decoration: none; border-radius: 5px;">⏰ Reminders</a>
     </div>
 
+    <!-- Filter Summary -->
+    {% if filter_summary %}
+        <div style="margin-bottom: 20px; background-color: #e9ecef; padding: 10px; border-radius: 5px;">
+            <strong>Active Filters:</strong>
+            {% for filter in filter_summary %}
+                <span style="background-color: #007bff; color: white; padding: 2px 6px; border-radius: 3px; font-size: 0.85em; margin-right: 5px;">
+                    {{ filter }}
+                </span>
+            {% endfor %}
+            <a href="{% url 'entry_list' %}" style="color: #dc3545; text-decoration: none; margin-left: 10px;">Clear All</a>
+        </div>
+    {% endif %}
+
+    <!-- Quick Filters -->
+    <div style="margin-bottom: 20px; background-color: #f8f9fa; padding: 15px; border-radius: 5px;">
+        <h4 style="margin-top: 0;">Quick Filters</h4>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+            <!-- View Type -->
+            <div>
+                <strong>View:</strong>
+                <a href="?view=active" style="margin-left: 5px; {% if view_type == 'active' or not view_type %}background-color: #007bff; color: white; padding: 2px 6px; border-radius: 3px;{% endif %}">Active</a>
+                <a href="?view=archived" style="margin-left: 5px; {% if view_type == 'archived' %}background-color: #007bff; color: white; padding: 2px 6px; border-radius: 3px;{% endif %}">Archived</a>
+                <a href="?view=all" style="margin-left: 5px; {% if view_type == 'all' %}background-color: #007bff; color: white; padding: 2px 6px; border-radius: 3px;{% endif %}">All</a>
+            </div>
+            
+            <!-- Time Filters -->
+            <div>
+                <strong>Time:</strong>
+                <a href="?time=this_month" style="margin-left: 5px; {% if time_filter == 'this_month' %}background-color: #007bff; color: white; padding: 2px 6px; border-radius: 3px;{% endif %}">This Month</a>
+                <a href="?time=last_month" style="margin-left: 5px; {% if time_filter == 'last_month' %}background-color: #007bff; color: white; padding: 2px 6px; border-radius: 3px;{% endif %}">Last Month</a>
+                <a href="?time=this_year" style="margin-left: 5px; {% if time_filter == 'this_year' %}background-color: #007bff; color: white; padding: 2px 6px; border-radius: 3px;{% endif %}">This Year</a>
+            </div>
+            
+            <!-- Mood Filters -->
+            <div>
+                <strong>Mood:</strong>
+                <a href="?mood=happy" style="margin-left: 5px; {% if mood_filter == 'happy' %}background-color: #007bff; color: white; padding: 2px 6px; border-radius: 3px;{% endif %}">😊 Happy</a>
+                <a href="?mood=sad" style="margin-left: 5px; {% if mood_filter == 'sad' %}background-color: #007bff; color: white; padding: 2px 6px; border-radius: 3px;{% endif %}">😢 Sad</a>
+                <a href="?mood=excited" style="margin-left: 5px; {% if mood_filter == 'excited' %}background-color: #007bff; color: white; padding: 2px 6px; border-radius: 3px;{% endif %}">🎉 Excited</a>
+                <a href="?mood=calm" style="margin-left: 5px; {% if mood_filter == 'calm' %}background-color: #007bff; color: white; padding: 2px 6px; border-radius: 3px;{% endif %}">😌 Calm</a>
+            </div>
+            
+            {% if filter_summary %}
+                <a href="{% url 'entry_list' %}" style="margin-left: 10px; color: #dc3545; text-decoration: none;">Clear All Filters</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Quick Search Form -->
+    <div style="margin-bottom: 20px; background-color: #f8f9fa; padding: 15px; border-radius: 5px;">
+        <form method="get" action="{% url 'entry_search' %}" style="display: flex; gap: 10px;">
+            <input type="text" name="q" placeholder="Search entries (use quotes for exact phrases)..."
+                   style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+            <button type="submit" style="background-color: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">
+                🔍 Search
+            </button>
+        </form>
+    </div>
+    
+    <!-- Search Tips -->
+    <div style="margin-bottom: 20px; padding: 15px; background-color: #e9f7ef; border-radius: 5px; border-left: 4px solid #28a745;">
+        <h4>🔍 Search Tips</h4>
+        <ul style="margin: 10px 0; padding-left: 20px; font-size: 0.9em;">
+            <li>Use the search bar above to find entries by text, tags, or mood</li>
+            <li>Try the quick filters for common search patterns</li>
+            <li>Combine filters for more precise results</li>
+        </ul>
+    </div>
+
     {% if entries %}
         <div class="entries-list">
             {% for entry in entries %}

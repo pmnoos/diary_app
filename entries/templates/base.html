@@ -22,6 +22,8 @@
     <!-- PWA Manifest -->
     <link rel="manifest" href="{% static 'entries/manifest.json' %}">
     
+    <!-- Bulma CSS Framework -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <!-- Stylesheets -->
     <link rel="stylesheet" href="{% static 'entries/css/diary.css' %}">
     <link rel="stylesheet" href="{% static 'css/theme-system.css' %}">
@@ -33,43 +35,14 @@
     <div class="container">
         <header class="header">
             <h1 class="page-title">{% block page_title %}My Diary{% endblock %}</h1>
-            <nav class="nav">
-                <div>
-                    <a href="{% url 'home' %}">Home</a>
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'entry_list' %}">My Entries</a>
-                        <a href="{% url 'entry_create' %}">New Entry</a>
-                        <a href="{% url 'reminder_dashboard' %}">📅 Reminders</a>
-                        <a href="{% url 'subscriptions:plans' %}">Subscription Plans</a>
-                        <a href="{% url 'subscriptions:manage' %}">Manage Subscription</a>
-                    {% else %}
-                        <a href="{% url 'login' %}">Login</a>
-                        <a href="{% url 'signup' %}">Sign up</a>
-                    {% endif %}
-                </div>
-                <div>
-                    {% if user.is_authenticated %}
-                        <span>Welcome, {{ user.username }}!</span>
-                        {% include 'reminders/alerts/nav_badge.html' %}
-                        {% include 'theme_selector.html' %}
-                        <span id="connection-status" style="margin-left: 15px; font-size: 0.9em;"></span>
-                        <form method="post" action="{% url 'logout' %}" style="display: inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-small" style="background: #6c757d; margin-left: 10px;">Logout</button>
-                        </form>
-                    {% endif %}
-                </div>
-            </nav>
-        </header>
+            {% include 'include/navbar.html' %}
+            </header>
 
         <main class="content">
             {% block content %}
             {% endblock %}
         </main>
-
-        <footer style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e9ecef; color: #6c757d;">
-            <p>&copy; 2025 My Diary App</p>
-        </footer>
+    {% include 'include/footer.html' %}
     </div>
 
     {% block extra_js %}{% endblock %}

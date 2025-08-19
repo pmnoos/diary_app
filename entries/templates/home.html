@@ -43,6 +43,7 @@
             <p>
                 <a href="{% url 'entry_create' %}" class="btn">Write New Entry</a>
                 <a href="{% url 'entry_list' %}" class="btn">View All Entries</a>
+                <a href="{% url 'entry_search' %}" class="btn" style="background-color: #6c757d;">🔍 Search Diary</a>
                 <a href="{% url 'reminder_dashboard' %}" class="btn" style="background-color: #17a2b8;">📅 View Reminders</a>
             </p>
         </div>
@@ -66,7 +67,7 @@
                 <p>See what the diary app can do! Browse sample entries to understand the features before creating your account.</p>
                 <p>
                     <a href="{% url 'demo_entries' %}" class="btn btn-success" style="margin-right: 10px;">View Demo Entries</a>
-                    <span style="color: #6c757d; font-size: 0.9em;">→ Read-only preview</span>
+                    <span style="color: #6c757d; font-size: 0.9em;"></span>
                 </p>
             </div>
             
@@ -75,13 +76,10 @@
                 <p>Ready to begin? Create your account and start with a completely fresh, empty diary - just for you!</p>
                 <p>
                     <a href="{% url 'signup' %}" class="btn" style="margin-right: 10px;">Create Account</a>
-                    <a href="{% url 'login' %}" class="btn-secondary">Already have an account?</a>
+                    <a href="{% url 'login' %}" class="btn-secondary"></a>
                 </p>
             </div>
         </div>
     {% endif %}
 {% endblock %}
 
-{% block extra_css %}
-    <!-- All styles now in components.css for better performance -->
-{% endblock %}
