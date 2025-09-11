@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - Diary App{% endblock %}
+
+{% block page_title %}Login to Your Diary{% endblock %}
+
+{% block content %}
+    <div style="max-width: 400px; margin: 0 auto;">
+        <h2>Login</h2>
+        
+        {% if form.errors %}
+            <div style="color: red; margin-bottom: 10px;">
+                {{ form.errors }}
+            </div>
+        {% endif %}
+        
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Login</button>
+        </form>
+        
+        <p style="margin-top: 20px;">
+            <a href="{% url 'signup' %}">Don't have an account? Sign up</a>
+        </p>
+    </div>
+{% endblock %}

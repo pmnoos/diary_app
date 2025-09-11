@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Reminder - {{ reminder.title }}{% endblock %}
+
+{% block page_title %}🗑️ Delete Reminder{% endblock %}
+
+{% block content %}
+    <div style="margin-bottom: 20px;">
+        <a href="{% url 'reminder_detail' reminder.pk %}" style="color: #007bff; text-decoration: none;">&larr; Back to Reminder</a>
+    </div>
+
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #dc3545; border-radius: 8px; background-color: #f8d7da;">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <h2 style="color: #721c24; margin-bottom: 10px;">⚠️ Confirm Deletion</h2>
+            <p style="color: #721c24; margin-bottom: 0;">This action cannot be undone.</p>
+        </div>
+
+        <div style="background-color: white; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+            <h3 style="margin-top: 0; color: #333;">{{ reminder.title }}</h3>
+            
+            <div style="color: #666; margin-bottom: 15px;">
+                <div style="margin-bottom: 5px;">
+                    📅 <strong>Due:</strong> {{ reminder.date|date:"l, F j, Y" }}
+                    {% if reminder.time %}at {{ reminder.time|time:"g:i A" }}{% endif %}
+                </div>
+                <div style="margin-bottom: 5px;">
+                    📂 <strong>Category:</strong> {{ reminder.get_category_display }}
+                </div>
+                <div style="margin-bottom: 5px;">
+                    🔥 <strong>Priority:</strong> {{ reminder.get_priority_display }}
+                </div>
+                {% if reminder.is_completed %}
+                    <div style="color: #28a745;">
+                        ✅ <strong>Status:</strong> Completed
+                    </div>
+                {% elif reminder.is_overdue %}
+                    <div style="color: #dc3545;">
+                        ⚠️ <strong>Status:</strong> Overdue
+                    </div>
+                {% else %}
+                    <div style="color: #007bff;">
+                        📋 <strong>Status:</strong> Active
+                    </div>
+                {% endif %}
+            </div>
+            
+            {% if reminder.description %}
+                <div style="margin-top: 15px;">
+                    <strong style="color: #666;">Description:</strong>
+                    <p style="margin: 5px 0 0 0; padding: 10px; background-color: #f8f9fa; border-radius: 3px;">
+                        {{ reminder.description|truncatewords:30 }}
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+
+        <form method="post" style="text-align: center;">
+            {% csrf_token %}
+            
+            <div style="margin-bottom: 20px;">
+                <p style="color: #721c24; font-weight: bold;">
+                    Are you sure you want to delete this reminder?
+                </p>
+            </div>
+            
+            <button type="submit" 
+                    style="background-color: #dc3545; color: white; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-right: 10px;">
+                🗑️ Yes, Delete Reminder
+            </button>
+            
+            <a href="{% url 'reminder_detail' reminder.pk %}" 
+               style="background-color: #6c757d; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px;">
+                Cancel
+            </a>
+        </form>
+    </div>
+
+    <div style="background-color: #e7f3ff; padding: 15px; border-radius: 5px; border-left: 4px solid #007bff; margin-top: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+        <h4 style="margin-top: 0; color: #007bff;">💡 Alternative Options</h4>
+        <p style="margin-bottom: 10px;">Instead of deleting, you could:</p>
+        <ul style="margin-bottom: 0;">
+            <li><strong>Mark as completed</strong> if the task is done</li>
+            <li><strong>Edit the reminder</strong> to change the date or details</li>
+            <li><strong>Keep it archived</strong> for future reference</li>
+        </ul>
+    </div>
+{% endblock %}

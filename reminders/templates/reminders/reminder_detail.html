@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load reminder_filters %}
+
+{% block title %}{{ reminder.title }} - Reminder Details{% endblock %}
+
+{% block page_title %}⏰ Reminder Details{% endblock %}
+
+{% block content %}
+    <div style="margin-bottom: 20px;">
+        <a href="{% url 'reminder_list' %}" style="color: #007bff; text-decoration: none;">&larr; Back to Reminders</a>
+    </div>
+
+    <article style="max-width: 800px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: white;">
+        <header style="margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #f0f0f0;">
+            <h1 style="margin: 0 0 15px 0; color: #333;">{{ reminder.title }}</h1>
+            
+            <!-- Status and Priority Badges -->
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
+                {% if reminder.is_completed %}
+                    <span style="background-color: #28a745; color: white; padding: 5px 10px; border-radius: 5px; font-size: 0.9em;">✅ Completed</span>
+                {% elif reminder.is_overdue %}
+                    <span style="background-color: #dc3545; color: white; padding: 5px 10px; border-radius: 5px; font-size: 0.9em;">⚠️ Overdue</span>
+                {% elif reminder.is_urgent %}
+                    <span style="background-color: #ffc107; color: #212529; padding: 5px 10px; border-radius: 5px; font-size: 0.9em;">🔥 Urgent</span>
+                {% else %}
+                    <span style="background-color: #007bff; color: white; padding: 5px 10px; border-radius: 5px; font-size: 0.9em;">📋 Active</span>
+                {% endif %}
+                
+                <span style="background-color: #6c757d; color: white; padding: 5px 10px; border-radius: 5px; font-size: 0.9em;">
+                    🔥 {{ reminder.get_priority_display }}
+                </span>
+                
+                <span style="background-color: #17a2b8; color: white; padding: 5px 10px; border-radius: 5px; font-size: 0.9em;">
+                    📂 {{ reminder.get_category_display }}
+                </span>
+            </div>
+            
+            <!-- Due Date Information -->
+            <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div>
+                        <strong style="display: block; color: #666; margin-bottom: 5px;">📅 Due Date:</strong>
+                        <span style="font-size: 1.1em;">{{ reminder.date|date:"l, F j, Y" }}</span>
+                    </div>
+                    
+                    {% if reminder.time %}
+                        <div>
+                            <strong style="display: block; color: #666; margin-bottom: 5px;">🕐 Due Time:</strong>
+                            <span style="font-size: 1.1em;">{{ reminder.time|time:"g:i A" }}</span>
+                        </div>
+                    {% endif %}
+                    
+                    <div>
+                        <strong style="display: block; color: #666; margin-bottom: 5px;">⏱️ Status:</strong>
+                        {% if reminder.is_completed %}
+                            <span style="color: #28a745; font-weight: bold;">Completed {{ reminder.completed_at|timesince }} ago</span>
+                        {% elif reminder.is_overdue %}
+                            <span style="color: #dc3545; font-weight: bold;">Overdue by {{ reminder.days_until|days_overdue }} day{{ reminder.days_until|days_overdue|pluralize }}</span>
+                        {% elif reminder.days_until == 0 %}
+                            <span style="color: #ffc107; font-weight: bold;">Due today!</span>
+                        {% elif reminder.days_until == 1 %}
+                            <span style="color: #ffc107; font-weight: bold;">Due tomorrow</span>
+                        {% elif reminder.days_until > 0 %}
+                            <span style="color: #007bff; font-weight: bold;">Due in {{ reminder.days_until }} day{{ reminder.days_until|pluralize }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Description -->
+        {% if reminder.description %}
+            <div style="margin-bottom: 30px;">
+                <h3 style="color: #666; margin-bottom: 10px;">📝 Description</h3>
+                <div style="line-height: 1.8; padding: 15px; background-color: #f8f9fa; border-radius: 5px;">
+                    {{ reminder.description|urlize|linebreaks }}
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Alert Preferences -->
+        {% if reminder.alert_preference %}
+            <div style="margin-bottom: 30px;">
+                <h3 style="color: #666; margin-bottom: 10px;">🔔 Alert Preferences</h3>
+                <div style="padding: 10px; background-color: #e7f3ff; border-radius: 5px; border-left: 4px solid #007bff;">
+                    {{ reminder.get_alert_preference_display }}
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Metadata -->
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+            <h3 style="color: #666; margin-bottom: 15px;">📊 Details</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; font-size: 0.9em; color: #666;">
+                <div>
+                    <strong>Created:</strong><br>
+                    {{ reminder.created_at|date:"M j, Y g:i A" }}
+                </div>
+                <div>
+                    <strong>Last Updated:</strong><br>
+                    {{ reminder.updated_at|date:"M j, Y g:i A" }}
+                </div>
+                {% if reminder.is_completed %}
+                    <div>
+                        <strong>Completed:</strong><br>
+                        {{ reminder.completed_at|date:"M j, Y g:i A" }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </article>
+
+    <!-- Action Buttons -->
+    <div style="margin-top: 30px; text-align: center;">
+        {% if not reminder.is_completed %}
+            <a href="{% url 'reminder_toggle' reminder.pk %}" 
+               class="btn" style="background-color: #28a745; margin-right: 10px;">
+                ✅ Mark Complete
+            </a>
+        {% else %}
+            <a href="{% url 'reminder_toggle' reminder.pk %}" 
+               class="btn" style="background-color: #6c757d; margin-right: 10px;">
+                ↩️ Reopen Reminder
+            </a>
+        {% endif %}
+        
+        <a href="{% url 'reminder_update' reminder.pk %}" 
+           class="btn" style="background-color: #ffc107; color: #212529; margin-right: 10px;">
+            ✏️ Edit Reminder
+        </a>
+        
+        <a href="{% url 'reminder_delete' reminder.pk %}" 
+           class="btn" style="background-color: #dc3545;">
+            🗑️ Delete Reminder
+        </a>
+    </div>
+{% endblock %}

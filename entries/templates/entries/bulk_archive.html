@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}Bulk Archive - Diary App{% endblock %}
+
+{% block page_title %}📦 Bulk Archive Entries{% endblock %}
+
+{% block content %}
+    <div style="margin-bottom: 20px;">
+        <a href="{% url 'archive_dashboard' %}" style="color: #007bff; text-decoration: none;">&larr; Back to Archive Dashboard</a>
+    </div>
+
+    {% if eligible_entries %}
+        <div style="background-color: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+            <h4 style="color: #856404; margin-top: 0;">⚠️ Archive Confirmation</h4>
+            <p style="margin-bottom: 0; color: #856404;">
+                You are about to archive <strong>{{ eligible_entries|length }} entries</strong> 
+                {% if year_filter %}from {{ year_filter }}{% else %}older than 6 months{% endif %}.
+                Archived entries will be hidden from your main diary view but can be restored anytime.
+            </p>
+        </div>
+
+        <!-- Archive Form -->
+        <form method="post" style="margin-bottom: 30px;">
+            {% csrf_token %}
+            {% if year_filter %}
+                <input type="hidden" name="year" value="{{ year_filter }}">
+            {% endif %}
+            
+            <div style="background-color: #f8f9fa; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+                <h4>Archive Summary</h4>
+                <ul>
+                    <li><strong>{{ eligible_entries|length }}</strong> entries will be archived</li>
+                    <li>Date range: 
+                        {% if year_filter %}
+                            {{ year_filter }} entries
+                        {% else %}
+                            Entries older than 6 months (before {{ cutoff_date|date:"F j, Y" }})
+                        {% endif %}
+                    </li>
+                    <li>These entries will remain searchable but hidden from main view</li>
+                    <li>You can restore any archived entry at any time</li>
+                </ul>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 20px;">
+                <button type="submit" name="confirm" value="yes" 
+                        style="background-color: #ffc107; color: #212529; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-right: 10px;">
+                    📦 Confirm Archive ({{ eligible_entries|length }} entries)
+                </button>
+                <a href="{% url 'archive_dashboard' %}" 
+                   style="background-color: #6c757d; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px;">
+                    Cancel
+                </a>
+            </div>
+        </form>
+
+        <!-- Preview of Entries to Archive -->
+        <div>
+            <h4>📋 Entries to be Archived ({{ eligible_entries|length }})</h4>
+            <div style="max-height: 400px; overflow-y: auto; border: 1px solid #ddd; border-radius: 5px;">
+                {% for entry in eligible_entries %}
+                    <div style="padding: 10px; border-bottom: 1px solid #eee; {% if forloop.last %}border-bottom: none;{% endif %}">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong>{{ entry.title }}</strong>
+                                <span style="color: #666; margin-left: 10px;">{{ entry.date|date:"M j, Y" }}</span>
+                                {% if entry.mood %}
+                                    <span style="margin-left: 10px;">{{ entry.get_mood_display }}</span>
+                                {% endif %}
+                            </div>
+                            <div style="color: #666; font-size: 0.9em;">
+                                {{ entry.age_in_days }} days old
+                                {% if entry.word_count %}
+                                    ({{ entry.word_count }} words)
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if entry.tags %}
+                            <div style="margin-top: 5px;">
+                                {% for tag in entry.get_tag_list %}
+                                    <span style="background-color: #e9ecef; color: #495057; padding: 2px 6px; border-radius: 3px; font-size: 0.8em; margin-right: 5px;">
+                                        #{{ tag }}
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <p style="margin: 5px 0 0 0; color: #666; font-size: 0.9em;">
+                            {{ entry.get_snippet|truncatewords:15 }}
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    {% else %}
+        <div style="text-align: center; padding: 40px; color: #666;">
+            <h4>✅ No Entries to Archive</h4>
+            {% if year_filter %}
+                <p>All entries from {{ year_filter }} are already archived or too recent.</p>
+            {% else %}
+                <p>No entries are currently eligible for archiving (older than 6 months).</p>
+            {% endif %}
+            <a href="{% url 'archive_dashboard' %}" style="color: #007bff; text-decoration: none;">Return to Archive Dashboard</a>
+        </div>
+    {% endif %}
+
+    <!-- Help Section -->
+    <div style="background-color: #e7f3ff; padding: 20px; border-radius: 5px; border-left: 4px solid #007bff; margin-top: 30px;">
+        <h4 style="margin-top: 0; color: #007bff;">💡 About Bulk Archiving</h4>
+        <ul style="margin-bottom: 0;">
+            <li><strong>Performance:</strong> Archiving old entries keeps your main diary view fast and focused.</li>
+            <li><strong>Organization:</strong> Archive by year to maintain chronological organization.</li>
+            <li><strong>Search:</strong> Archived entries remain fully searchable when needed.</li>
+            <li><strong>Reversible:</strong> Any archived entry can be restored to active status instantly.</li>
+        </ul>
+    </div>
+{% endblock %}

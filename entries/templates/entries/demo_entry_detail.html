@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load entry_filters %}
+
+{% block title %}{{ entry.title }} - Demo Entry{% endblock %}
+
+{% block page_title %}📖 Demo Entry: {{ entry.title }}{% endblock %}
+
+{% block content %}
+    <div class="demo-banner">
+        <h4>🎯 Demo Preview</h4>
+        <p>{{ demo_message }}</p>
+        <p style="margin-bottom: 0;">
+            <a href="{% url 'demo_entries' %}">← Back to Demo Entries</a>
+            <a href="{% url 'signup' %}" class="btn">Create Your Account</a>
+        </p>
+    </div>
+
+    {% if entry %}
+        <article class="entry-detail">
+            <header class="entry-header">
+                <h1>{{ entry.title }}</h1>
+                <div class="entry-meta">
+                    <p><strong>Written on:</strong> {{ entry.created_at|date:"l, F j, Y" }} at {{ entry.created_at|date:"g:i A" }}</p>
+                    {% if entry.updated_at != entry.created_at %}
+                        <p><strong>Last updated:</strong> {{ entry.updated_at|date:"l, F j, Y" }} at {{ entry.updated_at|date:"g:i A" }}</p>
+                    {% endif %}
+                    <p><strong>Author:</strong> Demo User</p>
+                </div>
+            </header>
+
+            {% if entry.image %}
+                <div class="entry-image">
+                    <img src="{{ entry.image.url }}" alt="Entry image">
+                </div>
+            {% endif %}
+
+            <div class="entry-content">
+                {{ entry.content|urlize_target_blank|linebreaks }}
+            </div>
+        </article>
+        
+        <div class="cta-section">
+            <h4>Like What You See?</h4>
+            <p>Create your own account to start writing your personal diary with all these features!</p>
+            <div>
+                <a href="{% url 'signup' %}" class="btn btn-large">Get Started - It's Free!</a>
+                <a href="{% url 'demo_entries' %}" style="color: #6c757d; margin-left: 15px;">← View More Demo Entries</a>
+            </div>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <h3>Demo Entry Not Found</h3>
+            <p>This demo entry is not available.</p>
+            <a href="{% url 'demo_entries' %}" class="btn">View Demo Entries</a>
+        </div>
+    {% endif %}
+{% endblock %}

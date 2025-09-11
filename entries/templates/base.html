@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Diary App{% endblock %}</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#007bff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="My Diary">
+    <meta name="description" content="A personal diary app to capture your thoughts, memories, and daily experiences">
+    
+    <!-- PWA Icons -->
+    <link rel="apple-touch-icon" href="{% static 'entries/icons/icon-192x192.svg' %}">
+    <link rel="icon" type="image/svg+xml" href="{% static 'entries/icons/favicon.svg' %}">
+    <link rel="icon" type="image/svg+xml" sizes="32x32" href="{% static 'entries/icons/favicon.svg' %}">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="{% static 'entries/manifest.json' %}">
+    
+    <!-- Bulma CSS Framework -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{% static 'entries/css/diary.css' %}">
+    <link rel="stylesheet" href="{% static 'css/theme-system.css' %}">
+    <link rel="stylesheet" href="{% static 'entries/css/components.css' %}">
+    
+
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="page-title">{% block page_title %}My Diary{% endblock %}</h1>
+            {% include 'include/navbar.html' %}
+            </header>
+
+        <main class="content">
+            {% block content %}
+            {% endblock %}
+        </main>
+    {% include 'include/footer.html' %}
+    </div>
+
+    {% block extra_js %}{% endblock %}
+    
+    <!-- Offline functionality -->
+    <script src="{% static 'entries/js/offline.js' %}"></script>
+    
+    <!-- PWA Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('{% static "entries/sw.js" %}')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful');
+                        
+                        // Check for updates every hour
+                        setInterval(function() {
+                            registration.update();
+                        }, 60000 * 60);
+                    })
+                    .catch(function(err) {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+
+        // PWA Install Prompt - Enhanced for cross-browser compatibility
+        let deferredPrompt;
+        let isStandalone = false;
+        
+        // Check if already installed/running as PWA
+        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+            isStandalone = true;
+        }
+        
+        // Show manual install instructions for browsers that don't support beforeinstallprompt
+        function showManualInstallButton() {
+            const installButton = document.getElementById('pwa-install-button');
+            if (installButton && !isStandalone) {
+                // Update button to show manual instructions
+                installButton.innerHTML = `
+                    <h4 style="margin: 0 0 10px 0;">📱 Install Diary App</h4>
+                    <p style="margin: 0; font-size: 14px;">
+                        <strong>Chrome/Edge:</strong> Click the ⊕ icon in the address bar<br>
+                        <strong>Firefox:</strong> Bookmark this page for quick access<br>
+                        <strong>Safari:</strong> Tap Share → Add to Home Screen
+                    </p>
+                `;
+                installButton.style.display = 'block';
+                installButton.style.cursor = 'default';
+                installButton.removeEventListener('click', handleInstallClick);
+            }
+        }
+        
+        function handleInstallClick() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the PWA install prompt');
+                    }
+                    deferredPrompt = null;
+                    const installButton = document.getElementById('pwa-install-button');
+                    if (installButton) {
+                        installButton.style.display = 'none';
+                    }
+                });
+            }
+        }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show custom install button
+            const installButton = document.getElementById('pwa-install-button');
+            if (installButton && !isStandalone) {
+                installButton.style.display = 'block';
+                installButton.addEventListener('click', handleInstallClick);
+            }
+        });
+
+        // Hide install button if already installed
+        window.addEventListener('appinstalled', (evt) => {
+            console.log('PWA was installed');
+            const installButton = document.getElementById('pwa-install-button');
+            if (installButton) {
+                installButton.style.display = 'none';
+            }
+            isStandalone = true;
+        });
+        
+        // For browsers that don't fire beforeinstallprompt (like Firefox, some Linux browsers)
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (!deferredPrompt && !isStandalone) {
+                    showManualInstallButton();
+                }
+            }, 2000); // Wait 2 seconds to see if beforeinstallprompt fires
+        });
+
+        // Connection Status Indicator
+        function updateConnectionStatus() {
+            const statusIndicator = document.getElementById('connection-status');
+            if (statusIndicator) {
+                if (navigator.onLine) {
+                    statusIndicator.innerHTML = '🟢 Online';
+                    statusIndicator.style.color = '#28a745';
+                } else {
+                    statusIndicator.innerHTML = '🔴 Offline';
+                    statusIndicator.style.color = '#dc3545';
+                }
+            }
+        }
+        
+        // Update status on page load and connection changes
+        window.addEventListener('online', updateConnectionStatus);
+        window.addEventListener('offline', updateConnectionStatus);
+        document.addEventListener('DOMContentLoaded', updateConnectionStatus);
+    </script>
+</body>
+</html>
