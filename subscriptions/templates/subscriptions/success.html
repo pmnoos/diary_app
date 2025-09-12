@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Subscription Successful - Diary App{% endblock %}
+
+{% block content %}
+<div class="subscription-success">
+    <h2>🎉 Payment Successful!</h2>
+    <p>Your subscription has been upgraded. Thank you for supporting Diary App!</p>
+    <a href="{% url 'subscriptions:manage' %}" class="btn btn-primary">Go to Dashboard</a>
+</div>
+{% endblock %}

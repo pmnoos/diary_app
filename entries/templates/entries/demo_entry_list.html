@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Demo Diary Entries{% endblock %}
+
+{% block page_title %}📖 Demo Diary Entries{% endblock %}
+
+{% block content %}
+    <div class="demo-banner">
+        <h4>🎯 Demo Preview</h4>
+        <p>{{ demo_message }}</p>
+        <p style="margin-bottom: 0;">
+            <a href="{% url 'signup' %}" class="btn">Create Your Account</a>
+            <a href="{% url 'entry_search' %}" class="btn">🔍 Search Diary</a>
+            <a href="{% url 'landing' %}">← Back to Home</a>
+        </p>
+    </div>
+
+    {% if entries %}
+        <div class="entries-grid">
+            {% for entry in entries %}
+                <div class="entry-card">
+                    <h3><a href="{% url 'demo_entry_detail' entry.pk %}">{{ entry.title }}</a></h3>
+                    <p class="entry-meta">
+                        <strong>Date:</strong> {{ entry.created_at|date:"l, F j, Y" }} at {{ entry.created_at|date:"g:i A" }}
+                    </p>
+                    
+                    {% if entry.image %}
+                        <div class="entry-image">
+                            <img src="{{ entry.image.url }}" alt="Entry image">
+                        </div>
+                    {% endif %}
+                    
+                    <div class="entry-content">
+                        {{ entry.content|truncatewords:30|linebreaks }}
+                    </div>
+                    
+                    <div class="entry-actions">
+                        <a href="{% url 'demo_entry_detail' entry.pk %}" class="read-more">Read Full Entry →</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <h3>No Demo Entries Available</h3>
+            <p>Demo entries haven't been set up yet. Please create your account to start your own diary!</p>
+            <a href="{% url 'signup' %}" class="btn">Create Account</a>
+        </div>
+    {% endif %}
+
+    <div class="cta-section">
+        <h4>Ready to Start Your Own Diary?</h4>
+        <p>Create your account now and get your own private diary with all these features!</p>
+        <a href="{% url 'signup' %}" class="btn btn-large">Get Started - It's Free!</a>
+    </div>
+{% endblock %}
