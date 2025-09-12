@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}Subscription Plans - Diary App{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h2 class="title is-3 has-text-centered">Choose Your Plan</h2>
+        <div class="columns is-multiline is-centered">
+          <div class="column is-4-desktop is-6-tablet">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title is-centered">Free Trial</p>
+              </header>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="subtitle is-5">7 Days Full Access</p>
+                  <p class="is-size-3 has-text-weight-bold">$0 <span class="is-size-6 has-text-grey">/7 days</span></p>
+                  <p class="has-text-grey mb-2">Best for: New users</p>
+                  <ul class="has-text-left" style="margin-top: 1em;">
+                    <li><strong>Access:</strong> All sections unlocked</li>
+                    <li><strong>Duration:</strong> 7 days</li>
+                    <li><strong>Support:</strong> Email</li>
+                  </ul>
+                </div>
+              </div>
+              <footer class="card-footer">
+                <button class="button is-primary is-fullwidth">Start Free Trial</button>
+              </footer>
+            </div>
+          </div>
+          <div class="column is-4-desktop is-6-tablet">
+            <div class="card is-highlighted">
+              <header class="card-header">
+                <p class="card-header-title is-centered">Monthly <span class="tag is-warning ml-2">Most Popular</span></p>
+              </header>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="subtitle is-5">Standard Plan</p>
+                  <p class="is-size-3 has-text-weight-bold">$9.99 <span class="is-size-6 has-text-grey">/month</span></p>
+                  <p class="has-text-grey mb-2">Best for: Regular journaling</p>
+                  <ul class="has-text-left" style="margin-top: 1em;">
+                    <li><strong>Entries:</strong> Up to 40 per month</li>
+                    <li><strong>Access:</strong> All sections</li>
+                    <li><strong>Support:</strong> Priority email</li>
+                  </ul>
+                </div>
+              </div>
+              <footer class="card-footer">
+                <button class="button is-link is-fullwidth">Choose Monthly</button>
+              </footer>
+            </div>
+          </div>
+          <div class="column is-4-desktop is-6-tablet">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title is-centered">Lifetime <span class="tag is-success ml-2">Best Value</span></p>
+              </header>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="subtitle is-5">Unlimited Plan</p>
+                  <p class="is-size-3 has-text-weight-bold">$99.00 <span class="is-size-6 has-text-grey">one-time</span></p>
+                  <p class="has-text-grey mb-2">Best for: Power users</p>
+                  <ul class="has-text-left" style="margin-top: 1em;">
+                    <li><strong>Entries:</strong> Unlimited</li>
+                    <li><strong>Access:</strong> All sections</li>
+                    <li><strong>Support:</strong> Priority email & chat</li>
+                  </ul>
+                </div>
+              </div>
+              <footer class="card-footer">
+                <button class="button is-success is-fullwidth">Go Lifetime</button>
+              </footer>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

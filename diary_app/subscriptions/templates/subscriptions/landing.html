@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A simple, secure, and personal online journaling experience.">
+  <title>My Diary - Your Personal Journal & Memory Keeper</title>
+  <link href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>  
+
+<body>
+  {% include 'include/navbar_landing.html' %}
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <div class="floating">
+  <h1 class="title is-1">✨ My Diary</h1>
+        <p class="subtitle is-4">Capture your thoughts, memories, and moods in a private, personal journal.</p>
+        <p class="is-size-6 mb-5">Join thousands of users who've discovered the joy of digital journaling</p>
+        <a href="{% url 'signup' %}" class="button is-warning is-large pulse mt-4">
+          <span class="icon"><i class="fas fa-pen-fancy"></i></span>
+          <span>Start Your Journey</span>
+        </a>
+      </div>
+      <div class="columns is-centered mt-6">
+        <div class="column is-narrow">
+          <div class="stats-number">1,247</div>
+          <p class="is-size-7">Active Writers</p>
+        </div>
+        <div class="column is-narrow">
+          <div class="stats-number">15,892</div>
+          <p class="is-size-7">Journal Entries</p>
+        </div>
+        <div class="column is-narrow">
+          <div class="stats-number">98%</div>
+          <p class="is-size-7">User Satisfaction</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-vcentered">
+      <div class="column is-half">
+        <h2 class="title is-3">📝 Simple & Secure</h2>
+        <p class="is-size-5 mb-4">Write daily entries, track your emotions, and keep images safely stored with full privacy.</p>
+        <p class="mb-4">No clutter. No distractions. Just your thoughts and your story.</p>
+        
+        <div class="content">
+          <ul>
+            <li><strong>🔒 Privacy Controls</strong> - Mark entries as private</li>
+            <li><strong>� Emoji Panel</strong> - Express your mood with emojis</li>
+            <li><strong>📸 Image Uploads</strong> - Attach photos to your entries</li>
+            <li><strong>� Date Shortcuts</strong> - Quick date selection for entries</li>
+            <li><strong>✨ Modern UI</strong> - Clean, distraction-free writing</li>
+          </ul>
+        </div>
+        
+        <a href="https://diary-app-012de9a17a4f.herokuapp.com" class="button is-primary is-medium">
+          <span class="icon"><i class="fas fa-play"></i></span>
+          <span>Try Demo</span>
+        </a>
+      </div>
+      <div class="column is-half">
+        <figure class="image is-4by3">
+          <!-- Replace with your Django app screenshot -->
+          <img src="/static/images/Screenshot.png" alt="My Diary Screenshot" class="screenshot">
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section has-background-light">
+  <div class="container has-text-centered">
+    <h3 class="title is-3 mb-6">🌟 Why choose Digital Diary App?</h3>
+    <div class="columns mt-5">
+      <div class="column">
+        <div class="feature-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <p class="title is-5">Private & Personal</p>
+        <p>Your entries are encrypted and for your eyes only. We never read your content.</p>
+      </div>
+      <div class="column">
+        <div class="feature-icon">
+          <i class="fas fa-heart"></i>
+        </div>
+        <p class="title is-5">Easy to Use</p>
+        <p>Minimal interface designed to help you focus on what matters - your thoughts.</p>
+      </div>
+      <div class="column">
+        <div class="feature-icon">
+          <i class="fas fa-gift"></i>
+        </div>
+        <p class="title is-5">Free to Start</p>
+        <p>No credit card required. Start journaling immediately with our generous free tier.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- New Features Section -->
+<section class="section">
+  <div class="container">
+    <div class="has-text-centered mb-6">
+      <h3 class="title is-3">✨ Powerful Features</h3>
+      <p class="subtitle">Everything you need for meaningful journaling</p>
+    </div>
+    <div class="columns is-multiline">
+      <div class="column is-4">
+        <div class="box has-text-centered">
+          <i class="fas fa-calendar-alt feature-icon"></i>
+          <h4 class="title is-5">Daily Prompts</h4>
+          <p>Never run out of things to write about with our curated writing prompts.</p>
+        </div>
+      </div>
+      <div class="column is-4">
+        <div class="box has-text-centered">
+          <i class="fas fa-chart-line feature-icon"></i>
+          <h4 class="title is-5">Mood Tracking</h4>
+          <p>Track your emotional journey with beautiful mood charts and insights.</p>
+        </div>
+      </div>
+      <div class="column is-4">
+        <div class="box has-text-centered">
+          <i class="fas fa-search feature-icon"></i>
+          <h4 class="title is-5">Smart Search</h4>
+          <p>Find any entry instantly with powerful search across all your journals.</p>
+        </div>
+      </div>
+      <div class="column is-4">
+        <div class="box has-text-centered">
+          <i class="fas fa-download feature-icon"></i>
+          <h4 class="title is-5">Export & Backup</h4>
+          <p>Download your data anytime in multiple formats - it's always yours.</p>
+        </div>
+      </div>
+      <div class="column is-4">
+        <div class="box has-text-centered">
+          <i class="fas fa-palette feature-icon"></i>
+          <h4 class="title is-5">Custom Themes</h4>
+          <p>Personalize your writing space with beautiful themes and fonts.</p>
+        </div>
+      </div>
+      <div class="column is-4">
+        <div class="box has-text-centered">
+          <i class="fas fa-clock feature-icon"></i>
+          <h4 class="title is-5">Writing Streaks</h4>
+          <p>Build healthy habits with streak tracking and gentle reminders.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="section has-background-light">
+  <div class="container">
+    <div class="has-text-centered mb-6">
+      <h3 class="title is-3">💬 What Our Users Say</h3>
+    </div>
+    <div class="columns">
+      <div class="column is-4">
+        <div class="testimonial">
+          <p class="mb-4">"This app has transformed my daily routine. I love how simple yet powerful it is!"</p>
+          <div class="media">
+            <div class="media-content">
+              <p class="title is-6">Sarah M.</p>
+              <p class="subtitle is-7">Daily journaler for 6 months</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column is-4">
+        <div class="testimonial">
+          <p class="mb-4">"The privacy features give me peace of mind. Finally, a diary app I can trust."</p>
+          <div class="media">
+            <div class="media-content">
+              <p class="title is-6">Mark T.</p>
+              <p class="subtitle is-7">Writer & blogger</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column is-4">
+        <div class="testimonial">
+          <p class="mb-4">"The mood tracking helped me understand my patterns. Highly recommend!"</p>
+          <div class="media">
+            <div class="media-content">
+              <p class="title is-6">Emily R.</p>
+              <p class="subtitle is-7">Mental health advocate</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container has-text-centered">
+    <h3 class="title is-3 mb-4">🚀 Ready to Start Your Journey?</h3>
+    <p class="subtitle is-5 mb-5">Join thousands of people who've made journaling a daily habit</p>
+    
+    <div class="columns is-centered mb-5">
+      <div class="column is-narrow">
+        <div class="box">
+          <h4 class="title is-6">✅ Free Plan</h4>
+          <ul class="has-text-left">
+            <li>• Unlimited entries</li>
+            <li>• Basic themes</li>
+            <li>• Emoji panel</li>
+            <li>• Image uploads</li>
+          </ul>
+        </div>
+      </div>
+      <div class="column is-narrow">
+        <div class="box has-background-primary">
+          <h4 class="title is-6 has-text-white">🌟 Monthly Plan</h4>
+          <ul class="has-text-left has-text-white">
+            <li>• Everything in Free</li>
+            <li>• Priority support</li>
+            <li>• Early access to new features</li>
+          </ul>
+        </div>
+      </div>
+      <div class="column is-narrow">
+        <div class="box has-background-link">
+          <h4 class="title is-6 has-text-white">💎 Yearly Plan</h4>
+          <ul class="has-text-left has-text-white">
+            <li>• Everything in Monthly</li>
+            <li>• Discounted price</li>
+            <li>• Special badge</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <a href="https://diary-app-012de9a17a4f.herokuapp.com" class="button is-success is-large pulse">
+      <span class="icon"><i class="fas fa-rocket"></i></span>
+      <span>Launch My Diary</span>
+    </a>
+    <p class="is-size-7 mt-3">No registration required to try • Upgrade anytime</p>
+  </div>
+</section>
+
+{% include 'include/footer.html' %}
+
+</body>

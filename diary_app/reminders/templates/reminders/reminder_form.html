@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if object %}Edit Reminder{% else %}New Reminder{% endif %} - Diary App
+{% endblock %}
+
+{% block page_title %}
+    {% if object %}📝 Edit Reminder{% else %}➕ New Reminder{% endif %}
+{% endblock %}
+
+{% block content %}
+    <!-- Back Navigation -->
+    <div class="breadcrumb-nav">
+        <a href="{% url 'reminder_dashboard' %}" class="back-link">
+            <i class="icon">←</i> Back to Dashboard
+        </a>
+    </div>
+
+    <!-- Main Form Container -->
+    <div class="form-container">
+        <div class="form-header">
+            <h2>{% if object %}📝 Edit Your Reminder{% else %}➕ Create New Reminder{% endif %}</h2>
+            <p class="form-subtitle">Set up your reminder with all the details you need</p>
+        </div>
+
+        <form method="post" class="modern-form">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+                <div class="alert alert-error">
+                    <div class="alert-icon">⚠️</div>
+                    <div class="alert-content">
+                        <strong>Please correct the following errors:</strong>
+                        {{ form.errors }}
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Title Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>📝 Basic Information</h3>
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.title.id_for_label }}" class="form-label required">
+                        {{ form.title.label }}
+                    </label>
+                    <div class="input-wrapper">
+                        {{ form.title }}
+                    </div>
+                    {% if form.title.help_text %}
+                        <small class="form-help">{{ form.title.help_text }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.description.id_for_label }}" class="form-label">
+                        {{ form.description.label }}
+                    </label>
+                    <div class="input-wrapper">
+                        {{ form.description }}
+                    </div>
+                    {% if form.description.help_text %}
+                        <small class="form-help">{{ form.description.help_text }}</small>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Date & Time Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>📅 When</h3>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ form.date.id_for_label }}" class="form-label required">
+                            <i class="icon">📅</i> {{ form.date.label }}
+                        </label>
+                        <div class="input-wrapper">
+                            {{ form.date }}
+                        </div>
+                        
+                        <!-- Date Shortcuts -->
+                        <div class="date-shortcuts">
+                            <span class="shortcuts-label">Quick select:</span>
+                            <button type="button" class="date-btn" onclick="setDate('today')">Today</button>
+                            <button type="button" class="date-btn" onclick="setDate('tomorrow')">Tomorrow</button>
+                            <button type="button" class="date-btn" onclick="setDate('next_week')">Next Week</button>
+                            <button type="button" class="date-btn" onclick="setDate('next_month')">Next Month</button>
+                        </div>
+                        
+                        {% if form.date.help_text %}
+                            <small class="form-help">{{ form.date.help_text }}</small>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.time.id_for_label }}" class="form-label">
+                            <i class="icon">⏰</i> {{ form.time.label }}
+                        </label>
+                        <div class="input-wrapper">
+                            {{ form.time }}
+                        </div>
+                        
+                        <!-- Time Shortcuts -->
+                        <div class="time-shortcuts">
+                            <span class="shortcuts-label">Common times:</span>
+                            <button type="button" class="time-btn" onclick="setTime('09:00')">9:00 AM</button>
+                            <button type="button" class="time-btn" onclick="setTime('12:00')">12:00 PM</button>
+                            <button type="button" class="time-btn" onclick="setTime('17:00')">5:00 PM</button>
+                            <button type="button" class="time-btn" onclick="setTime('19:00')">7:00 PM</button>
+                        </div>
+                        
+                        {% if form.time.help_text %}
+                            <small class="form-help">{{ form.time.help_text }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Properties Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>🎯 Properties</h3>
+                </div>
+                
+                <div class="form-row three-col">
+                    <div class="form-group">
+                        <label for="{{ form.category.id_for_label }}" class="form-label">
+                            <i class="icon">🏷️</i> {{ form.category.label }}
+                        </label>
+                        <div class="input-wrapper">
+                            {{ form.category }}
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.priority.id_for_label }}" class="form-label">
+                            <i class="icon">⭐</i> {{ form.priority.label }}
+                        </label>
+                        <div class="input-wrapper">
+                            {{ form.priority }}
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.alert_preference.id_for_label }}" class="form-label">
+                            <i class="icon">🔔</i> {{ form.alert_preference.label }}
+                        </label>
+                        <div class="input-wrapper">
+                            {{ form.alert_preference }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>📍 Location</h3>
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.location.id_for_label }}" class="form-label">
+                        <i class="icon">📍</i> {{ form.location.label }}
+                    </label>
+                    <div class="input-wrapper">
+                        {{ form.location }}
+                    </div>
+                    {% if form.location.help_text %}
+                        <small class="form-help">{{ form.location.help_text }}</small>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Completion Status (Edit only) -->
+            {% if object %}
+                <div class="form-section">
+                    <div class="section-header">
+                        <h3>✅ Status</h3>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-wrapper">
+                            {{ form.is_completed }}
+                            <label for="{{ form.is_completed.id_for_label }}" class="checkbox-label">
+                                <span class="checkbox-text">{{ form.is_completed.label }}</span>
+                            </label>
+                        </div>
+                        {% if form.is_completed.help_text %}
+                            <small class="form-help">{{ form.is_completed.help_text }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="icon">💾</i>
+                    {% if object %}Update Reminder{% else %}Save Reminder{% endif %}
+                </button>
+                <a href="{% url 'reminder_dashboard' %}" class="btn btn-info">
+                    <i class="icon">↩️</i>
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'reminders/css/forms.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    {% load static %}
+    <script src="{% static 'reminders/js/forms.js' %}"></script>
+{% endblock %}

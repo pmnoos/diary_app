@@ -1,0 +1,86 @@
+<!-- Reminder Alert Notifications -->
+{% if user.is_authenticated and reminder_alerts %}
+    <!-- Overdue Reminders Alert -->
+    {% if reminder_alerts.overdue %}
+        <div style="background-color: #f8d7da; border: 1px solid #dc3545; padding: 10px; margin-bottom: 15px; border-radius: 5px; border-left: 4px solid #dc3545;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div style="flex: 1;">
+                    <h5 style="margin: 0 0 8px 0; color: #721c24;">
+                        ⚠️ {{ reminder_alerts.counts.overdue }} Overdue Reminder{{ reminder_alerts.counts.overdue|pluralize }}
+                    </h5>
+                    {% for reminder in reminder_alerts.overdue %}
+                        <div style="margin-bottom: 5px; font-size: 0.9em;">
+                            <strong>{{ reminder.title }}</strong> 
+                            <span style="color: #721c24;">- Due {{ reminder.date|date:"M j" }}</span>
+                            <a href="{% url 'reminder_detail' reminder.pk %}" style="color: #721c24; margin-left: 10px;">View →</a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div style="margin-left: 15px;">
+                    <a href="{% url 'reminder_list' %}?status=overdue" 
+                       style="background-color: #dc3545; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px; font-size: 0.9em;">
+                        View All
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Today's Reminders Alert -->
+    {% if reminder_alerts.today %}
+        <div style="background-color: #fff3cd; border: 1px solid #ffc107; padding: 10px; margin-bottom: 15px; border-radius: 5px; border-left: 4px solid #ffc107;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div style="flex: 1;">
+                    <h5 style="margin: 0 0 8px 0; color: #856404;">
+                        📅 {{ reminder_alerts.counts.today }} Reminder{{ reminder_alerts.counts.today|pluralize }} Today
+                    </h5>
+                    {% for reminder in reminder_alerts.today %}
+                        <div style="margin-bottom: 5px; font-size: 0.9em;">
+                            <strong>{{ reminder.title }}</strong>
+                            {% if reminder.time %}
+                                <span style="color: #856404;">- {{ reminder.time|time:"g:i A" }}</span>
+                            {% endif %}
+                            <a href="{% url 'reminder_detail' reminder.pk %}" style="color: #856404; margin-left: 10px;">View →</a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div style="margin-left: 15px;">
+                    <a href="{% url 'reminder_list' %}?filter=today" 
+                       style="background-color: #ffc107; color: #212529; padding: 5px 10px; text-decoration: none; border-radius: 3px; font-size: 0.9em;">
+                        View All
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- High Priority Urgent Reminders -->
+    {% if reminder_alerts.urgent %}
+        <div style="background-color: #ffe6e6; border: 1px solid #ff9999; padding: 10px; margin-bottom: 15px; border-radius: 5px; border-left: 4px solid #ff6b6b;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div style="flex: 1;">
+                    <h5 style="margin: 0 0 8px 0; color: #cc0000;">
+                        🔥 High Priority Reminders
+                    </h5>
+                    {% for reminder in reminder_alerts.urgent %}
+                        <div style="margin-bottom: 5px; font-size: 0.9em;">
+                            <strong>{{ reminder.title }}</strong>
+                            <span style="color: #cc0000;">- {{ reminder.date|date:"M j" }}
+                            {% if reminder.time %}at {{ reminder.time|time:"g:i A" }}{% endif %}</span>
+                            <span style="background-color: #cc0000; color: white; padding: 1px 4px; border-radius: 2px; font-size: 0.8em; margin-left: 5px;">
+                                {{ reminder.get_priority_display }}
+                            </span>
+                            <a href="{% url 'reminder_detail' reminder.pk %}" style="color: #cc0000; margin-left: 10px;">View →</a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div style="margin-left: 15px;">
+                    <a href="{% url 'reminder_list' %}" 
+                       style="background-color: #cc0000; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px; font-size: 0.9em;">
+                        Manage
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}

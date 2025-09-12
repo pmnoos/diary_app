@@ -1,0 +1,19 @@
+# Simplified requirements for Linux installation
+# Try this if the main requirements.txt fails
+
+# Core Django - install first
+Django==5.2
+sqlparse==0.5.3
+asgiref==3.8.1
+
+# Image processing - often problematic on Linux
+# Try installing system package first: sudo apt install python3-pil
+Pillow==10.4.0
+
+# Production packages - install after Django works
+gunicorn==23.0.0
+whitenoise==6.9.0
+dj-database-url==2.3.0
+
+# Timezone data
+tzdata==2025.2

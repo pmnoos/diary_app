@@ -1,0 +1,569 @@
+/* ===== DIARY APP MAIN STYLESHEET ===== */
+
+/* Base Styles */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--theme-text, #333);
+    background-color: var(--theme-secondary, #f8f9fa);
+    margin: 0;
+    padding: 0;
+}
+
+/* Container and Layout */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header Styles */
+.header {
+    background-color: var(--theme-background, #fff);
+    border-bottom: 1px solid var(--theme-border, #e9ecef);
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+}
+
+.page-title {
+    text-align: center;
+    color: var(--theme-text, #333);
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 300;
+}
+
+/* Navigation Styles */
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 0 20px;
+}
+
+.nav a {
+    color: var(--theme-primary, #007bff);
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.nav a:hover {
+    background-color: var(--theme-hover, #e9ecef);
+    text-decoration: none;
+}
+
+.nav span {
+    color: var(--theme-text-light, #6c757d);
+    font-weight: 500;
+}
+
+/* Button Styles */
+.btn {
+    display: inline-block;
+    background: var(--theme-gradient, #007bff);
+    color: white !important;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin: 5px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    background: var(--theme-primary-dark, #0056b3);
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #545b62;
+}
+
+.btn-success {
+    background-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-small {
+    padding: 6px 12px;
+    font-size: 14px;
+}
+
+.btn-large {
+    padding: 12px 24px;
+    font-size: 16px;
+}
+
+/* Alert/Banner Styles */
+.alert {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-left-color: #28a745;
+    color: #155724;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    border-left-color: #17a2b8;
+    color: #0c5460;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border-left-color: #ffc107;
+    color: #856404;
+}
+
+.alert h3, .alert h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+/* Date Display */
+.date-display {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+}
+
+.date-display h3 {
+    margin: 0;
+    color: #495057;
+}
+
+/* Entry Styles */
+.entries-grid {
+    display: grid;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.entry-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 1px solid #e9ecef;
+    transition: box-shadow 0.2s;
+}
+
+.entry-card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.entry-card h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.entry-card h3 a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.entry-card h3 a:hover {
+    text-decoration: underline;
+}
+
+.entry-meta {
+    color: #6c757d;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.entry-meta p {
+    margin: 5px 0;
+}
+
+.entry-image {
+    text-align: center;
+    margin: 15px 0;
+}
+
+.entry-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.entry-content {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.entry-content p {
+    margin-bottom: 15px;
+}
+
+.entry-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e9ecef;
+}
+
+.read-more {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.read-more:hover {
+    text-decoration: underline;
+}
+
+/* Entry Detail Styles */
+.entry-detail {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.entry-header {
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+}
+
+.entry-header h1 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 2rem;
+}
+
+.entry-detail .entry-image {
+    margin: 25px 0;
+}
+
+.entry-detail .entry-image img {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.entry-detail .entry-content {
+    line-height: 1.8;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Form Styles */
+.form-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.2s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,.25);
+}
+
+textarea.form-control {
+    min-height: 200px;
+    resize: vertical;
+}
+
+/* Date Input Specific Styles */
+input[type="date"].form-control {
+    position: relative;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5.5 3.5v9M10.5 3.5v9M2.5 8.5h11'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+input[type="date"].form-control::-webkit-calendar-picker-indicator {
+    background: transparent;
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+}
+
+.help-text {
+    font-size: 14px;
+    color: #6c757d;
+    margin-top: 5px;
+}
+
+/* Messages/Notifications */
+.messages {
+    margin-bottom: 20px;
+}
+
+.message {
+    padding: 12px 16px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.message.warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.message.info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin: 30px 0;
+}
+
+.pagination a, .pagination span {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    color: #007bff;
+    border-radius: 4px;
+}
+
+.pagination .current {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.pagination a:hover {
+    background-color: #e9ecef;
+}
+
+/* Call-to-Action Sections */
+.cta-section {
+    text-align: center;
+    margin: 30px 0;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.cta-section h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.cta-section p {
+    margin-bottom: 20px;
+    color: #6c757d;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.empty-state h3 {
+    color: #6c757d;
+    margin-bottom: 15px;
+}
+
+.empty-state p {
+    color: #6c757d;
+    margin-bottom: 25px;
+}
+
+/* Demo Specific Styles */
+.demo-banner {
+    background-color: #d4edda;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #28a745;
+}
+
+.demo-banner h4 {
+    color: #155724;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.demo-banner p {
+    color: #155724;
+    margin-bottom: 10px;
+}
+
+.demo-banner a {
+    color: #155724;
+}
+
+/* Footer customizations */
+
+.footer {
+    padding: 1rem 0 0.25rem 0 !important;
+    font-size: 0.95rem;
+    background-color: var(--theme-background, #fff);
+    color: var(--theme-text, #333);
+    border-top: 1px solid var(--theme-border, #e9ecef);
+}
+
+.footer .columns {
+    margin-bottom: 0.25rem;
+}
+
+.footer .title {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.footer .is-size-7 {
+    font-size: 0.85rem;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+
+.footer-link {
+    color: var(--theme-text, #333);
+    margin: 0 0.25em;
+    text-decoration: none;
+    transition: color 0.2s;
+    font-size: 0.97em;
+}
+
+
+.footer-link:hover {
+    color: var(--theme-primary, #6366f1);
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .nav {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .entry-detail, .form-container {
+        padding: 20px;
+    }
+    
+    .entry-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .btn {
+        width: 100%;
+        margin: 5px 0;
+    }
+    
+    .entry-actions {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title {
+        font-size: 1.5rem;
+    }
+    
+    .entry-detail, .form-container {
+        padding: 15px;
+    }
+    
+    .date-display {
+        padding: 10px;
+    }
+    
+    .entry-card {
+        padding: 15px;
+    }
+}

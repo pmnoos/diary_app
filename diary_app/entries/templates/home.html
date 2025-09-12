@@ -1,0 +1,85 @@
+
+{% extends 'base.html' %}
+{% load tz %}
+
+{% block title %}Home - Diary App{% endblock %}
+
+{% block page_title %}
+    {% if user.is_authenticated %}
+        Welcome to {{ user.username }}'s Diary
+    {% else %}
+        Welcome to Your Diary
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <!-- Reminder Notifications -->
+    {% include 'reminders/alerts/notification_banner.html' %}
+    
+    <!-- Reminder Quick Widget -->
+    {% include 'reminders/alerts/quick_widget.html' %}
+    
+    <!-- PWA Install Banner -->
+    <div id="pwa-install-button" style="display: none; background: var(--primary-gradient); color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; cursor: pointer;">
+        <h4 style="margin: 0 0 10px 0;">📱 Install Diary App</h4>
+        <p style="margin: 0; font-size: 14px;">Get quick access and write offline! Install as an app on your device.</p>
+    </div>
+
+    <div class="date-display">
+        <h3>Today is {{ current_date|date:"l, F j, Y" }}</h3>
+    </div>
+    
+    <h2>
+        {% if user.is_authenticated %}
+            Hello, {{ user.username }}!
+        {% else %}
+            Welcome, Guest!
+        {% endif %}
+    </h2>
+
+    {% if user.is_authenticated %}
+        <div>
+            <p>Ready to write your thoughts? Start by creating a new entry or browse your existing ones.</p>
+            <p>
+                <a href="{% url 'entry_create' %}" class="btn">Write New Entry</a>
+                <a href="{% url 'entry_list' %}" class="btn">View All Entries</a>
+                <a href="{% url 'entry_search' %}" class="btn" style="background-color: #6c757d;">🔍 Search Diary</a>
+                <a href="{% url 'reminder_dashboard' %}" class="btn" style="background-color: #17a2b8;">📅 View Reminders</a>
+            </p>
+        </div>
+        
+        <!-- Quick Reminder Widget -->
+        <div style="background-color: #e9ecef; padding: 15px; border-radius: 8px; margin-top: 20px;">
+            <h4 style="margin-top: 0; color: #495057;">🔔 Quick Reminder</h4>
+            <p style="color: #6c757d; margin-bottom: 15px;">Need to remember something? Add a quick reminder for later.</p>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <a href="{% url 'reminder_create' %}" class="btn" style="background-color: #28a745;">➕ Add Reminder</a>
+                <a href="{% url 'reminder_list' %}?filter=today" class="btn" style="background-color: #ffc107; color: #212529;">Today's Tasks</a>
+                <a href="{% url 'reminder_list' %}?filter=this_week" class="btn" style="background-color: #17a2b8;">This Week</a>
+            </div>
+        </div>
+    {% else %}
+        <div style="margin-bottom: 30px;">
+            <p>A personal diary app to capture your thoughts, memories, and daily experiences.</p>
+            
+            <div class="alert alert-info">
+                <h3>🎯 Try the Demo</h3>
+                <p>See what the diary app can do! Browse sample entries to understand the features before creating your account.</p>
+                <p>
+                    <a href="{% url 'demo_entries' %}" class="btn btn-success" style="margin-right: 10px;">View Demo Entries</a>
+                    <span style="color: #6c757d; font-size: 0.9em;"></span>
+                </p>
+            </div>
+            
+            <div class="alert alert-warning">
+                <h3>🚀 Start Your Own Diary</h3>
+                <p>Ready to begin? Create your account and start with a completely fresh, empty diary - just for you!</p>
+                <p>
+                    <a href="{% url 'signup' %}" class="btn" style="margin-right: 10px;">Create Account</a>
+                    <a href="{% url 'login' %}" class="btn-secondary"></a>
+                </p>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+

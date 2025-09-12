@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load entry_filters %}
+
+{% block title %}{{ entry.title }} - Diary Entry{% endblock %}
+
+{% block page_title %}{{ entry.title }}{% endblock %}
+
+{% block content %}
+    <div style="margin-bottom: 20px;">
+        <a href="{% url 'entry_list' %}" style="color: #007bff; text-decoration: none;">&larr; Back to All Entries</a>
+    </div>
+
+    <article style="background-color: #f8f9fa; padding: 20px; border-radius: 5px;">
+        <header style="border-bottom: 1px solid #ddd; padding-bottom: 15px; margin-bottom: 20px;">
+            <h1>{{ entry.title }}</h1>
+            <p style="color: #666; margin: 0;">
+                📅 <strong>{{ entry.date|date:"l, F j, Y" }}</strong>
+                {% if entry.created_at.date != entry.date %}
+                    <br><em style="color: #6c757d; font-size: 0.9em;">✍️ Actually written on {{ entry.created_at|date:"l, F j, Y" }} at {{ entry.created_at|time:"g:i A" }}</em>
+                {% else %}
+                    <br><em style="color: #6c757d; font-size: 0.9em;">✍️ Written at {{ entry.created_at|time:"g:i A" }}</em>
+                {% endif %}
+                {% if entry.updated_at != entry.created_at %}
+                    <br><em style="color: #6c757d; font-size: 0.85em;">📝 Last updated: {{ entry.updated_at|date:"l, M j, Y" }} at {{ entry.updated_at|time:"g:i A" }}</em>
+                {% endif %}
+                {% if entry.is_private %}
+                    <span style="background-color: #ffc107; color: #856404; padding: 2px 6px; border-radius: 3px; font-size: 0.8em; margin-left: 10px;">🔒 Private</span>
+                {% endif %}
+            </p>
+        </header>
+
+        {% if entry.image %}
+            <div style="margin-bottom: 20px; text-align: center;">
+                <img src="{{ entry.image.url }}" alt="{{ entry.title }}" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+            </div>
+        {% endif %}
+
+        <div style="line-height: 1.8;">{{ entry.content|urlize_target_blank }}</div>
+    </article>
+
+    <div style="margin-top: 30px; text-align: center;">
+        <a href="{% url 'entry_update' entry.pk %}" class="btn" style="background-color: #28a745; margin-right: 10px;">Edit Entry</a>
+        <a href="{% url 'toggle_archive_entry' entry.pk %}" class="btn" style="background-color: #6c757d; margin-right: 10px;">
+            {% if entry.is_archived %}📤 Restore{% else %}📦 Archive{% endif %}
+        </a>
+        <a href="{% url 'entry_delete' entry.pk %}" class="btn" style="background-color: #dc3545;">Delete Entry</a>
+    </div>
+{% endblock %}

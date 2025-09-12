@@ -1,0 +1,26 @@
+<form method="post" action="{% url 'contact' %}" class="box" style="max-width: 500px; margin: 0 auto;">
+  {% csrf_token %}
+  <div class="field">
+    <label class="label">Your Name</label>
+    <div class="control">
+      <input class="input" type="text" name="name" required placeholder="Enter your name">
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Your Email</label>
+    <div class="control">
+      <input class="input" type="email" name="email" required placeholder="Enter your email">
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Message</label>
+    <div class="control">
+      <textarea class="textarea" name="message" required placeholder="How can we help you?" rows="5"></textarea>
+    </div>
+  </div>
+  <div class="field is-grouped is-grouped-right">
+    <div class="control">
+      <button type="submit" class="button is-link">Send</button>
+    </div>
+  </div>
+</form>
