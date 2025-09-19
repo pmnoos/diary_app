@@ -7,10 +7,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         plans = [
             {
-                'name': 'Free',
+                'name': 'Free Trial',
                 'plan_type': 'free',
                 'price': 0.00,
-                'duration_days': 0,
+                'duration_days': 30,
                 'features': {
                     'entries_per_month': 30,
                     'reminders': 5,
