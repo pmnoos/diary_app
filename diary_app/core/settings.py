@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-u5gsbb^2#&t*ob3bzvsimv9-%(k77&d$03@@k3c()j4+vsr&g3'
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-u5gsbb^2#&t*ob3bzvsimv9-%(k77&d$03@@k3c()j4+vsr&g3')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = ['diary-app-012de9a17a4f.herokuapp.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost').split(',')
 
 # Application definition
 
@@ -90,7 +91,7 @@ DATABASES = {
 
 # Use PostgreSQL if DATABASE_URL is available (Heroku)
 import dj_database_url
-DATABASE_URL = os.environ.get('DATABASE_URL')
+DATABASE_URL = config('DATABASE_URL', default=None)
 if DATABASE_URL:
     DATABASES['default'] = dj_database_url.parse(DATABASE_URL, conn_max_age=600)
 
@@ -148,21 +149,21 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Stripe Configuration
-STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', 'pk_test_...')  # Add your public key
-STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', 'sk_test_...')  # Add your secret key
-STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET', 'whsec_...')  # Add webhook secret
+STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY', default='pk_test_...')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='sk_test_...')
+STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='whsec_...')
 
 # Site URL for webhooks and redirects
-SITE_URL = os.environ.get('SITE_URL', 'http://localhost:8000')
+SITE_URL = config('SITE_URL', default='http://localhost:8000')
 
 # Email Configuration (for payment reminders)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.environ.get('diaryapp.contact@gmail.com', 'smtp.gmail.com')
+EMAIL_HOST = config('EMAIL_HOST', default='smtp.gmail.com')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'diaryapp.contact@gmail.com')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '@Bay55watch')
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@diaryapp.com')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='diaryapp.contact@gmail.com')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@diaryapp.com')
 
 # Logging Configuration
 import sys
@@ -184,4 +185,3 @@ LOGGING = {
         },
     },
 }
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

@@ -4,16 +4,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Diary App{% endblock %}</title>
     
     <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#007bff">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="My Diary">
-    <meta name="description" content="A personal diary app to capture your thoughts, memories, and daily experiences">
-    
+ <!-- Recommended PWA meta tags -->
+<meta name="application-name" content="My Diary">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="My Diary">
+<meta name="theme-color" content="#007bff">
+<meta name="description" content="A personal diary app to capture your thoughts, memories, and daily experiences">
+
+<!-- Windows tile for older Edge/IE -->
+<meta name="msapplication-starturl" content="/">
+<meta name="msapplication-TileColor" content="#007bff">
+ 
     <!-- PWA Icons -->
     <link rel="apple-touch-icon" href="{% static 'entries/icons/icon-192x192.svg' %}">
     <link rel="icon" type="image/svg+xml" href="{% static 'entries/icons/favicon.svg' %}">
@@ -114,16 +122,16 @@
         }
 
         window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            
-            // Show custom install button
-            const installButton = document.getElementById('pwa-install-button');
-            if (installButton && !isStandalone) {
-                installButton.style.display = 'block';
-                installButton.addEventListener('click', handleInstallClick);
-            }
-        });
+        e.preventDefault();
+        deferredPrompt = e;
+
+        const installButton = document.getElementById('pwa-install-button');
+        if (installButton && !isStandalone) {
+            installButton.style.display = 'block';
+            installButton.onclick = handleInstallClick; // simpler than addEventListener + remove
+        }
+});
+
 
         // Hide install button if already installed
         window.addEventListener('appinstalled', (evt) => {

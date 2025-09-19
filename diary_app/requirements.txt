@@ -13,4 +13,10 @@ psycopg2-binary>=2.9.9
 asgiref>=3.8.1
 tzdata>=2025.2
 
+# Payment processing
+stripe>=7.0.0
+
+# Environment variables
+python-decouple>=3.8
+
 django-widget-tweaks

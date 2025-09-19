@@ -13,6 +13,8 @@ urlpatterns = [
     path('entries/', include('entries.urls')),  # diary entries routes
     path('reminders/', include('reminders.urls')),  # reminder system routes
     path('subscriptions/', include('subscriptions.urls')),  # subscription management
+    path('entries/', include('entries.urls')),
+
     path('', landing, name='landing'),
     path('home/', home_view, name='home'),
     path('welcome/', home_view, name='welcome'),

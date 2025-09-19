@@ -7,7 +7,8 @@ urlpatterns = [
     path('<int:pk>/', views.EntryDetailView.as_view(), name='entry_detail'),
     path('<int:pk>/edit/', views.EntryUpdateView.as_view(), name='entry_update'),
     path('<int:pk>/delete/', views.EntryDeleteView.as_view(), name='entry_delete'),
-    
+    path('entries/new/', views.EntryCreateView.as_view(), name='entry_create'),
+
     # Archive and Search functionality
     path('search/', views.EntrySearchView.as_view(), name='entry_search'),
     path('<int:pk>/toggle-archive/', views.toggle_archive_entry, name='toggle_archive_entry'),

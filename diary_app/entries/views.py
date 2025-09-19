@@ -13,6 +13,9 @@ from datetime import timedelta
 from .models import Entry
 from .forms import EntryForm
 
+
+
+
 class EntryListView(LoginRequiredMixin, ListView):
     model = Entry
     template_name = 'entries/entry_list.html'
@@ -118,11 +121,17 @@ class EntryCreateView(LoginRequiredMixin, CreateView):
     model = Entry
     form_class = EntryForm
     template_name = 'entries/entry_form.html'
-    
+
     def form_valid(self, form):
         form.instance.author = self.request.user
         messages.success(self.request, 'Your diary entry has been created!')
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # Debugging: print form errors to console
+        print("Form errors:", form.errors)
+        return super().form_invalid(form)
+
 
 class EntryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Entry

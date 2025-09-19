@@ -252,3 +252,45 @@ select:focus {
   background: var(--theme-accent);
   color: var(--theme-text-light);
 }
+
+/* ===== FOOTER THEME INTEGRATION ===== */
+/* Ensure footer elements use theme variables properly */
+
+.footer {
+  background: var(--theme-background);
+  color: var(--theme-text);
+  border-top: 1px solid var(--theme-border);
+}
+
+.footer .title,
+.footer h5 {
+  color: var(--theme-text);
+}
+
+.footer a,
+.footer .has-text-light {
+  color: var(--theme-text-light);
+}
+
+.footer a:hover {
+  color: var(--theme-primary);
+}
+
+/* Special handling for midnight theme footer */
+[data-theme="midnight"] .footer {
+  background: var(--theme-secondary);
+}
+
+[data-theme="midnight"] .footer .title,
+[data-theme="midnight"] .footer h5 {
+  color: var(--theme-text);
+}
+
+[data-theme="midnight"] .footer a,
+[data-theme="midnight"] .footer .has-text-light {
+  color: var(--theme-text-light);
+}
+
+[data-theme="midnight"] .footer a:hover {
+  color: var(--theme-primary-light);
+}

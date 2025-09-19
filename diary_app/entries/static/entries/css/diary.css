@@ -481,7 +481,7 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator {
     color: #155724;
 }
 
-/* Footer customizations */
+/* Footer customizations - Theme-aware */
 
 .footer {
     padding: 1rem 0 0.25rem 0 !important;
@@ -498,15 +498,17 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator {
 .footer .title {
     font-size: 1rem;
     margin-bottom: 0.5rem;
+    color: var(--theme-text, #333);
 }
 
 .footer .is-size-7 {
     font-size: 0.85rem;
     margin-bottom: 0;
     padding-bottom: 0;
+    color: var(--theme-text-light, #6b7280);
 }
 
-
+/* Footer links */
 .footer-link {
     color: var(--theme-text, #333);
     margin: 0 0.25em;
@@ -515,10 +517,73 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator {
     font-size: 0.97em;
 }
 
-
 .footer-link:hover {
     color: var(--theme-primary, #6366f1);
     text-decoration: underline;
+}
+
+/* Footer column links */
+.footer a {
+    color: var(--theme-text-light, #6b7280);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer a:hover {
+    color: var(--theme-primary, #6366f1);
+    text-decoration: underline;
+}
+
+/* Footer column titles */
+.footer .title.is-6 {
+    color: var(--theme-text, #333);
+}
+
+/* Footer social links */
+.footer .fab {
+    color: var(--theme-text-light, #6b7280);
+    transition: color 0.2s;
+}
+
+.footer .fab:hover {
+    color: var(--theme-primary, #6366f1);
+}
+
+/* Footer horizontal rules */
+.footer hr {
+    background-color: var(--theme-border, #e9ecef);
+    border: none;
+    height: 1px;
+}
+
+/* Dark theme specific footer adjustments */
+[data-theme="midnight"] .footer {
+    background-color: var(--theme-secondary, #1f2937);
+    border-top-color: var(--theme-border, #4b5563);
+}
+
+[data-theme="midnight"] .footer .title {
+    color: var(--theme-text, #f9fafb);
+}
+
+[data-theme="midnight"] .footer a {
+    color: var(--theme-text-light, #d1d5db);
+}
+
+[data-theme="midnight"] .footer a:hover {
+    color: var(--theme-primary-light, #a78bfa);
+}
+
+[data-theme="midnight"] .footer .fab {
+    color: var(--theme-text-light, #d1d5db);
+}
+
+[data-theme="midnight"] .footer .fab:hover {
+    color: var(--theme-primary-light, #a78bfa);
+}
+
+[data-theme="midnight"] .footer hr {
+    background-color: var(--theme-border, #4b5563);
 }
 
 /* Responsive Design */
