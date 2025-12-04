@@ -6,7 +6,7 @@
             <a href="{% url 'entry_list' %}">My Entries</a>
             <a href="{% url 'entry_create' %}">New Entry</a>
             <a href="{% url 'entry_search' %}">🔍 Search</a>
-            <a href="{% url 'reminder_dashboard' %}">📅 Reminders</a>
+            <a href="{% url 'reminder_list' %}">📅 Reminders</a>
             <a href="{% url 'subscriptions:plans' %}">Subscription Plans</a>
             <a href="{% url 'subscriptions:manage' %}">Manage Subscription</a>
         {% else %}
@@ -14,16 +14,62 @@
             <a href="{% url 'signup' %}">Sign up</a>
         {% endif %}
     </div>
-    <div>
+
+    <div style="display:flex; align-items:center; gap:12px;">
         {% if user.is_authenticated %}
             <span>Welcome, {{ user.username }}!</span>
             {% include 'reminders/alerts/nav_badge.html' %}
             {% include 'theme_selector.html' %}
-            <span id="connection-status" style="margin-left: 15px; font-size: 0.9em;"></span>
-            <form method="post" action="{% url 'logout' %}" style="display: inline;">
+            <span id="connection-status" style="font-size:0.9em;"></span>
+            <form method="post" action="{% url 'logout' %}" style="display:inline;">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-small" style="background: #6c757d; margin-left: 10px;">Logout</button>
+                <button type="submit" class="btn btn-small" style="background:#6c757d;">Logout</button>
             </form>
         {% endif %}
+
+        <!-- PWA Install Hint in Navbar -->
+        <button id="pwa-install-navbar" style="display:none; background:#007bff; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:0.9em;">
+            📱 Install App
+        </button>
     </div>
 </nav>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const navbarInstallBtn = document.getElementById('pwa-install-navbar');
+    let deferredPrompt;
+    let isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (navbarInstallBtn && !isStandalone) navbarInstallBtn.style.display = 'inline-block';
+    });
+
+    if (navbarInstallBtn) {
+        navbarInstallBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const choiceResult = await deferredPrompt.userChoice;
+            if (choiceResult.outcome === 'accepted') console.log('User accepted the install prompt');
+            deferredPrompt = null;
+            navbarInstallBtn.style.display = 'none';
+        });
+    }
+
+    window.addEventListener('appinstalled', () => {
+        console.log('PWA installed');
+        if (navbarInstallBtn) navbarInstallBtn.style.display = 'none';
+        isStandalone = true;
+    });
+
+    // Fallback instructions for browsers without beforeinstallprompt
+    setTimeout(() => {
+        if (!deferredPrompt && !isStandalone && navbarInstallBtn) {
+            navbarInstallBtn.innerHTML = `📱 Install App`;
+            navbarInstallBtn.style.display = 'inline-block';
+            navbarInstallBtn.style.cursor = 'default';
+        }
+    }, 2000);
+});
+</script>

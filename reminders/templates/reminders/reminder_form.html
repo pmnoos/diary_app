@@ -16,6 +16,17 @@
         </a>
     </div>
 
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success" style="margin-bottom: 20px;">
+                <div class="alert-icon">✅</div>
+                <div class="alert-content">
+                    {{ message }}
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <!-- Main Form Container -->
     <div class="form-container">
         <div class="form-header">
@@ -161,7 +172,6 @@
                 <div class="section-header">
                     <h3>📍 Location</h3>
                 </div>
-                
                 <div class="form-group">
                     <label for="{{ form.location.id_for_label }}" class="form-label">
                         <i class="icon">📍</i> {{ form.location.label }}
@@ -172,6 +182,29 @@
                     {% if form.location.help_text %}
                         <small class="form-help">{{ form.location.help_text }}</small>
                     {% endif %}
+                </div>
+            </div>
+
+            <!-- Recurring Event Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>🔁 Repeat Event</h3>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox-wrapper">
+                        {{ form.is_recurring }}
+                        <label for="{{ form.is_recurring.id_for_label }}" class="checkbox-label">
+                            <span class="checkbox-text">Repeat this event?</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.recurrence_type.id_for_label }}" class="form-label">
+                        <i class="icon">🔁</i> How often?
+                    </label>
+                    <div class="input-wrapper">
+                        {{ form.recurrence_type }}
+                    </div>
                 </div>
             </div>
 

@@ -21,22 +21,26 @@ class ReminderListView(LoginRequiredMixin, ListView):
         queryset = Reminder.objects.filter(author=self.request.user)
         
         # Filter options
-        filter_type = self.request.GET.get('filter', 'upcoming')
-        
+        filter_type = self.request.GET.get('filter', 'next_month')
+
+        today = timezone.now().date()
+        month_end = today + timezone.timedelta(days=30)
+
         if filter_type == 'today':
-            queryset = queryset.filter(date=timezone.now().date())
+            queryset = queryset.filter(date=today)
         elif filter_type == 'this_week':
-            today = timezone.now().date()
             week_end = today + timezone.timedelta(days=7)
             queryset = queryset.filter(date__range=[today, week_end])
+        elif filter_type == 'next_month':
+            queryset = queryset.filter(date__range=[today, month_end], is_completed=False)
         elif filter_type == 'overdue':
-            queryset = queryset.filter(date__lt=timezone.now().date(), is_completed=False)
+            queryset = queryset.filter(date__lt=today, is_completed=False)
         elif filter_type == 'completed':
             queryset = queryset.filter(is_completed=True)
         elif filter_type == 'all':
             pass  # Show all
-        else:  # upcoming (default)
-            queryset = queryset.filter(date__gte=timezone.now().date(), is_completed=False)
+        else:  # fallback to next_month
+            queryset = queryset.filter(date__range=[today, month_end], is_completed=False)
         
         return queryset.order_by('date', 'time')
     

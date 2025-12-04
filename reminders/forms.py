@@ -7,7 +7,7 @@ class ReminderForm(forms.ModelForm):
     class Meta:
         model = Reminder
         fields = ['title', 'description', 'date', 'time', 'category', 'priority', 
-                  'alert_preference', 'location', 'is_completed']
+              'alert_preference', 'location', 'is_recurring', 'recurrence_type', 'is_completed']
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -41,6 +41,12 @@ class ReminderForm(forms.ModelForm):
             'location': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Optional: Add location...',
+            }),
+            'is_recurring': forms.CheckboxInput(attrs={
+                'class': 'form-check-input',
+            }),
+            'recurrence_type': forms.Select(attrs={
+                'class': 'form-control',
             }),
             'is_completed': forms.CheckboxInput(attrs={
                 'class': 'form-check-input',

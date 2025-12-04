@@ -5,6 +5,13 @@ from django.urls import reverse
 
 
 class Reminder(models.Model):
+    RECURRENCE_CHOICES = [
+        ('none', 'Does not repeat'),
+        ('daily', 'Daily'),
+        ('weekly', 'Weekly'),
+        ('monthly', 'Monthly'),
+        ('yearly', 'Yearly'),
+    ]
     CATEGORY_CHOICES = [
         ('personal', '👤 Personal'),
         ('work', '💼 Work'),
@@ -17,14 +24,12 @@ class Reminder(models.Model):
         ('travel', '✈️ Travel'),
         ('other', '📝 Other'),
     ]
-    
     PRIORITY_CHOICES = [
         ('low', '🟢 Low'),
         ('medium', '🟡 Medium'), 
         ('high', '🔴 High'),
         ('urgent', '🆘 Urgent'),
     ]
-    
     ALERT_CHOICES = [
         ('none', 'No alerts'),
         ('day_of', 'Day of event'),
@@ -44,6 +49,8 @@ class Reminder(models.Model):
     alert_preference = models.CharField(max_length=10, choices=ALERT_CHOICES, default='1_day')
     
     location = models.CharField(max_length=200, blank=True, help_text="Where is this happening? (optional)")
+    is_recurring = models.BooleanField(default=False, help_text="Repeat this event?")
+    recurrence_type = models.CharField(max_length=10, choices=RECURRENCE_CHOICES, default='none', help_text="How often does this repeat?")
     
     # Tracking
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reminders')

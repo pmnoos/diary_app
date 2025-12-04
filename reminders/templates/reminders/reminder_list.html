@@ -16,22 +16,12 @@
     <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
         <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
             <span style="font-weight: bold;">Filter:</span>
-            <a href="{% url 'reminder_list' %}" 
-               style="padding: 5px 10px; text-decoration: none; border-radius: 3px; {% if not request.GET.status %}background-color: #007bff; color: white;{% else %}background-color: #e9ecef; color: #495057;{% endif %}">
-                All
-            </a>
-            <a href="{% url 'reminder_list' %}?status=pending" 
-               style="padding: 5px 10px; text-decoration: none; border-radius: 3px; {% if request.GET.status == 'pending' %}background-color: #ffc107; color: #212529;{% else %}background-color: #e9ecef; color: #495057;{% endif %}">
-                Pending
-            </a>
-            <a href="{% url 'reminder_list' %}?status=completed" 
-               style="padding: 5px 10px; text-decoration: none; border-radius: 3px; {% if request.GET.status == 'completed' %}background-color: #28a745; color: white;{% else %}background-color: #e9ecef; color: #495057;{% endif %}">
-                Completed
-            </a>
-            <a href="{% url 'reminder_list' %}?status=overdue" 
-               style="padding: 5px 10px; text-decoration: none; border-radius: 3px; {% if request.GET.status == 'overdue' %}background-color: #dc3545; color: white;{% else %}background-color: #e9ecef; color: #495057;{% endif %}">
-                Overdue
-            </a>
+            <a href="{% url 'reminder_list' %}?filter=next_month" style="padding: 5px 10px; text-decoration: none; border-radius: 3px; {% if filter == 'next_month' %}background-color: #007bff; color: white;{% else %}background-color: #e9ecef; color: #495057;{% endif %}">Next Month</a>
+            <a href="{% url 'reminder_list' %}?filter=this_week" style="padding: 5px 10px; text-decoration: none; border-radius: 3px; {% if filter == 'this_week' %}background-color: #17a2b8; color: white;{% else %}background-color: #e9ecef; color: #495057;{% endif %}">This Week</a>
+            <a href="{% url 'reminder_list' %}?filter=today" style="padding: 5px 10px; text-decoration: none; border-radius: 3px; {% if filter == 'today' %}background-color: #28a745; color: white;{% else %}background-color: #e9ecef; color: #495057;{% endif %}">Today</a>
+            <a href="{% url 'reminder_list' %}?filter=overdue" style="padding: 5px 10px; text-decoration: none; border-radius: 3px; {% if filter == 'overdue' %}background-color: #dc3545; color: white;{% else %}background-color: #e9ecef; color: #495057;{% endif %}">Overdue</a>
+            <a href="{% url 'reminder_list' %}?filter=completed" style="padding: 5px 10px; text-decoration: none; border-radius: 3px; {% if filter == 'completed' %}background-color: #ffc107; color: #212529;{% else %}background-color: #e9ecef; color: #495057;{% endif %}">Completed</a>
+            <a href="{% url 'reminder_list' %}?filter=all" style="padding: 5px 10px; text-decoration: none; border-radius: 3px; {% if filter == 'all' %}background-color: #6c757d; color: white;{% else %}background-color: #e9ecef; color: #495057;{% endif %}">All</a>
         </div>
     </div>
 

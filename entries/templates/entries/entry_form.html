@@ -24,6 +24,8 @@
             {{ form.errors }}
         </div>
     {% endif %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
 
             <!-- Basic Information Section -->
             <div class="box">

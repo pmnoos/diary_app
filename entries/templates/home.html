@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %}
 {% load tz %}
 
@@ -20,7 +19,7 @@
     {% include 'reminders/alerts/quick_widget.html' %}
     
     <!-- PWA Install Banner -->
-    <div id="pwa-install-button" style="display: none; background: var(--primary-gradient); color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; cursor: pointer;">
+    <div id="pwa-install-button" class="notification is-primary" style="display: none; margin-bottom: 20px; text-align: center; cursor: pointer;">
         <h4 style="margin: 0 0 10px 0;">📱 Install Diary App</h4>
         <p style="margin: 0; font-size: 14px;">Get quick access and write offline! Install as an app on your device.</p>
     </div>
@@ -38,48 +37,119 @@
     </h2>
 
     {% if user.is_authenticated %}
-        <div>
+        <div class="box">
             <p>Ready to write your thoughts? Start by creating a new entry or browse your existing ones.</p>
-            <p>
-                <a href="{% url 'entry_create' %}" class="btn">Write New Entry</a>
-                <a href="{% url 'entry_list' %}" class="btn">View All Entries</a>
-                <a href="{% url 'entry_search' %}" class="btn" style="background-color: #6c757d;">🔍 Search Diary</a>
-                <a href="{% url 'reminder_dashboard' %}" class="btn" style="background-color: #17a2b8;">📅 View Reminders</a>
+            <p class="buttons" style="margin-top: 10px;">
+                <a href="{% url 'entry_create' %}" class="button is-primary">Write New Entry</a>
+                <a href="{% url 'entry_list' %}" class="button is-link">View All Entries</a>
+                <a href="{% url 'entry_search' %}" class="button is-light">🔍 Search Diary</a>
+                <a href="{% url 'reminder_list' %}" class="button is-info">📅 View Reminders</a>
             </p>
         </div>
         
         <!-- Quick Reminder Widget -->
-        <div style="background-color: #e9ecef; padding: 15px; border-radius: 8px; margin-top: 20px;">
-            <h4 style="margin-top: 0; color: #495057;">🔔 Quick Reminder</h4>
-            <p style="color: #6c757d; margin-bottom: 15px;">Need to remember something? Add a quick reminder for later.</p>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <a href="{% url 'reminder_create' %}" class="btn" style="background-color: #28a745;">➕ Add Reminder</a>
-                <a href="{% url 'reminder_list' %}?filter=today" class="btn" style="background-color: #ffc107; color: #212529;">Today's Tasks</a>
-                <a href="{% url 'reminder_list' %}?filter=this_week" class="btn" style="background-color: #17a2b8;">This Week</a>
+        <div class="box" style="background-color: #f5f5f5;">
+            <h4 class="title is-5">🔔 Quick Reminder</h4>
+            <p style="color: #6c757d;">Need to remember something? Add a quick reminder for later.</p>
+            <div class="buttons" style="margin-top: 10px;">
+                <a href="{% url 'reminder_create' %}" class="button is-success">➕ Add Reminder</a>
+                <a href="{% url 'reminder_list' %}?filter=today" class="button is-warning">Today's Tasks</a>
+                <a href="{% url 'reminder_list' %}?filter=this_week" class="button is-info">This Week</a>
             </div>
         </div>
     {% else %}
-        <div style="margin-bottom: 30px;">
+        <div class="box">
             <p>A personal diary app to capture your thoughts, memories, and daily experiences.</p>
             
-            <div class="alert alert-info">
-                <h3>🎯 Try the Demo</h3>
+            <div class="notification is-info">
+                <h3 class="title is-5">🎯 Try the Demo</h3>
                 <p>See what the diary app can do! Browse sample entries to understand the features before creating your account.</p>
-                <p>
-                    <a href="{% url 'demo_entries' %}" class="btn btn-success" style="margin-right: 10px;">View Demo Entries</a>
-                    <span style="color: #6c757d; font-size: 0.9em;"></span>
-                </p>
+                <a href="{% url 'demo_entries' %}" class="button is-success">View Demo Entries</a>
             </div>
             
-            <div class="alert alert-warning">
-                <h3>🚀 Start Your Own Diary</h3>
+            <div class="notification is-warning">
+                <h3 class="title is-5">🚀 Start Your Own Diary</h3>
                 <p>Ready to begin? Create your account and start with a completely fresh, empty diary - just for you!</p>
-                <p>
-                    <a href="{% url 'signup' %}" class="btn" style="margin-right: 10px;">Create Account</a>
-                    <a href="{% url 'login' %}" class="btn-secondary"></a>
-                </p>
+                <a href="{% url 'signup' %}" class="button is-primary">Create Account</a>
+                <a href="{% url 'login' %}" class="button is-light">Login</a>
             </div>
         </div>
     {% endif %}
 {% endblock %}
 
+{% block extra_js %}
+<script>
+    let deferredPrompt;
+    let isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+    // Handle beforeinstallprompt
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        const installBtn = document.getElementById('pwa-install-button');
+        if (installBtn && !isStandalone) {
+            installBtn.style.display = 'block';
+            installBtn.addEventListener('click', () => {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the PWA install prompt');
+                    }
+                    deferredPrompt = null;
+                    installBtn.style.display = 'none';
+                });
+            });
+        }
+    });
+
+    // Hide button if installed
+    window.addEventListener('appinstalled', () => {
+        console.log('PWA installed');
+        const installBtn = document.getElementById('pwa-install-button');
+        if (installBtn) installBtn.style.display = 'none';
+        isStandalone = true;
+    });
+
+    // Fallback instructions for browsers without beforeinstallprompt
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            if (!deferredPrompt && !isStandalone) {
+                const installBtn = document.getElementById('pwa-install-button');
+                if (installBtn) {
+                    installBtn.innerHTML = `
+                        📱 Install Diary App<br>
+                        <small style="font-weight:normal; font-size:12px; line-height:1.4;">
+                            Chrome/Edge: Click the ⊕ icon in the address bar<br>
+                            Firefox: Bookmark this page for quick access<br>
+                            Safari (iOS): Tap Share → Add to Home Screen<br>
+                            Opera: Use menu → Install App<br>
+                            Brave: Click ⊕ icon or use menu<br>
+                            Samsung Internet: Menu → Add to Home Screen
+                        </small>
+                    `;
+                    installBtn.style.display = 'block';
+                    installBtn.style.cursor = 'default';
+                }
+            }
+        }, 2000);
+    });
+
+    // Connection Status Indicator
+    function updateConnectionStatus() {
+        const statusIndicator = document.getElementById('connection-status');
+        if (statusIndicator) {
+            if (navigator.onLine) {
+                statusIndicator.innerHTML = '🟢 Online';
+                statusIndicator.style.color = '#28a745';
+            } else {
+                statusIndicator.innerHTML = '🔴 Offline';
+                statusIndicator.style.color = '#dc3545';
+            }
+        }
+    }
+
+    window.addEventListener('online', updateConnectionStatus);
+    window.addEventListener('offline', updateConnectionStatus);
+    document.addEventListener('DOMContentLoaded', updateConnectionStatus);
+</script>
+{% endblock %}

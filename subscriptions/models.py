@@ -19,6 +19,8 @@ class SubscriptionPlan(models.Model):
     plan_type = models.CharField(max_length=20, choices=PLAN_TYPES, unique=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     duration_days = models.IntegerField(help_text="Duration in days (0 for lifetime)")
+    description = models.CharField(max_length=255, blank=True, help_text="Short plan description")
+    marketing_text = models.CharField(max_length=255, blank=True, help_text="Marketing tagline or highlight")
     features = models.JSONField(default=dict, help_text="Plan features as JSON")
     max_entries = models.IntegerField(default=-1, help_text="-1 for unlimited")
     max_reminders = models.IntegerField(default=-1, help_text="-1 for unlimited")

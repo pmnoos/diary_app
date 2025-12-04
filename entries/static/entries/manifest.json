@@ -8,57 +8,22 @@
   "theme_color": "#007bff",
   "orientation": "portrait",
   "scope": "/",
+
   "icons": [
     {
-      "src": "/static/entries/icons/icon-72x72.svg",
-      "sizes": "72x72",
-      "type": "image/svg+xml",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/static/entries/icons/icon-96x96.svg",
-      "sizes": "96x96",
-      "type": "image/svg+xml",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/static/entries/icons/icon-128x128.svg",
-      "sizes": "128x128",
-      "type": "image/svg+xml",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/static/entries/icons/icon-144x144.svg",
-      "sizes": "144x144",
-      "type": "image/svg+xml",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/static/entries/icons/icon-152x152.svg",
-      "sizes": "152x152",
-      "type": "image/svg+xml",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/static/entries/icons/icon-192x192.svg",
+      "src": "/static/entries/icons/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
-      "purpose": "maskable any"
+      "type": "image/png"
     },
     {
-      "src": "/static/entries/icons/icon-384x384.svg",
-      "sizes": "384x384",
-      "type": "image/svg+xml",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/static/entries/icons/icon-512x512.svg",
+      "src": "/static/entries/icons/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
-      "purpose": "maskable any"
+      "type": "image/png"
     }
   ],
+
   "categories": ["productivity", "lifestyle"],
+
   "screenshots": [
     {
       "src": "/static/screenshots/desktop.png",
@@ -75,6 +40,7 @@
       "label": "Diary app on mobile"
     }
   ],
+
   "related_applications": [],
   "prefer_related_applications": false
 }

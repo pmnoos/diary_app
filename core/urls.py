@@ -8,12 +8,13 @@ from entries.views import landing
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')),  # built-in auth routes
-    path('accounts/', include('accounts.urls')),  # custom accounts routes (signup)
-    path('entries/', include('entries.urls')),  # diary entries routes
-    path('reminders/', include('reminders.urls')),  # reminder system routes
+    path('accounts/', include('django.contrib.auth.urls')),  # built-in auth
+    path('accounts/', include('accounts.urls')),  # custom signup/login
+    path('entries/', include('entries.urls')),  # diary entries
+    path('reminders/', include('reminders.urls')),  # reminder system
     path('subscriptions/', include('subscriptions.urls')),  # subscription management
-    path('', landing, name='landing'),
+
+    path('', landing, name='landing'),  # landing page
     path('home/', home_view, name='home'),
     path('welcome/', home_view, name='welcome'),
     path('about/', about_view, name='about'),
@@ -22,6 +23,6 @@ urlpatterns = [
     path('contact/', contact_view, name='contact'),
 ]
 
-# Serve media files during development
+# Serve media files in development
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
