@@ -23,6 +23,8 @@
     
     <!-- Bulma CSS Framework -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <!-- Font Awesome for social icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <!-- Stylesheets -->
     <link rel="stylesheet" href="{% static 'entries/css/diary.css' %}">
     <link rel="stylesheet" href="{% static 'css/theme-system.css' %}">
@@ -30,10 +32,8 @@
 </head>
 <body>
     <div class="container">
-        <header class="header">
-            <h1 class="page-title">{% block page_title %}My Diary{% endblock %}</h1>
-            {% include 'include/navbar.html' %}
-        </header>
+        {% include 'include/navbar.html' %}
+
 
         <main class="content">
             {% block content %}{% endblock %}
@@ -42,13 +42,30 @@
         {% include 'include/footer.html' %}
     </div>
 
-    <!-- PWA Install Button -->
-    <div id="pwa-install-button" style="display:none; position:fixed; bottom:12px; right:12px; z-index:9999; background:#007bff; color:white; padding:8px 12px; border-radius:6px; font-size:14px; cursor:pointer;">
-        📱 Install Diary App
-    </div>
+        <!-- Install Instructions Modal -->
+        <div class="modal" id="install-instructions-modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">📱 How to Install Diary App</p>
+                    <button class="delete" aria-label="close" id="close-install-modal"></button>
+                </header>
+                <section class="modal-card-body" style="font-size:1em;">
+                    <ul style="line-height:1.7;">
+                        <li><strong>Chrome/Edge:</strong> Click the ⊕ icon in the address bar</li>
+                        <li><strong>Firefox:</strong> Bookmark this page for quick access</li>
+                        <li><strong>Safari (iOS):</strong> Share → Add to Home Screen</li>
+                        <li><strong>Opera:</strong> Menu → Install App</li>
+                        <li><strong>Brave:</strong> ⊕ icon or menu</li>
+                        <li><strong>Samsung Internet:</strong> Menu → Add to Home Screen</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
 
     <!-- Offline functionality -->
     <script src="{% static 'entries/js/offline.js' %}"></script>
+    <script src="{% static 'entries/js/scripts.js' %}"></script>
 
     <!-- PWA & Connection JS -->
     <script>
@@ -92,22 +109,7 @@
             isStandalone = true;
         });
 
-        // Fallback for browsers without beforeinstallprompt
-        setTimeout(() => {
-            if (!deferredPrompt && !isStandalone && installBtn) {
-                installBtn.innerHTML = `📱 Install Diary App<br>
-                    <small style="font-weight:normal; font-size:12px; line-height:1.4;">
-                        Chrome/Edge: Click ⊕ icon in address bar<br>
-                        Firefox: Bookmark this page<br>
-                        Safari (iOS): Share → Add to Home Screen<br>
-                        Opera: Menu → Install App<br>
-                        Brave: ⊕ icon or menu<br>
-                        Samsung Internet: Menu → Add to Home Screen
-                    </small>`;
-                installBtn.style.display = 'block';
-                installBtn.style.cursor = 'default';
-            }
-        }, 2000);
+        // Fallback removed: instructions now in modal
 
         // Register service worker
         if ('serviceWorker' in navigator) {
@@ -123,4 +125,24 @@
 
     {% block extra_js %}{% endblock %}
 </body>
+<script>
+// Modal logic for install instructions
+document.addEventListener('DOMContentLoaded', function() {
+    var modal = document.getElementById('install-instructions-modal');
+    var link = document.getElementById('install-instructions-link');
+    var closeBtn = document.getElementById('close-install-modal');
+    if (link && modal && closeBtn) {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            modal.classList.add('is-active');
+        });
+        closeBtn.addEventListener('click', function() {
+            modal.classList.remove('is-active');
+        });
+        modal.querySelector('.modal-background').addEventListener('click', function() {
+            modal.classList.remove('is-active');
+        });
+    }
+});
+</script>
 </html>

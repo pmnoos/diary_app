@@ -7,7 +7,7 @@
 
 {% block content %}
     <div style="margin-bottom: 20px;">
-        <a href="{% url 'reminder_list' %}" style="color: #007bff; text-decoration: none;">&larr; Back to Reminders</a>
+        <a href="{% url 'reminders:reminder_list' %}" style="color: #007bff; text-decoration: none;">&larr; Back to Reminders</a>
     </div>
 
     <article style="max-width: 800px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: white;">
@@ -124,12 +124,12 @@
             </a>
         {% endif %}
         
-        <a href="{% url 'reminder_update' reminder.pk %}" 
+        <a href="{% url 'reminders:reminder_update' reminder.pk %}" 
            class="btn" style="background-color: #ffc107; color: #212529; margin-right: 10px;">
             ✏️ Edit Reminder
         </a>
         
-        <a href="{% url 'reminder_delete' reminder.pk %}" 
+        <a href="{% url 'reminders:reminder_delete' reminder.pk %}" 
            class="btn" style="background-color: #dc3545;">
             🗑️ Delete Reminder
         </a>

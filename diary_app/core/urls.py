@@ -8,13 +8,21 @@ from entries.views import landing
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')),  # built-in auth routes
-    path('accounts/', include('accounts.urls')),  # custom accounts routes (signup)
-    path('entries/', include('entries.urls')),  # diary entries routes
-    path('reminders/', include('reminders.urls')),  # reminder system routes
-    path('subscriptions/', include('subscriptions.urls')),  # subscription management
-    path('entries/', include('entries.urls')),
 
+    # Accounts
+    path('accounts/', include('django.contrib.auth.urls')),  # built-in auth routes
+    path('accounts/', include(('accounts.urls', 'accounts'), namespace='accounts')),  # custom accounts routes
+
+    # Entries
+    path('entries/', include(('entries.urls', 'entries'), namespace='entries')),
+
+    # Reminders
+    path('reminders/', include(('reminders.urls', 'reminders'), namespace='reminders')),
+
+    # Subscriptions
+    path('subscriptions/', include(('subscriptions.urls', 'subscriptions'), namespace='subscriptions')),
+
+    # Static pages
     path('', landing, name='landing'),
     path('home/', home_view, name='home'),
     path('welcome/', home_view, name='welcome'),

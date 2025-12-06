@@ -13,7 +13,7 @@
         <a href="{% url 'entry_create' %}" class="btn" style="background-color: #28a745;">Write New Entry</a>
         <a href="{% url 'entry_search' %}" style="background-color: #007bff; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">🔍 Search</a>
         <a href="{% url 'archive_dashboard' %}" style="background-color: #6c757d; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">📦 Archive</a>
-        <a href="{% url 'reminder_list' %}" style="background-color: #ffc107; color: #212529; padding: 10px 15px; text-decoration: none; border-radius: 5px;">⏰ Reminders</a>
+        <a href="{% url 'reminders:reminder_dashboard' %}" style="background-color: #ffc107; color: #212529; padding: 10px 15px; text-decoration: none; border-radius: 5px;">⏰ Reminders</a>
     </div>
 
     <!-- Filter Summary -->
@@ -91,8 +91,38 @@
                 <div style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 5px; display: flex; gap: 15px;">
                     {% if entry.image %}
                         <div style="flex-shrink: 0;">
-                            <img src="{{ entry.image.url }}" alt="{{ entry.title }}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;">
+                            <a href="#" onclick="showImageModal('{{ entry.image.url }}'); return false;">
+                                <img src="{{ entry.image.url }}" alt="{{ entry.title }}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px; cursor: pointer;">
+                            </a>
                         </div>
+                        <!-- Image Modal -->
+                        <div id="image-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center;">
+                            <span onclick="closeImageModal()" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5em; cursor:pointer; z-index:1001;">&times;</span>
+                            <img id="modal-img" src="" alt="Full size" style="max-width:90vw; max-height:80vh; border-radius:10px; box-shadow:0 4px 32px rgba(0,0,0,0.3); display:block; margin:auto;">
+                        </div>
+
+                        <script>
+                        function showImageModal(url) {
+                            var modal = document.getElementById('image-modal');
+                            var img = document.getElementById('modal-img');
+                            img.src = url;
+                            modal.style.display = 'flex';
+                            document.body.style.overflow = 'hidden';
+                        }
+                        function closeImageModal() {
+                            var modal = document.getElementById('image-modal');
+                            modal.style.display = 'none';
+                            document.getElementById('modal-img').src = '';
+                            document.body.style.overflow = '';
+                        }
+                        // Close modal on background click
+                        document.addEventListener('DOMContentLoaded', function() {
+                            var modal = document.getElementById('image-modal');
+                            modal.addEventListener('click', function(e) {
+                                if (e.target === modal) closeImageModal();
+                            });
+                        });
+                        </script>
                     {% endif %}
                     <div style="flex: 1;">
                         <h3><a href="{% url 'entry_detail' entry.pk %}" style="text-decoration: none; color: #333;">{{ entry.title }}</a></h3>

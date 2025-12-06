@@ -11,9 +11,9 @@
     </div>
 
     <article style="background-color: #f8f9fa; padding: 20px; border-radius: 5px;">
-        <header style="border-bottom: 1px solid #ddd; padding-bottom: 15px; margin-bottom: 20px;">
-            <h1>{{ entry.title }}</h1>
-            <p style="color: #666; margin: 0;">
+        <header style="border-bottom: 1px solid var(--theme-border); padding-bottom: 15px; margin-bottom: 20px; color: var(--theme-text);">
+            <h1 style="color: var(--theme-text);">{{ entry.title }}</h1>
+            <p style="color: var(--theme-text-light); margin: 0;">
                 📅 <strong>{{ entry.date|date:"l, F j, Y" }}</strong>
                 {% if entry.created_at.date != entry.date %}
                     <br><em style="color: #6c757d; font-size: 0.9em;">✍️ Actually written on {{ entry.created_at|date:"l, F j, Y" }} at {{ entry.created_at|time:"g:i A" }}</em>
@@ -29,13 +29,52 @@
             </p>
         </header>
 
+
         {% if entry.image %}
             <div style="margin-bottom: 20px; text-align: center;">
-                <img src="{{ entry.image.url }}" alt="{{ entry.title }}" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <a href="#" onclick="showImageModal('{{ entry.image.url }}'); return false;">
+                    <img src="{{ entry.image.url }}" alt="{{ entry.title }}" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor:pointer;">
+                </a>
+                <p class="has-text-grey">Click thumbnail to enlarge</p>
             </div>
         {% endif %}
+    <!-- Image Modal -->
+    <div id="image-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center;">
+        <span onclick="closeImageModal()" style="position:absolute; top:30px; right:40px; color:#fff; font-size:2.5em; cursor:pointer; z-index:1001;">&times;</span>
+        <img id="modal-img" src="" alt="Full size" style="max-width:90vw; max-height:80vh; border-radius:10px; box-shadow:0 4px 32px rgba(0,0,0,0.3); display:block; margin:auto;">
+    </div>
+
+    <script>
+    function showImageModal(url) {
+        var modal = document.getElementById('image-modal');
+        var img = document.getElementById('modal-img');
+        img.src = url;
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+    function closeImageModal() {
+        var modal = document.getElementById('image-modal');
+        modal.style.display = 'none';
+        document.getElementById('modal-img').src = '';
+        document.body.style.overflow = '';
+    }
+    // Close modal on background click
+    document.addEventListener('DOMContentLoaded', function() {
+        var modal = document.getElementById('image-modal');
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeImageModal();
+        });
+    });
+    </script>
 
         <div style="line-height: 1.8;">{{ entry.content|urlize_target_blank }}</div>
+        {% if can_export %}
+        <form method="post" style="margin-top: 2em;">
+            {% csrf_token %}
+            <button type="submit" name="export_type" value="pdf" class="button is-link">Export to PDF</button>
+            <button type="submit" name="export_type" value="text" class="button is-primary">Export to Text</button>
+        </form>
+        {% endif %}
     </article>
 
     <div style="margin-top: 30px; text-align: center;">

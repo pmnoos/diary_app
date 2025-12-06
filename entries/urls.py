@@ -15,6 +15,11 @@ urlpatterns = [
     path('<int:pk>/toggle-archive/', views.toggle_archive_entry, name='toggle_archive_entry'),
     path('bulk-archive/', views.bulk_archive_view, name='bulk_archive'),
     path('archive-dashboard/', views.archive_dashboard, name='archive_dashboard'),
+   
+
+
+   
+
 
     # Offline / demo
     path('offline/', TemplateView.as_view(template_name='entries/offline.html'), name='offline'),

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Features - Diary App{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="container">
+    <h2 class="title is-3 has-text-centered">Diary App Features</h2>
+    <div class="columns is-multiline is-centered">
+      {% for plan in plans %}
+      <div class="column is-4-desktop is-6-tablet">
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title is-centered">
+              {{ plan.name }}
+            </p>
+          </header>
+          <div class="card-content">
+            <div class="content has-text-centered">
+              <p class="subtitle is-5">{{ plan.description|default:'' }}</p>
+              <ul class="has-text-left" style="margin-top: 1em;">
+                {% if plan.features %}
+                  {% for feature in plan.features %}
+                    <li>{{ feature }}</li>
+                  {% endfor %}
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Theme Preview – Seasons{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: 30px;">
+
+    <h1 class="title has-text-centered">🎨 Season Theme Preview</h1>
+    <p class="subtitle has-text-centered">
+        Click any season to instantly preview how it looks across the entire app.
+    </p>
+
+    <div class="columns is-multiline is-centered" style="margin-top: 30px;">
+
+        <!-- ❄️ WINTER -->
+        <div class="column is-3">
+            <div class="card" style="background: #F5FAFF; border: 1px solid #A9D4FF;">
+                <div class="card-content">
+                    <h2 class="title is-4">❄️ Winter</h2>
+                    <p class="content">Calm, cool blues with crisp highlights.</p>
+                    <button class="button is-primary is-fullwidth"
+                            onclick="setTheme('winter')">
+                        Apply Winter Theme
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🌱 SPRING -->
+        <div class="column is-3">
+            <div class="card" style="background: #F8FFF5; border: 1px solid #B6EBAD;">
+                <div class="card-content">
+                    <h2 class="title is-4">🌱 Spring</h2>
+                    <p class="content">Fresh greens, soft pastels, uplifting tone.</p>
+                    <button class="button is-primary is-fullwidth"
+                            onclick="setTheme('spring')">
+                        Apply Spring Theme
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ☀️ SUMMER -->
+        <div class="column is-3">
+            <div class="card" style="background: #FFFCEF; border: 1px solid #FFE98B;">
+                <div class="card-content">
+                    <h2 class="title is-4">☀️ Summer</h2>
+                    <p class="content">Bright warm yellows and energetic contrast.</p>
+                    <button class="button is-primary is-fullwidth"
+                            onclick="setTheme('summer')">
+                        Apply Summer Theme
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🍁 AUTUMN -->
+        <div class="column is-3">
+            <div class="card" style="background: #FFF8F0; border: 1px solid #EBB88C;">
+                <div class="card-content">
+                    <h2 class="title is-4">🍁 Autumn</h2>
+                    <p class="content">Warm oranges, earthy tones, cosy mood.</p>
+                    <button class="button is-primary is-fullwidth"
+                            onclick="setTheme('autumn')">
+                        Apply Autumn Theme
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // Simple theme switcher
+    function setTheme(themeName) {
+        document.documentElement.setAttribute("data-theme", themeName);
+        localStorage.setItem("theme", themeName);  // remember the theme
+    }
+
+    // Load saved theme on page load
+    document.addEventListener("DOMContentLoaded", function () {
+        const saved = localStorage.getItem("theme");
+        if (saved) document.documentElement.setAttribute("data-theme", saved);
+    });
+</script>
+
+{% endblock %}

@@ -1,12 +1,14 @@
-<nav class="nav">
-    <div>
+<nav class="nav" style="background: var(--theme-background); color: var(--theme-text); border-bottom: 2px solid var(--theme-border);">
+    <div style="color: var(--theme-text);">
         <a href="{% url 'home' %}">Home</a>
         <a href="{% url 'landing' %}">Welcome</a>
         {% if user.is_authenticated %}
+       
+
             <a href="{% url 'entry_list' %}">My Entries</a>
             <a href="{% url 'entry_create' %}">New Entry</a>
             <a href="{% url 'entry_search' %}">🔍 Search</a>
-            <a href="{% url 'reminder_list' %}">📅 Reminders</a>
+            <a href="{% url 'reminders:reminder_dashboard' %}">📅 Reminders</a>
             <a href="{% url 'subscriptions:plans' %}">Subscription Plans</a>
             <a href="{% url 'subscriptions:manage' %}">Manage Subscription</a>
         {% else %}
@@ -15,7 +17,7 @@
         {% endif %}
     </div>
 
-    <div style="display:flex; align-items:center; gap:12px;">
+    <div style="display:flex; align-items:center; gap:12px; color: var(--theme-text);">
         {% if user.is_authenticated %}
             <span>Welcome, {{ user.username }}!</span>
             {% include 'reminders/alerts/nav_badge.html' %}
@@ -31,6 +33,7 @@
         <button id="pwa-install-navbar" style="display:none; background:#007bff; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:0.9em;">
             📱 Install App
         </button>
+        <a href="#" id="install-instructions-link" style="color: var(--theme-primary); font-size:0.95em; margin-left:10px; text-decoration:underline;">How to Install?</a>
     </div>
 </nav>
 
@@ -68,7 +71,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!deferredPrompt && !isStandalone && navbarInstallBtn) {
             navbarInstallBtn.innerHTML = `📱 Install App`;
             navbarInstallBtn.style.display = 'inline-block';
-            navbarInstallBtn.style.cursor = 'default';
+            navbarInstallBtn.style.cursor = 'pointer';
+            navbarInstallBtn.addEventListener('click', function() {
+                var modal = document.getElementById('install-instructions-modal');
+                if (modal) modal.classList.add('is-active');
+            });
         }
     }, 2000);
 });

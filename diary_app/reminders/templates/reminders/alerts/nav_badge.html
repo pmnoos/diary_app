@@ -1,50 +1,21 @@
 <!-- Compact Reminder Notifications for Navigation -->
-{% if user.is_authenticated and reminder_alerts.counts.total_pending > 0 %}
-    <div style="position: relative; display: inline-block; margin-left: 15px;">
-        <a href="{% url 'reminder_list' %}" 
-           style="color: #007bff; text-decoration: none; display: flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 5px; background-color: rgba(0,123,255,0.1);">
-            <span>⏰</span>
-            <span>Reminders</span>
-            {% if reminder_alerts.counts.urgent > 0 %}
-                <span style="background-color: #dc3545; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.75em; display: flex; align-items: center; justify-content: center; font-weight: bold;">
-                    {{ reminder_alerts.counts.urgent }}
-                </span>
-            {% elif reminder_alerts.counts.today > 0 %}
-                <span style="background-color: #ffc107; color: #212529; border-radius: 50%; width: 18px; height: 18px; font-size: 0.75em; display: flex; align-items: center; justify-content: center; font-weight: bold;">
-                    {{ reminder_alerts.counts.today }}
-                </span>
-            {% else %}
-                <span style="background-color: #28a745; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.75em; display: flex; align-items: center; justify-content: center; font-weight: bold;">
-                    {{ reminder_alerts.counts.total_pending }}
-                </span>
-            {% endif %}
-        </a>
-        
-        <!-- Tooltip with quick info -->
-        <div style="position: absolute; top: 100%; left: 50%; transform: translateX(-50%); background-color: #333; color: white; padding: 8px; border-radius: 4px; font-size: 0.8em; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s; margin-top: 5px; z-index: 1000;"
-             onmouseenter="this.style.opacity='1'" 
-             onmouseleave="this.style.opacity='0'">
-            {% if reminder_alerts.counts.overdue > 0 %}
-                {{ reminder_alerts.counts.overdue }} overdue
-            {% endif %}
-            {% if reminder_alerts.counts.today > 0 %}
-                {% if reminder_alerts.counts.overdue > 0 %}, {% endif %}
-                {{ reminder_alerts.counts.today }} today
-            {% endif %}
-            {% if reminder_alerts.counts.upcoming > 0 %}
-                {% if reminder_alerts.counts.overdue > 0 or reminder_alerts.counts.today > 0 %}, {% endif %}
-                {{ reminder_alerts.counts.upcoming }} upcoming
-            {% endif %}
+{% if user.is_authenticated and reminder_alerts %}
+    {% if reminder_alerts.counts.total_pending > 0 %}
+        <div style="position: relative; display: inline-block; margin-left: 15px;">
+            <a href="{% url 'reminders:reminder_list' %}" 
+               style="color: #007bff; text-decoration: none; display: flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 5px; background-color: rgba(0,123,255,0.1);">
+                <span>⏰</span>
+                <span>Reminders</span>
+                {% if reminder_alerts.counts.urgent > 0 %}
+                    <span style="background-color: #dc3545; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.75em; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                        {{ reminder_alerts.counts.urgent }}
+                    </span>
+                {% elif reminder_alerts.counts.today > 0 %}
+                    <span style="background-color: #ffc107; color: #212529; border-radius: 50%; width: 18px; height: 18px; font-size: 0.75em; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                        {{ reminder_alerts.counts.today }}
+                    </span>
+                {% endif %}
+            </a>
         </div>
-    </div>
-    
-    <script>
-        // Show tooltip on hover
-        document.querySelector('[style*="⏰"]').addEventListener('mouseenter', function() {
-            this.nextElementSibling.style.opacity = '1';
-        });
-        document.querySelector('[style*="⏰"]').addEventListener('mouseleave', function() {
-            this.nextElementSibling.style.opacity = '0';
-        });
-    </script>
+    {% endif %}
 {% endif %}

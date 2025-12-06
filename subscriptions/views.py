@@ -238,3 +238,8 @@ def handle_failed_payment(payment_intent):
         
     except Exception as e:
         logger.error(f"Error processing failed payment: {e}")
+
+
+def features_view(request):
+    plans = SubscriptionPlan.objects.filter(is_active=True).order_by('price')
+    return render(request, 'subscriptions/features.html', {'plans': plans})

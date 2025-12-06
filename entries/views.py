@@ -109,10 +109,61 @@ class EntryDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Entry
     template_name = 'entries/entry_detail.html'
     context_object_name = 'entry'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        # Check if user has export feature
+        can_export = False
+        if hasattr(user, 'subscription') and user.subscription.plan.features:
+            features = user.subscription.plan.features
+            if isinstance(features, dict):
+                features = features.get('features', features)
+            can_export = any('export' in f.lower() for f in features)
+        context['can_export'] = can_export
+        return context
+
+    def post(self, request, *args, **kwargs):
+        entry = self.get_object()
+        user = request.user
+        if not hasattr(user, 'subscription') or not user.subscription.plan:
+            return self.handle_no_permission()
+        features = user.subscription.plan.features
+        if isinstance(features, dict):
+            features = features.get('features', features)
+        if not any('export' in f.lower() for f in features):
+            return self.handle_no_permission()
+        export_type = request.POST.get('export_type')
+        if export_type == 'pdf':
+            from io import BytesIO
+            from django.http import FileResponse
+            from reportlab.pdfgen import canvas
+            buffer = BytesIO()
+            p = canvas.Canvas(buffer)
+            p.drawString(100, 800, f"Diary Entry: {entry.title}")
+            p.drawString(100, 780, f"Date: {entry.date}")
+            p.drawString(100, 760, f"Content:")
+            text = p.beginText(100, 740)
+            for line in entry.content.splitlines():
+                text.textLine(line)
+            p.drawText(text)
+            p.showPage()
+            p.save()
+            buffer.seek(0)
+            return FileResponse(buffer, as_attachment=True, filename=f"entry_{entry.pk}.pdf")
+        elif export_type == 'text':
+            from django.http import HttpResponse
+            content = f"Diary Entry: {entry.title}\nDate: {entry.date}\n\n{entry.content}"
+            response = HttpResponse(content, content_type='text/plain')
+            response['Content-Disposition'] = f'attachment; filename=entry_{entry.pk}.txt'
+            return response
+        return self.handle_no_permission()
     
     def test_func(self):
         entry = self.get_object()
-        return entry.author == self.request.user
+        # Only owner can view private entries
+        if entry.is_private:
+            return entry.author == self.request.user
+        return True
 
 class EntryCreateView(LoginRequiredMixin, CreateView):
     model = Entry

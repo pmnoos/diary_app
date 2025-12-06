@@ -95,7 +95,8 @@ class ReminderUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
     
     def get_success_url(self):
-        return reverse_lazy('reminder_detail', kwargs={'pk': self.object.pk})
+        from django.urls import reverse
+        return reverse('reminders:reminder_detail', args=[self.object.pk])
 
 
 class ReminderDeleteView(LoginRequiredMixin, DeleteView):
@@ -118,7 +119,7 @@ def toggle_reminder_complete(request, pk):
     """Toggle reminder completion status"""
     reminder = get_object_or_404(Reminder, pk=pk, author=request.user)
     
-    if reminder.is_completed:
+    if  reminder.is_completed:
         reminder.is_completed = False
         reminder.completed_at = None
         messages.success(request, f'Reminder "{reminder.title}" marked as incomplete.')

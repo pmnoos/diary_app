@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.views.generic import TemplateView
 from .views import home_view, about_view, privacy_view, terms_view, contact_view
 from entries.views import landing
 
@@ -21,6 +21,7 @@ urlpatterns = [
     path('privacy/', privacy_view, name='privacy'),
     path('terms/', terms_view, name='terms'),
     path('contact/', contact_view, name='contact'),
+    path("themes/", TemplateView.as_view(template_name="theme_preview.html"), name="theme_preview"),
 ]
 
 # Serve media files in development

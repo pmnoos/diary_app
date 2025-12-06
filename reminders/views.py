@@ -1,3 +1,24 @@
+from django.views.generic.detail import DetailView
+# ...existing imports...
+
+# Move ReminderDetailView below all imports so Reminder is defined
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from django.contrib import messages
+from django.utils import timezone
+from django.db.models import Q
+from .models import Reminder
+from .forms import ReminderForm, QuickReminderForm
+from entries.models import Entry
+
+# Reminder Detail View
+class ReminderDetailView(DetailView):
+    model = Reminder
+    template_name = 'reminders/reminder_detail.html'
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -19,10 +40,8 @@ class ReminderListView(LoginRequiredMixin, ListView):
     
     def get_queryset(self):
         queryset = Reminder.objects.filter(author=self.request.user)
-        
         # Filter options
         filter_type = self.request.GET.get('filter', 'next_month')
-
         today = timezone.now().date()
         month_end = today + timezone.timedelta(days=30)
 
@@ -99,7 +118,8 @@ class ReminderUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
     
     def get_success_url(self):
-        return reverse_lazy('reminder_detail', kwargs={'pk': self.object.pk})
+        from django.urls import reverse
+        return reverse('reminders:reminder_detail', kwargs={'pk': self.object.pk})
 
 
 class ReminderDeleteView(LoginRequiredMixin, DeleteView):

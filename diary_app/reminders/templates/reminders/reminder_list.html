@@ -1,178 +1,20 @@
 {% extends 'base.html' %}
-{% load reminder_filters %}
 
-{% block title %}My Reminders - Diary App{% endblock %}
-
-{% block page_title %}⏰ My Reminders{% endblock %}
+{% block title %}Reminders - Diary App{% endblock %}
 
 {% block content %}
-    <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
-        <a href="{% url 'reminder_create' %}" class="btn" style="background-color: #28a745;">➕ New Reminder</a>
-        <a href="{% url 'reminder_dashboard' %}" style="background-color: #17a2b8; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">📊 Dashboard</a>
-        <a href="{% url 'entry_list' %}" style="background-color: #6c757d; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">📖 Back to Diary</a>
-    </div>
+<h2>Reminders</h2>
+<a href="{% url 'reminders:reminder_create' %}" class="button is-success">➕ New Reminder</a>
 
-    <!-- Filter Options -->
-    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
-        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
-            <span style="font-weight: bold;">Filter:</span>
-            <a href="{% url 'reminder_list' %}" 
-               style="padding: 5px 10px; text-decoration: none; border-radius: 3px; {% if not request.GET.status %}background-color: #007bff; color: white;{% else %}background-color: #e9ecef; color: #495057;{% endif %}">
-                All
-            </a>
-            <a href="{% url 'reminder_list' %}?status=pending" 
-               style="padding: 5px 10px; text-decoration: none; border-radius: 3px; {% if request.GET.status == 'pending' %}background-color: #ffc107; color: #212529;{% else %}background-color: #e9ecef; color: #495057;{% endif %}">
-                Pending
-            </a>
-            <a href="{% url 'reminder_list' %}?status=completed" 
-               style="padding: 5px 10px; text-decoration: none; border-radius: 3px; {% if request.GET.status == 'completed' %}background-color: #28a745; color: white;{% else %}background-color: #e9ecef; color: #495057;{% endif %}">
-                Completed
-            </a>
-            <a href="{% url 'reminder_list' %}?status=overdue" 
-               style="padding: 5px 10px; text-decoration: none; border-radius: 3px; {% if request.GET.status == 'overdue' %}background-color: #dc3545; color: white;{% else %}background-color: #e9ecef; color: #495057;{% endif %}">
-                Overdue
-            </a>
-        </div>
-    </div>
-
-    {% if reminders %}
-        <div class="reminders-list">
-            {% for reminder in reminders %}
-                <div style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 5px; 
-                           {% if reminder.is_overdue %}border-left: 4px solid #dc3545; background-color: #f8d7da;
-                           {% elif reminder.is_completed %}border-left: 4px solid #28a745; background-color: #d1eddb;
-                           {% elif reminder.is_urgent %}border-left: 4px solid #ffc107; background-color: #fff3cd;
-                           {% else %}border-left: 4px solid #007bff;{% endif %}">
-                    
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
-                        <div style="flex: 1;">
-                            <h3 style="margin: 0 0 5px 0; display: flex; align-items: center; gap: 10px;">
-                                <span>{{ reminder.title }}</span>
-                                {% if reminder.is_completed %}
-                                    <span style="background-color: #28a745; color: white; padding: 2px 6px; border-radius: 3px; font-size: 0.8em;">✅ Completed</span>
-                                {% elif reminder.is_overdue %}
-                                    <span style="background-color: #dc3545; color: white; padding: 2px 6px; border-radius: 3px; font-size: 0.8em;">⚠️ Overdue</span>
-                                {% elif reminder.is_urgent %}
-                                    <span style="background-color: #ffc107; color: #212529; padding: 2px 6px; border-radius: 3px; font-size: 0.8em;">🔥 Urgent</span>
-                                {% endif %}
-                            </h3>
-                            
-                            <div style="color: #666; font-size: 0.9em; margin-bottom: 5px;">
-                                📅 <strong>{{ reminder.date|date:"l, F j, Y" }}</strong>
-                                {% if reminder.time %}
-                                    at {{ reminder.time|time:"g:i A" }}
-                                {% endif %}
-                                <span style="margin-left: 10px;">
-                                    📂 {{ reminder.get_category_display }}
-                                </span>
-                                <span style="margin-left: 10px;">
-                                    🔥 {{ reminder.get_priority_display }}
-                                </span>
-                            </div>
-                            
-                            {% if reminder.description %}
-                                <p style="margin: 5px 0; color: #555;">{{ reminder.description|truncatewords:20 }}</p>
-                            {% endif %}
-                            
-                            <div style="color: #666; font-size: 0.85em;">
-                                {% if reminder.is_completed %}
-                                    Completed {{ reminder.completed_at|timesince }} ago
-                                {% elif reminder.is_overdue %}
-                                    Overdue by {{ reminder.days_until|days_overdue }} day{{ reminder.days_until|days_overdue|pluralize }}
-                                {% elif reminder.days_until == 0 %}
-                                    Due today!
-                                {% elif reminder.days_until == 1 %}
-                                    Due tomorrow
-                                {% elif reminder.days_until > 0 %}
-                                    Due in {{ reminder.days_until }} day{{ reminder.days_until|pluralize }}
-                                {% endif %}
-                            </div>
-                        </div>
-                        
-                        <div style="display: flex; flex-direction: column; gap: 5px; margin-left: 15px;">
-                            {% if not reminder.is_completed %}
-                                <a href="{% url 'reminder_toggle' reminder.pk %}" 
-                                   style="background-color: #28a745; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px; font-size: 0.9em; text-align: center;">
-                                    ✅ Complete
-                                </a>
-                            {% else %}
-                                <a href="{% url 'reminder_toggle' reminder.pk %}" 
-                                   style="background-color: #6c757d; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px; font-size: 0.9em; text-align: center;">
-                                    ↩️ Reopen
-                                </a>
-                            {% endif %}
-                            <a href="{% url 'reminder_detail' reminder.pk %}" 
-                               style="background-color: #007bff; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px; font-size: 0.9em; text-align: center;">
-                                👁️ View
-                            </a>
-                            <a href="{% url 'reminder_update' reminder.pk %}" 
-                               style="background-color: #ffc107; color: #212529; padding: 5px 10px; text-decoration: none; border-radius: 3px; font-size: 0.9em; text-align: center;">
-                                ✏️ Edit
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-
-        <!-- Pagination -->
-        {% if is_paginated %}
-            <div style="text-align: center; margin-top: 30px;">
-                <div style="display: inline-block;">
-                    {% if page_obj.has_previous %}
-                        <a href="?{% if request.GET.status %}status={{ request.GET.status }}&{% endif %}page=1" 
-                           style="background-color: #007bff; color: white; padding: 8px 12px; text-decoration: none; border-radius: 3px; margin: 0 2px;">First</a>
-                        <a href="?{% if request.GET.status %}status={{ request.GET.status }}&{% endif %}page={{ page_obj.previous_page_number }}" 
-                           style="background-color: #007bff; color: white; padding: 8px 12px; text-decoration: none; border-radius: 3px; margin: 0 2px;">Previous</a>
-                    {% endif %}
-                    
-                    <span style="padding: 8px 12px; margin: 0 10px;">
-                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-                    </span>
-                    
-                    {% if page_obj.has_next %}
-                        <a href="?{% if request.GET.status %}status={{ request.GET.status }}&{% endif %}page={{ page_obj.next_page_number }}" 
-                           style="background-color: #007bff; color: white; padding: 8px 12px; text-decoration: none; border-radius: 3px; margin: 0 2px;">Next</a>
-                        <a href="?{% if request.GET.status %}status={{ request.GET.status }}&{% endif %}page={{ page_obj.paginator.num_pages }}" 
-                           style="background-color: #007bff; color: white; padding: 8px 12px; text-decoration: none; border-radius: 3px; margin: 0 2px;">Last</a>
-                    {% endif %}
-                </div>
-            </div>
-        {% endif %}
-
-    {% else %}
-        <div style="text-align: center; padding: 40px; color: #666;">
-            <h4>📝 No Reminders Found</h4>
-            {% if request.GET.status %}
-                <p>No {{ request.GET.status }} reminders at the moment.</p>
-                <a href="{% url 'reminder_list' %}" style="color: #007bff; text-decoration: none;">View all reminders</a>
-            {% else %}
-                <p>You haven't created any reminders yet.</p>
-                <a href="{% url 'reminder_create' %}" style="color: #007bff; text-decoration: none;">Create your first reminder</a>
-            {% endif %}
-        </div>
-    {% endif %}
-
-    <!-- Quick Stats -->
-    <div style="background-color: #e7f3ff; padding: 15px; border-radius: 5px; border-left: 4px solid #007bff; margin-top: 30px;">
-        <h4 style="margin-top: 0; color: #007bff;">📊 Quick Stats</h4>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
-            <div style="text-align: center;">
-                <strong style="display: block; color: #007bff;">Total</strong>
-                <span>{{ total_count|default:0 }}</span>
-            </div>
-            <div style="text-align: center;">
-                <strong style="display: block; color: #ffc107;">Pending</strong>
-                <span>{{ pending_count|default:0 }}</span>
-            </div>
-            <div style="text-align: center;">
-                <strong style="display: block; color: #dc3545;">Overdue</strong>
-                <span>{{ overdue_count|default:0 }}</span>
-            </div>
-            <div style="text-align: center;">
-                <strong style="display: block; color: #28a745;">Completed</strong>
-                <span>{{ completed_count|default:0 }}</span>
-            </div>
-        </div>
-    </div>
+<ul>
+{% for reminder in reminders %}
+    <li>
+        {{ reminder.title }} - {{ reminder.date }} {{ reminder.time }}
+        <a href="{% url 'reminders:reminder_update' reminder.pk %}">✏️ Edit</a>
+        <a href="{% url 'reminders:reminder_delete' reminder.pk %}" onclick="return confirm('Are you sure you want to delete this reminder?');">🗑️ Delete</a>
+    </li>
+{% empty %}
+    <li>No reminders yet.</li>
+{% endfor %}
+</ul>
 {% endblock %}

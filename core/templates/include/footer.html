@@ -1,36 +1,35 @@
 <!-- Footer -->
-<footer class="footer has-background-dark has-text-white">
-  <hr class="has-background-grey">
-  <div class="content has-text-centered">
+<footer class="footer" style="background: var(--theme-background); color: var(--theme-text); border-top: 1px solid var(--theme-border);">
+  <hr style="background: var(--theme-border); height: 2px; border: none;">
+  <div class="content has-text-centered" style="color: var(--theme-text);">
     <div class="columns">
       <div class="column">
-        <h5 class="title is-6 has-text-white">Quick Links</h5>
-          <a href="{% url 'home' %}" class="footer-link">Launch App</a> |
-          <a href="{% url 'about' %}" class="footer-link">About</a> |
-          <a href="{% url 'privacy' %}" class="footer-link">Privacy</a> |
-          <a href="{% url 'terms' %}" class="footer-link">Terms</a>
+        <h5 class="title is-6" style="color: var(--theme-text);">Quick Links</h5>
+          <a href="{% url 'home' %}" class="footer-link" style="color: var(--theme-primary);">Launch App</a> |
+          <a href="{% url 'about' %}" class="footer-link" style="color: var(--theme-primary);">About</a> |
+          <a href="{% url 'privacy' %}" class="footer-link" style="color: var(--theme-primary);">Privacy</a> |
+          <a href="{% url 'terms' %}" class="footer-link" style="color: var(--theme-primary);">Terms</a>
       </div>
       <div class="column">
-        <h5 class="title is-6 has-text-white">Support</h5>
-          <a href="#" class="footer-link">Help</a> |
-          <a href="{% url 'contact' %}" class="footer-link">Contact</a> |
-          <a href="#" class="footer-link">Features</a> |
-          <a href="#" class="footer-link">Bugs</a>
+        <h5 class="title is-6" style="color: var(--theme-text);">Support</h5>
+          <a href="#" class="footer-link" style="color: var(--theme-primary);">Help</a> |
+          <a href="{% url 'contact' %}" class="footer-link" style="color: var(--theme-primary);">Contact</a> |
+          <a href="{% url 'subscriptions:features' %}" class="footer-link" style="color: var(--theme-primary);">Features</a> 
+
       </div>
       <div class="column">
-        <h5 class="title is-6 has-text-white">Connect</h5>
-          <a href="#" class="footer-link mr-2"><i class="fab fa-twitter"></i></a>
-          <a href="#" class="footer-link mr-2"><i class="fab fa-instagram"></i></a>
-          <a href="#" class="footer-link"><i class="fab fa-facebook"></i></a>
+        <h5 class="title is-6" style="color: var(--theme-text);">Connect</h5>
+          <a href="#" class="footer-link mr-2" style="color: var(--theme-primary);"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="footer-link mr-2" style="color: var(--theme-primary);"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="footer-link" style="color: var(--theme-primary);"><i class="fab fa-facebook"></i></a>
       </div>  
       </div>
       <div class="has-text-centered mt-4">
-        <p class="is-size-7 mb-1">&copy; 2025 My Diary. All rights reserved. Made with <span style="color:#ff3860;">&#10084;&#65039;</span> for journaling enthusiasts.</p>
+        <p class="is-size-7 mb-1" style="color: var(--theme-text-light);">&copy; 2025 My Diary. All rights reserved. Made with <span style="color: var(--theme-primary);">&#10084;&#65039;</span> for journaling enthusiasts.</p>
       </div>
+       <hr style="background: var(--theme-border); height: 2px; border: none;">
     </div>
-    <hr class="has-background-grey" style="margin: 0 0 1.5rem 0; border-top: 2px solid #444;">
-    <footer class="footer has-background-dark has-text-white" style="padding: 2rem 0 0.5rem 0;">
-    </div>
+  
+  </footer>
+  
 
-  </div>
-</hr>

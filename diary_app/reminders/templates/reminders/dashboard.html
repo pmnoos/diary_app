@@ -6,7 +6,7 @@
 
 {% block content %}
     <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
-        <a href="{% url 'reminder_create' %}" class="btn" style="background-color: #28a745;">➕ Add New Reminder</a>
+        <a href="{% url 'reminders:reminder_create' %}" class="btn" style="background-color: #28a745;">➕ Add New Reminder</a>
         <a href="{% url 'reminder_list' %}" class="btn" style="background-color: #007bff;">📋 View All Reminders</a>
     </div>
 

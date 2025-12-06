@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'entries',
     'reminders',
     'subscriptions',
-    'core'
+    'django_extensions',
+    'core',
 ]
 
 MIDDLEWARE = [

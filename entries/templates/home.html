@@ -43,7 +43,7 @@
                 <a href="{% url 'entry_create' %}" class="button is-primary">Write New Entry</a>
                 <a href="{% url 'entry_list' %}" class="button is-link">View All Entries</a>
                 <a href="{% url 'entry_search' %}" class="button is-light">🔍 Search Diary</a>
-                <a href="{% url 'reminder_list' %}" class="button is-info">📅 View Reminders</a>
+                <a href="{% url 'reminders:reminder_dashboard' %}" class="button is-info">📅 View Reminders</a>
             </p>
         </div>
         
@@ -52,9 +52,9 @@
             <h4 class="title is-5">🔔 Quick Reminder</h4>
             <p style="color: #6c757d;">Need to remember something? Add a quick reminder for later.</p>
             <div class="buttons" style="margin-top: 10px;">
-                <a href="{% url 'reminder_create' %}" class="button is-success">➕ Add Reminder</a>
-                <a href="{% url 'reminder_list' %}?filter=today" class="button is-warning">Today's Tasks</a>
-                <a href="{% url 'reminder_list' %}?filter=this_week" class="button is-info">This Week</a>
+                <a href="{% url 'reminders:reminder_create' %}" class="button is-success">➕ Add Reminder</a>
+                <a href="{% url 'reminders:reminder_dashboard' %}?filter=today" class="button is-warning">Today's Tasks</a>
+                <a href="{% url 'reminders:reminder_dashboard' %}?filter=this_week" class="button is-info">This Week</a>
             </div>
         </div>
     {% else %}
@@ -78,78 +78,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
-    let deferredPrompt;
-    let isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-
-    // Handle beforeinstallprompt
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        const installBtn = document.getElementById('pwa-install-button');
-        if (installBtn && !isStandalone) {
-            installBtn.style.display = 'block';
-            installBtn.addEventListener('click', () => {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the PWA install prompt');
-                    }
-                    deferredPrompt = null;
-                    installBtn.style.display = 'none';
-                });
-            });
-        }
-    });
-
-    // Hide button if installed
-    window.addEventListener('appinstalled', () => {
-        console.log('PWA installed');
-        const installBtn = document.getElementById('pwa-install-button');
-        if (installBtn) installBtn.style.display = 'none';
-        isStandalone = true;
-    });
-
-    // Fallback instructions for browsers without beforeinstallprompt
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            if (!deferredPrompt && !isStandalone) {
-                const installBtn = document.getElementById('pwa-install-button');
-                if (installBtn) {
-                    installBtn.innerHTML = `
-                        📱 Install Diary App<br>
-                        <small style="font-weight:normal; font-size:12px; line-height:1.4;">
-                            Chrome/Edge: Click the ⊕ icon in the address bar<br>
-                            Firefox: Bookmark this page for quick access<br>
-                            Safari (iOS): Tap Share → Add to Home Screen<br>
-                            Opera: Use menu → Install App<br>
-                            Brave: Click ⊕ icon or use menu<br>
-                            Samsung Internet: Menu → Add to Home Screen
-                        </small>
-                    `;
-                    installBtn.style.display = 'block';
-                    installBtn.style.cursor = 'default';
-                }
-            }
-        }, 2000);
-    });
-
-    // Connection Status Indicator
-    function updateConnectionStatus() {
-        const statusIndicator = document.getElementById('connection-status');
-        if (statusIndicator) {
-            if (navigator.onLine) {
-                statusIndicator.innerHTML = '🟢 Online';
-                statusIndicator.style.color = '#28a745';
-            } else {
-                statusIndicator.innerHTML = '🔴 Offline';
-                statusIndicator.style.color = '#dc3545';
-            }
-        }
-    }
-
-    window.addEventListener('online', updateConnectionStatus);
-    window.addEventListener('offline', updateConnectionStatus);
-    document.addEventListener('DOMContentLoaded', updateConnectionStatus);
-</script>
+<!-- No extra JS: theme selector and PWA logic are now global and managed in base.html -->
 {% endblock %}
