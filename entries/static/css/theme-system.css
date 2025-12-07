@@ -1,3 +1,8 @@
+body {
+    margin: 0;
+    text-align: center; /* centers inline-block children */
+}
+
 
 /* Navbar link color uses theme-primary for per-theme control */
 .nav a {
@@ -57,25 +62,27 @@
 
 /* Theme: Forest Green (Professional) */
 [data-theme="forest"] {
-  --theme-primary: #D97C2B;         /* Main: Autumn orange */
-  --theme-primary-dark: #8A4312;    /* Dark */
-  --theme-primary-light: #F8E7D5;   /* Light */
-  --theme-secondary: #EBB88C;       /* Mid */
-  --theme-accent: #8B2E2E;          /* Deep red accent */
-  --theme-text: #8A4312;            /* Dark for text */
-  --theme-text-light: #EBB88C;      /* Mid for light text */
-  --theme-background: #FFF8F0;      /* Background */
-  --theme-gradient: linear-gradient(135deg, #D97C2B 0%, #EBB88C 100%);
-  --theme-gradient-light: linear-gradient(135deg, #F8E7D5 0%, #8B2E2E 100%);
-  --theme-border: #8B2E2E;          /* Accent border */
-  --theme-hover: rgba(217, 124, 43, 0.15);
-  --theme-hover: rgba(0, 128, 0, 0.18);
-  
-  /* Aliases for backward compatibility */
-  --primary-gradient: var(--theme-gradient);
-  --section-background: var(--theme-gradient-light);
-  --form-background: var(--theme-background);
-  --border-color: var(--theme-border);
+  --navbar-link-color: #4C9A2A;
+  --navbar-text-color: #2E5E1A;
+  --footer-link-color: #8BC34A;
+
+  --theme-primary: #4C9A2A;
+  --theme-primary-dark: #2E5E1A;
+  --theme-primary-light: #A5D6A7;
+
+  --theme-secondary: #E8F5E9;
+  --theme-accent: #8BC34A;
+
+  --theme-text: #2E5E1A;
+  --theme-text-light: #A5D6A7;
+
+  --theme-background: #F1F8E9;
+  --theme-gradient: linear-gradient(135deg, #4C9A2A 0%, #A5D6A7 100%);
+  --theme-gradient-light: linear-gradient(135deg, #E8F5E9 0%, #8BC34A 100%);
+
+  --theme-shadow: rgba(76, 154, 42, 0.12);
+  --theme-border: #8BC34A;
+  --theme-hover: rgba(76, 154, 42, 0.18);
 }
 
 /* Theme: Warm Sunset (Personal - Current Orange) */
@@ -101,132 +108,236 @@
   --border-color: var(--theme-border);
 }
 
-/* Theme: Soft Rose (Personal) */
-[data-theme="rose"] {
-  --theme-primary: #d72660;
-  --theme-primary-dark: #a4133c;
-  --theme-primary-light: #ff477e;
-  --theme-secondary: #fff0f3;
-  --theme-accent: #ffb3c6;
-  --theme-text: #3a0ca3;
-  --theme-text-light: #720026;
-  --theme-background: #fff5f7;
-  --theme-gradient: linear-gradient(135deg, #d72660 0%, #ff477e 100%);
-  --theme-gradient-light: linear-gradient(135deg, #fff0f3 0%, #ffb3c6 100%);
-  --theme-shadow: rgba(215, 38, 96, 0.12);
-  --theme-border: #ffb3c6;
-  --theme-hover: rgba(215, 38, 96, 0.18);
-  
-  /* Aliases for backward compatibility */
-  --primary-gradient: var(--theme-gradient);
-  --section-background: var(--theme-gradient-light);
-  --form-background: var(--theme-background);
-  --border-color: var(--theme-border);
+[data-theme="softrose"] {
+  --navbar-link-color: #F7B2B7;
+  --navbar-text-color: #B85C6F;
+  --footer-link-color: #B85C6F;
+
+  --theme-primary: #F7B2B7;
+  --theme-primary-dark: #B85C6F;
+  --theme-primary-light: #FDE2E4;
+
+  --theme-secondary: #FDE2E4;
+  --theme-accent: #B85C6F;
+
+  --theme-text: #B85C6F;
+  --theme-text-light: #F7B2B7;
+
+  --theme-background: #FFF5F7;
+  --theme-gradient: linear-gradient(135deg, #F7B2B7 0%, #FDE2E4 100%);
+  --theme-gradient-light: linear-gradient(135deg, #FDE2E4 0%, #B85C6F 100%);
+
+  --theme-shadow: rgba(247, 178, 183, 0.15);
+  --theme-border: #B85C6F;
+  --theme-hover: rgba(247, 178, 183, 0.18);
 }
+
+[data-theme="desert"] {
+  --navbar-link-color: #E9A96F;       /* Sandstone orange */
+  --navbar-text-color: #C97A3D;       /* Warm desert clay */
+  --footer-link-color: #2D9C9C;       /* Oasis turquoise */
+
+  --theme-primary: #D98E4A;           /* Main desert sand */
+  --theme-primary-dark: #7A4B1D;      /* Deep canyon brown */
+  --theme-primary-light: #F4D7B2;     /* Sun‑bleached sand */
+
+  --theme-secondary: #FFF4E6;         /* Pale desert sky */
+  --theme-accent: #2D9C9C;            /* Oasis turquoise accent */
+
+  --theme-text: #5C3A21;              /* Earthy text */
+  --theme-text-light: #C97A3D;        /* Clay‑tone text */
+
+  --theme-background: #FFFAF2;        /* Sun‑washed background */
+  --theme-gradient: linear-gradient(135deg, #D98E4A 0%, #F4D7B2 100%);
+  --theme-gradient-light: linear-gradient(135deg, #FFF4E6 0%, #2D9C9C 100%);
+
+  --theme-shadow: rgba(217, 142, 74, 0.15); /* Warm shadow */
+  --theme-border: #2D9C9C;             /* Oasis border */
+  --theme-hover: rgba(233, 169, 111, 0.18); /* Sun‑glow hover */
+}
+
+
+
+
 
 /* Theme: Midnight (Personal - Dark Mode) */
 [data-theme="midnight"] {
-  --theme-primary: #00c9a7;
-  --theme-primary-dark: #005f56;
-  --theme-primary-light: #17e9e0;
-  --theme-secondary: #232946;
-  --theme-accent: #121629;
-  --theme-text: #eebbc3;
-  --theme-text-light: #b8c1ec;
-  --theme-background: #121629;
-  --theme-gradient: linear-gradient(135deg, #232946 0%, #121629 100%);
-  --theme-gradient-light: linear-gradient(135deg, #232946 0%, #393e46 100%);
-  --theme-shadow: rgba(0, 201, 167, 0.18);
-  --theme-border: #393e46;
-  --theme-hover: rgba(0, 201, 167, 0.22);
-  
-  /* Aliases for backward compatibility */
-  --primary-gradient: var(--theme-gradient);
-  --section-background: var(--theme-gradient-light);
-  --form-background: var(--theme-background);
-  --border-color: var(--theme-border);
+  --navbar-link-color: #9FA8DA;
+  --navbar-text-color: #E0E0E0;
+  --footer-link-color: #7986CB;
+
+  --theme-primary: #1E1E2F;
+  --theme-primary-dark: #0D0D15;
+  --theme-primary-light: #2E2E4F;
+
+  --theme-secondary: #3C3C5C;
+  --theme-accent: #9FA8DA;
+
+  --theme-text: #E0E0E0;
+  --theme-text-light: #B0BEC5;
+
+  --theme-background: #121212;
+  --theme-gradient: linear-gradient(135deg, #1E1E2F 0%, #3C3C5C 100%);
+  --theme-gradient-light: linear-gradient(135deg, #2E2E4F 0%, #9FA8DA 100%);
+
+  --theme-shadow: rgba(0, 0, 0, 0.5);
+  --theme-border: #3C3C5C;
+  --theme-hover: rgba(159, 168, 218, 0.15);
 }
-/* ====== SEASON THEMES ====== */
+/* Base Variables (fallbacks) - already defined at top :root, so removed duplicate */
 
 /* WINTER */
 [data-theme="winter"] {
   --navbar-link-color: #4DA3FF;
-    
+  --navbar-text-color: #b0cbe7;
   --footer-link-color: #b0cbe7;
-  --navbar-text-color: #b0cbe7; /* Winter: Icy blue */
+
   --theme-primary: #A8C0E0;
   --theme-primary-dark: #283E51;
-  --theme-primary-light: #A8C0E0;
+  --theme-primary-light: #EAF6FF;
+
   --theme-secondary: #E6EEF7;
-    --theme-accent: #D9E2EC;
-    --theme-text: #E6EEF7;
-    --theme-text-light: #A9D4FF;
-    --theme-background: #44698d;
-    --theme-gradient: linear-gradient(135deg, #4DA3FF 0%, #A9D4FF 100%);
-    --theme-gradient-light: linear-gradient(135deg, #EAF6FF 0%, #D9E2EC 100%);
-    --theme-shadow: rgba(77, 163, 255, 0.12);
-    --theme-border: #D9E2EC;
-    --theme-hover: rgba(77, 163, 255, 0.15);
+  --theme-accent: #D9E2EC;
+
+  --theme-text: #E6EEF7;
+  --theme-text-light: #A9D4FF;
+
+  --theme-background: #44698d;
+  --theme-gradient: linear-gradient(135deg, #4DA3FF 0%, #A9D4FF 100%);
+  --theme-gradient-light: linear-gradient(135deg, #EAF6FF 0%, #D9E2EC 100%);
+
+  --theme-shadow: rgba(77, 163, 255, 0.12);
+  --theme-border: #D9E2EC;
+  --theme-hover: rgba(77, 163, 255, 0.15);
 }
 
 /* SPRING */
 [data-theme="spring"] {
-    --navbar-link-color: #6CCB5F;
-    --footer-link-color: #3F8F35;
-  --navbar-text-color: #6CCB5F; /* Spring: Fresh green */
+  --navbar-link-color: #6CCB5F;
+  --navbar-text-color: #6CCB5F;
+  --footer-link-color: #3F8F35;
+
   --theme-primary: #7BC950;
   --theme-primary-dark: #3A6B35;
   --theme-primary-light: #D9F7C8;
-    --theme-secondary: #F1FBEF;      /* Updated to fresh green */
-    --theme-accent: #FFD9E8;         /* Fresh green */
-    --theme-text: #3F8F35;           /* Fresh green */
-    --theme-text-light: #B6EBAD;     /* Fresh green */
-    --theme-background: #F8FFF5;     /* Fresh green */
-    --theme-gradient: linear-gradient(135deg, #6CCB5F 0%, #B6EBAD 100%);
-    --theme-gradient-light: linear-gradient(135deg, #E6F9E3 0%, #FFD9E8 100%);
-    --theme-border: #FFD9E8;         /* Fresh green */
-    --theme-hover: rgba(108, 203, 95, 0.15); /* Fresh green */
+
+  --theme-secondary: #F1FBEF;
+  --theme-accent: #FFD9E8;
+
+  --theme-text: #3F8F35;
+  --theme-text-light: #B6EBAD;
+
+  --theme-background: #F8FFF5;
+  --theme-gradient: linear-gradient(135deg, #6CCB5F 0%, #B6EBAD 100%);
+  --theme-gradient-light: linear-gradient(135deg, #E6F9E3 0%, #FFD9E8 100%);
+
+  --theme-shadow: rgba(108, 203, 95, 0.12);
+  --theme-border: #FFD9E8;
+  --theme-hover: rgba(108, 203, 95, 0.15);
 }
 
 /* SUMMER */
 [data-theme="summer"] {
-      --navbar-link-color: #FFDA3A;
-      --footer-link-color: #00AEEF;
-    --navbar-text-color: #FFDA3A; /* Summer: Bright yellow */
-  --theme-primary: #FFDA3A;         /* Main: Summer yellow */
-  --theme-primary-dark: #D4A800;    /* Dark */
-  --theme-primary-light: #FFF8C6;   /* Light */
-  --theme-secondary: #FFE98B;       /* Mid */
-  --theme-accent: #00AEEF;          /* Ocean blue accent */
-  --theme-text: #D4A800;            /* Dark for text */
-  --theme-text-light: #FFE98B;      /* Mid for light text */
-  --theme-background: #FFFCEF;      /* Background */
+  --navbar-link-color: #FFDA3A;
+  --navbar-text-color: #FFDA3A;
+  --footer-link-color: #00AEEF;
+
+  --theme-primary: #FFDA3A;
+  --theme-primary-dark: #D4A800;
+  --theme-primary-light: #FFF8C6;
+
+  --theme-secondary: #FFE98B;
+  --theme-accent: #00AEEF;
+
+  --theme-text: #D4A800;
+  --theme-text-light: #FFE98B;
+
+  --theme-background: #FFFCEF;
   --theme-gradient: linear-gradient(135deg, #FFDA3A 0%, #FFE98B 100%);
   --theme-gradient-light: linear-gradient(135deg, #FFF8C6 0%, #00AEEF 100%);
-  --theme-border: #00AEEF;          /* Accent border */
-  --theme-hover: rgba(255, 218, 58, 0.15);
+
+  --theme-shadow: rgba(255, 218, 58, 0.12);
+  --theme-border: #00AEEF;
   --theme-hover: rgba(255, 180, 0, 0.18);
 }
 
 /* AUTUMN */
 [data-theme="autumn"] {
-      --navbar-link-color: #D97C2B;
-      --footer-link-color: #8B2E2E;
-    --navbar-text-color: #D97C2B; /* Autumn: Warm orange */
+  --navbar-link-color: #D97C2B;
+  --navbar-text-color: #D97C2B;
+  --footer-link-color: #8B2E2E;
+
   --theme-primary: #C65D2E;
   --theme-primary-dark: #6E2F1A;
   --theme-primary-light: #F4C6A0;
+
   --theme-secondary: #FFF3EA;
   --theme-accent: #E88E56;
+
   --theme-text: #4A2A1A;
   --theme-text-light: #A06B52;
+
   --theme-background: #FFFFFF;
   --theme-gradient: linear-gradient(135deg, #C65D2E 0%, #F4C6A0 100%);
   --theme-gradient-light: linear-gradient(135deg, #FFF3EA 0%, #E88E56 100%);
+
   --theme-shadow: rgba(198, 93, 46, 0.12);
   --theme-border: #E88E56;
   --theme-hover: rgba(198, 93, 46, 0.18);
 }
+/* MONSOON */
+[data-theme="monsoon"] {
+  --navbar-link-color: #4C6EF5;       /* Rainy blue */
+  --navbar-text-color: #A5B4FC;       /* Misty light blue */
+  --footer-link-color: #364FC7;       /* Deep indigo */
+
+  --theme-primary: #3B5BDB;           /* Main storm blue */
+  --theme-primary-dark: #1C2A4A;      /* Dark clouds */
+  --theme-primary-light: #A5B4FC;     /* Rain mist */
+
+  --theme-secondary: #E9ECEF;         /* Pale grey drizzle */
+  --theme-accent: #74C0FC;            /* Lightning blue accent */
+
+  --theme-text: #1C2A4A;              /* Dark storm text */
+  --theme-text-light: #A5B4FC;        /* Misty text */
+
+  --theme-background: #F8F9FA;        /* Cloudy background */
+  --theme-gradient: linear-gradient(135deg, #3B5BDB 0%, #74C0FC 100%);
+  --theme-gradient-light: linear-gradient(135deg, #E9ECEF 0%, #A5B4FC 100%);
+
+  --theme-shadow: rgba(59, 91, 219, 0.15); /* Subtle storm shadow */
+  --theme-border: #74C0FC;             /* Accent border */
+  --theme-hover: rgba(76, 110, 245, 0.18); /* Rain ripple hover */
+}
+/* --- END THEME BLOCKS CLEANUP --- */
+/* POLAR */
+[data-theme="polar"] {
+  --navbar-link-color: #5BE7C4;       /* Aurora green */
+  --navbar-text-color: #A8E6FF;       /* Ice glow */
+  --footer-link-color: #1C3D5A;       /* Midnight blue */
+
+  --theme-primary: #A8E6FF;           /* Glacial ice */
+  --theme-primary-dark: #0B1D33;      /* Polar night */
+  --theme-primary-light: #E0F7FA;     /* Snow drift */
+
+  --theme-secondary: #F5FBFF;         /* Frost mist */
+  --theme-accent: #5BE7C4;            /* Aurora accent */
+
+  --theme-text: #0B1D33;              /* Deep night text */
+  --theme-text-light: #A8E6FF;        /* Ice glow text */
+
+  --theme-background: #F5FBFF;        /* Polar white background */
+  --theme-gradient: linear-gradient(135deg, #A8E6FF 0%, #5BE7C4 100%);
+  --theme-gradient-light: linear-gradient(135deg, #E0F7FA 0%, #1C3D5A 100%);
+
+  --theme-shadow: rgba(91, 231, 196, 0.15); /* Aurora shimmer */
+  --theme-border: #5BE7C4;             /* Aurora border */
+  --theme-hover: rgba(168, 230, 255, 0.18); /* Frost hover */
+}
+
+
+
+
 
 /* ===== THEME-AWARE COMPONENTS ===== */
 /* Update existing components to use CSS variables */

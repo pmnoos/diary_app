@@ -1,5 +1,20 @@
 
-<!DOCTYPE html>
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            // ...existing code...
+                .then(function(registration) {
+                    console.log('ServiceWorker registration successful');
+                    setInterval(function() {
+                        registration.update();
+                    }, 60000 * 60);
+                })
+                .catch(function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+        });
+    }
+</script><!DOCTYPE html>
 {% load static %}
 <html lang="en">
 <head>
@@ -62,10 +77,9 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('{% static "entries/sw.js" %}')
+                navigator.serviceWorker.register('{% static "entries/js/sw.js" %}')
                     .then(function(registration) {
                         console.log('ServiceWorker registration successful');
-                        
                         // Check for updates every hour
                         setInterval(function() {
                             registration.update();
@@ -171,5 +185,10 @@
         window.addEventListener('offline', updateConnectionStatus);
         document.addEventListener('DOMContentLoaded', updateConnectionStatus);
     </script>
+    <script>
+    if ('serviceWorker' in navigator) {
+    // ...existing code...
+  }
+</script>
 </body>
 </html>

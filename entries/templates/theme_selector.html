@@ -1,108 +1,293 @@
 <!-- Theme Selector Component -->
-<div class="theme-selector">
-    <div class="theme-toggle-btn" onclick="toggleThemeSelector()">
-        <span class="theme-icon">🎨</span>
-        <span class="theme-text">Themes</span>
-        <span class="theme-arrow" id="theme-arrow">▼</span>
-    </div>
-    
-    <div class="theme-panel" id="theme-panel" style="display: none;">
-        <div class="theme-header">
-            <h4>🎨 Choose Your Theme</h4>
-            <p class="theme-subtitle">Personalize your diary experience</p>
-        </div>
-        
-        <div class="theme-categories">
-            <!-- Seasonal Themes -->
-            <div class="theme-category">
-                <h5>🌱 The Four Seasons</h5>
-                <div class="theme-options">
-                    <div class="theme-option" data-theme="winter" onclick="setTheme('winter')">
-                        <div class="theme-preview" style="background: #e0f7fa; border-radius: 6px; height: 32px;"></div>
-                        <div class="theme-info">
-                            <span class="theme-name">Winter</span>
-                            <span class="theme-badge" id="badge-winter"></span>
-                        </div>
-                    </div>
-                    <div class="theme-option" data-theme="spring" onclick="setTheme('spring')">
-                        <div class="theme-preview" style="background: #c8e6c9; border-radius: 6px; height: 32px;"></div>
-                        <div class="theme-info">
-                            <span class="theme-name">Spring</span>
-                            <span class="theme-badge" id="badge-spring"></span>
-                        </div>
-                    </div>
-                    <div class="theme-option" data-theme="summer" onclick="setTheme('summer')">
-                        <div class="theme-preview" style="background: #fff9c4; border-radius: 6px; height: 32px;"></div>
-                        <div class="theme-info">
-                            <span class="theme-name">Summer</span>
-                            <span class="theme-badge" id="badge-summer"></span>
-                        </div>
-                    </div>
-                    <div class="theme-option" data-theme="autumn" onclick="setTheme('autumn')">
-                        <div class="theme-preview" style="background: #ffe0b2; border-radius: 6px; height: 32px;"></div>
-                        <div class="theme-info">
-                            <span class="theme-name">Autumn</span>
-                            <span class="theme-badge" id="badge-autumn"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Personal Themes -->
-            <div class="theme-category">
-                <h5>💝 Personal</h5>
-                <div class="theme-options">
-                    <div class="theme-option" data-theme="sunset" onclick="setTheme('sunset')">
-                        <div class="theme-preview sunset-preview">
-                            <div class="preview-header"></div>
-                            <div class="preview-content">
-                                <div class="preview-line"></div>
-                                <div class="preview-line short"></div>
-                            </div>
-                        </div>
-                        <div class="theme-info">
-                            <span class="theme-name">Warm Sunset</span>
-                            <span class="theme-badge" id="badge-sunset"></span>
-                        </div>
-                    </div>
-                    
-                    <div class="theme-option" data-theme="rose" onclick="setTheme('rose')">
-                        <div class="theme-preview rose-preview">
-                            <div class="preview-header"></div>
-                            <div class="preview-content">
-                                <div class="preview-line"></div>
-                                <div class="preview-line short"></div>
-                            </div>
-                        </div>
-                        <div class="theme-info">
-                            <span class="theme-name">Soft Rose</span>
-                            <span class="theme-badge" id="badge-rose"></span>
-                        </div>
-                    </div>
-                    
-                    <div class="theme-option" data-theme="midnight" onclick="setTheme('midnight')">
-                        <div class="theme-preview midnight-preview">
-                            <div class="preview-header"></div>
-                            <div class="preview-content">
-                                <div class="preview-line"></div>
-                                <div class="preview-line short"></div>
-                            </div>
-                        </div>
-                        <div class="theme-info">
-                            <span class="theme-name">Midnight</span>
-                            <span class="theme-badge" id="badge-midnight"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="theme-footer">
-            <small>✨ Themes apply instantly and save automatically</small>
+<div class="theme-selector-wrapper">
+    <div class="theme-selector">
+        <div class="theme-toggle-btn" onclick="toggleThemeSelector()">
+            <span class="theme-icon">🎨</span>
+            <span class="theme-text" id="current-theme-name">Themes</span>
+            <span class="theme-arrow" id="theme-arrow">▼</span>
         </div>
     </div>
 </div>
 
+<div class="theme-panel" id="theme-panel" style="display: none;">
+    <div class="theme-header">
+        <h4>🎨 Choose Your Theme</h4>
+        <p class="theme-subtitle">Personalize your diary experience</p>
+    </div>
+    
+    <div class="theme-categories">
+        <!-- Seasonal Themes -->
+        <div class="theme-category">
+            <h5>🌱 The Four Seasons</h5>
+            <div class="theme-options">
+                <div class="theme-option" data-theme="winter" onclick="setTheme('winter')">
+                    <div class="theme-preview" style="background: #e0f7fa; border-radius: 6px; height: 32px;"></div>
+                    <div class="theme-info">
+                        <span class="theme-name">Winter</span>
+                        <span class="theme-badge" id="badge-winter"></span>
+                    </div>
+                </div>
+                <div class="theme-option" data-theme="spring" onclick="setTheme('spring')">
+                    <div class="theme-preview" style="background: #c8e6c9; border-radius: 6px; height: 32px;"></div>
+                    <div class="theme-info">
+                        <span class="theme-name">Spring</span>
+                        <span class="theme-badge" id="badge-spring"></span>
+                    </div>
+                </div>
+                <div class="theme-option" data-theme="summer" onclick="setTheme('summer')">
+                    <div class="theme-preview" style="background: #fff9c4; border-radius: 6px; height: 32px;"></div>
+                    <div class="theme-info">
+                        <span class="theme-name">Summer</span>
+                        <span class="theme-badge" id="badge-summer"></span>
+                    </div>
+                </div>
+                <div class="theme-option" data-theme="autumn" onclick="setTheme('autumn')">
+                    <div class="theme-preview" style="background: #ffe0b2; border-radius: 6px; height: 32px;"></div>
+                    <div class="theme-info">
+                        <span class="theme-name">Autumn</span>
+                        <span class="theme-badge" id="badge-autumn"></span>
+                    </div>
+                </div>
+                <div class="theme-option" data-theme="desert" onclick="setTheme('desert')">
+                    <div class="theme-preview" style="background: #F4D7B2; border-radius: 6px; height: 32px;"></div>
+                    <div class="theme-info">
+                        <span class="theme-name">Desert</span>
+                        <span class="theme-badge" id="badge-desert"></span>
+                    </div>
+                </div>
+                <div class="theme-option" data-theme="monsoon" onclick="setTheme('monsoon')">
+                    <div class="theme-preview" style="background: #A5B4FC; border-radius: 6px; height: 32px;"></div>
+                    <div class="theme-info">
+                        <span class="theme-name">Monsoon</span>
+                        <span class="theme-badge" id="badge-monsoon"></span>
+                    </div>
+                </div>
+                <div class="theme-option" data-theme="polar" onclick="setTheme('polar')">
+                    <div class="theme-preview" style="background: #A8E6FF; border-radius: 6px; height: 32px;"></div>
+                    <div class="theme-info">
+                        <span class="theme-name">Polar</span>
+                        <span class="theme-badge" id="badge-polar"></span>
+                    </div>
+                </div>
+                <div class="theme-option" data-theme="ocean" onclick="setTheme('ocean')">
+                    <div class="theme-preview" style="background: #caf0f8; border-radius: 6px; height: 32px;"></div>
+                    <div class="theme-info">
+                        <span class="theme-name">Ocean Blue</span>
+                        <span class="theme-badge" id="badge-ocean"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Personal Themes -->
+        <div class="theme-category">
+            <h5>💝 Personal</h5>
+            <div class="theme-options">
+                <div class="theme-option" data-theme="sunset" onclick="setTheme('sunset')">
+                    <div class="theme-preview sunset-preview">
+                        <div class="preview-header"></div>
+                        <div class="preview-content">
+                            <div class="preview-line"></div>
+                            <div class="preview-line short"></div>
+                        </div>
+                    </div>
+                    <div class="theme-info">
+                        <span class="theme-name">Warm Sunset</span>
+                        <span class="theme-badge" id="badge-sunset"></span>
+                    </div>
+                </div>
+                
+                <div class="theme-option" data-theme="rose" onclick="setTheme('rose')">
+                    <div class="theme-preview rose-preview">
+                        <div class="preview-header"></div>
+                        <div class="preview-content">
+                            <div class="preview-line"></div>
+                            <div class="preview-line short"></div>
+                        </div>
+                    </div>
+                    <div class="theme-info">
+                        <span class="theme-name">Soft Rose</span>
+                        <span class="theme-badge" id="badge-rose"></span>
+                    </div>
+                </div>
+                
+                <div class="theme-option" data-theme="midnight" onclick="setTheme('midnight')">
+                    <div class="theme-preview midnight-preview">
+                        <div class="preview-header"></div>
+                        <div class="preview-content">
+                            <div class="preview-line"></div>
+                            <div class="preview-line short"></div>
+                        </div>
+                    </div>
+                    <div class="theme-info">
+                        <span class="theme-name">Midnight</span>
+                        <span class="theme-badge" id="badge-midnight"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="theme-footer">
+        <small>✨ Themes apply instantly and save automatically</small>
+    </div>
+</div>
+
+<style>
+
+
+/* Force wrapper to be inline in navbar */
+.theme-selector-wrapper {
+    display: inline !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    max-width: none !important;
+    width: auto !important;
+}
+
+/* Selector stays inline */
+.theme-selector {
+    display: inline !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Toggle button - styled exactly like nav links */
+.theme-toggle-btn {
+    display: inline-block !important;
+    color: var(--theme-primary, #007bff) !important;
+    text-decoration: none !important;
+    padding: 8px 12px !important;
+    border-radius: 4px !important;
+    transition: background-color 0.2s !important;
+    cursor: pointer !important;
+    background: none !important;
+    border: none !important;
+    font-size: inherit !important;
+    font-family: inherit !important;
+    margin: 0 !important;
+}
+
+.theme-toggle-btn:hover {
+    background-color: var(--theme-hover, #e9ecef) !important;
+    text-decoration: none !important;
+}
+
+.theme-icon, .theme-text, .theme-arrow {
+    display: inline !important;
+    vertical-align: middle !important;
+}
+
+/* Panel appears as centered modal when shown */
+.theme-panel {
+    display: none !important;
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 700px;
+    max-width: 98vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    padding: 24px;
+    z-index: 1000;
+    margin: 0 !important;
+}
+
+/* Show panel when toggled */
+.theme-panel[style*="display: block"] {
+    display: block !important;
+}
+
+/* Backdrop when panel is open */
+.theme-panel::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: -1;
+}
+
+.theme-category {
+    width: 100%;
+}
+
+@media (max-width: 600px) {
+    .theme-panel {
+        width: 90vw;
+        padding: 16px;
+    }
+}
+</style>
+
+
+
 <script>
 // ===== THEME SYSTEM JAVASCRIPT =====
+
+// Map theme keys to display names
+const THEME_DISPLAY_NAMES = {
+    'winter': 'Winter',
+    'spring': 'Spring',
+    'summer': 'Summer',
+    'autumn': 'Autumn',
+    'desert': 'Desert',
+    'monsoon': 'Monsoon',
+    'polar': 'Polar',
+    'ocean': 'Ocean Blue',
+    'sunset': 'Warm Sunset',
+    'rose': 'Soft Rose',
+    'midnight': 'Midnight',
+};
+
+function toggleThemeSelector() {
+    const panel = document.getElementById('theme-panel');
+    const arrow = document.getElementById('theme-arrow');
+    
+    if (panel.style.display === 'none') {
+        panel.style.display = 'block';
+        arrow.textContent = '▲';
+    } else {
+        panel.style.display = 'none';
+        arrow.textContent = '▼';
+    }
+}
+
+function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    updateThemeName(theme);
+}
+
+function updateThemeName(theme) {
+    const name = THEME_DISPLAY_NAMES[theme] || 'Themes';
+    const el = document.getElementById('current-theme-name');
+    if (el) el.textContent = name;
+}
+
+// On page load, set the button to the current theme
+document.addEventListener('DOMContentLoaded', function() {
+    let theme = document.documentElement.getAttribute('data-theme') || localStorage.getItem('theme') || 'winter';
+    updateThemeName(theme);
+
+    // Watch for changes to data-theme
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                const newTheme = document.documentElement.getAttribute('data-theme');
+                updateThemeName(newTheme);
+            }
+        });
+    });
+    observer.observe(document.documentElement, { attributes: true });
+});
 </script>
