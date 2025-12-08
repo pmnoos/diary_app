@@ -2,6 +2,33 @@
 {% block title %}Subscription Plans - Diary App{% endblock %}
 
 {% block content %}
+<style>
+    /* Mobile-specific fixes for subscription plans */
+    @media (max-width: 768px) {
+        .section {
+            padding: 1rem !important;
+        }
+        .container {
+            max-width: 100% !important;
+            overflow-x: hidden !important;
+        }
+        .card {
+            margin-bottom: 1rem !important;
+        }
+        .columns {
+            overflow-x: hidden !important;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .section {
+            padding: 0.5rem !important;
+        }
+        .card-content {
+            padding: 1rem !important;
+        }
+    }
+</style>
 <section class="section">
     <div class="container">
         <h2 class="title is-3 has-text-centered">Choose Your Plan</h2>

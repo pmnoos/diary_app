@@ -12,12 +12,12 @@
                         <div style="margin-bottom: 5px; font-size: 0.9em;">
                             <strong>{{ reminder.title }}</strong> 
                             <span style="color: #721c24;">- Due {{ reminder.date|date:"M j" }}</span>
-                            <a href="{% url 'reminder_detail' reminder.pk %}" style="color: #721c24; margin-left: 10px;">View →</a>
+                            <a href="{% url 'reminders:reminder_detail' reminder.pk %}" style="color: #721c24; margin-left: 10px;">View →</a>
                         </div>
                     {% endfor %}
                 </div>
                 <div style="margin-left: 15px;">
-                    <a href="{% url 'reminders:reminder_list' %}?status=overdue" 
+                    <a href="{% url 'reminders:reminder_dashboard' %}?status=overdue" 
                        style="background-color: #dc3545; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px; font-size: 0.9em;">
                         View All
                     </a>
@@ -40,12 +40,12 @@
                             {% if reminder.time %}
                                 <span style="color: #856404;">- {{ reminder.time|time:"g:i A" }}</span>
                             {% endif %}
-                            <a href="{% url 'reminder_detail' reminder.pk %}" style="color: #856404; margin-left: 10px;">View →</a>
+                            <a href="{% url 'reminders:reminder_detail' reminder.pk %}" style="color: #856404; margin-left: 10px;">View →</a>
                         </div>
                     {% endfor %}
                 </div>
                 <div style="margin-left: 15px;">
-                    <a href="{% url 'reminders:reminder_list' %}?filter=today" 
+                    <a href="{% url 'reminders:reminder_dashboard' %}?filter=today" 
                        style="background-color: #ffc107; color: #212529; padding: 5px 10px; text-decoration: none; border-radius: 3px; font-size: 0.9em;">
                         View All
                     </a>
@@ -70,12 +70,12 @@
                             <span style="background-color: #cc0000; color: white; padding: 1px 4px; border-radius: 2px; font-size: 0.8em; margin-left: 5px;">
                                 {{ reminder.get_priority_display }}
                             </span>
-                            <a href="{% url 'reminder_detail' reminder.pk %}" style="color: #cc0000; margin-left: 10px;">View →</a>
+                            <a href="{% url 'reminders:reminder_detail' reminder.pk %}" style="color: #cc0000; margin-left: 10px;">View →</a>
                         </div>
                     {% endfor %}
                 </div>
                 <div style="margin-left: 15px;">
-                    <a href="{% url 'reminders:reminder_list' %}" 
+                    <a href="{% url 'reminders:reminder_dashboard' %}" 
                        style="background-color: #cc0000; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px; font-size: 0.9em;">
                         Manage
                     </a>

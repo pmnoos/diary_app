@@ -6,8 +6,8 @@
 
 {% block content %}
     <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
-        <a href="{% url 'reminders:reminder_create' %}" class="btn" style="background-color: #28a745;">➕ Add New Reminder</a>
-        <a href="{% url 'reminders:reminder_list' %}" class="btn" style="background-color: #007bff;">📋 View All Reminders</a>
+        <a href="{% url 'reminders:reminder_create' %}" class="btn" style="background-color: #28a745;">➥ Add New Reminder</a>
+        <a href="{% url 'reminders:reminder_dashboard' %}" class="btn" style="background-color: #007bff;">📋 View All Reminders</a>
     </div>
 
     <!-- Today's Reminders -->
@@ -70,7 +70,7 @@
                     </div>
                 {% endfor %}
                 <div style="margin-top: 10px;">
-                    <a href="{% url 'reminders:reminder_list' %}?filter=this_week" style="color: #0c5460;">View all this week →</a>
+                    <a href="{% url 'reminders:reminder_dashboard' %}?filter=this_week" style="color: #0c5460;">View all this week →</a>
                 </div>
             {% else %}
                 <p style="color: #0c5460; margin: 0;">No reminders this week! 🎉</p>
@@ -90,7 +90,7 @@
                     </div>
                 {% endfor %}
                 <div style="margin-top: 10px;">
-                    <a href="{% url 'reminders:reminder_list' %}?filter=completed" style="color: #155724;">View all completed →</a>
+                    <a href="{% url 'reminders:reminder_dashboard' %}?filter=completed" style="color: #155724;">View all completed →</a>
                 </div>
             {% else %}
                 <p style="color: #155724; margin: 0;">No completed reminders yet.</p>
@@ -102,9 +102,9 @@
     <div style="margin-top: 30px; text-align: center; padding: 20px; background-color: #f8f9fa; border-radius: 5px;">
         <h4>Quick Actions</h4>
         <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-            <a href="{% url 'reminders:reminder_list' %}?filter=today" class="btn btn-warning">Today's Tasks</a>
-            <a href="{% url 'reminders:reminder_list' %}?filter=this_week" class="btn btn-info">This Week</a>
-            <a href="{% url 'reminders:reminder_list' %}?filter=overdue" class="btn btn-danger">Overdue</a>
+            <a href="{% url 'reminders:reminder_dashboard' %}?filter=today" class="btn btn-warning">Today's Tasks</a>
+            <a href="{% url 'reminders:reminder_dashboard' %}?filter=this_week" class="btn btn-info">This Week</a>
+            <a href="{% url 'reminders:reminder_dashboard' %}?filter=overdue" class="btn btn-danger">Overdue</a>
             <a href="{% url 'entry_create' %}" class="btn btn-secondary">📝 Write Diary Entry</a>
         </div>
     </div>

@@ -1,6 +1,4 @@
 from django.shortcuts import render, get_object_or_404, redirect
-def landing(request):
-    return render(request, 'subscriptions/landing.html')
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -12,6 +10,19 @@ from django.utils import timezone
 from datetime import timedelta
 from .models import Entry
 from .forms import EntryForm
+
+def home_view(request):
+    from django.utils import timezone
+    print('DEBUG: home_view called from entries/views.py')
+    print('DEBUG: Rendering home.html template')
+    print('DEBUG: Current date:', timezone.localdate())
+    context = {
+        'current_date': timezone.localdate()
+    }
+    return render(request, 'home.html', context)
+
+def landing(request):
+    return home_view(request)
 
 class EntryListView(LoginRequiredMixin, ListView):
     model = Entry

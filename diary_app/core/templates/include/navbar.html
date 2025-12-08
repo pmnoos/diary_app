@@ -1,7 +1,7 @@
+<div class="container">
 <nav class="nav">
     <div>
         <a href="{% url 'home' %}">Home</a>
-        <a href="{% url 'landing' %}">Welcome</a>
         {% if user.is_authenticated %}
             <a href="{% url 'entry_list' %}">My Entries</a>
             <a href="{% url 'entry_create' %}">New Entry</a>
@@ -27,3 +27,4 @@
         {% endif %}
     </div>
 </nav>
+</div>

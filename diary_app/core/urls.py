@@ -3,8 +3,14 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .views import home_view, about_view, privacy_view, terms_view, contact_view
-from entries.views import landing
+from .views import about_view, privacy_view, terms_view, contact_view
+from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
+from entries.views import home_view
+
+def root_dispatch(request):
+    return redirect('home')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,7 +29,7 @@ urlpatterns = [
     path('subscriptions/', include(('subscriptions.urls', 'subscriptions'), namespace='subscriptions')),
 
     # Static pages
-    path('', landing, name='landing'),
+    path('', root_dispatch, name='landing'),
     path('home/', home_view, name='home'),
     path('welcome/', home_view, name='welcome'),
     path('about/', about_view, name='about'),

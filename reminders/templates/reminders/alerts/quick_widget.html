@@ -4,7 +4,7 @@
         <div style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                 <h4 style="margin: 0; color: #495057;">⏰ Quick Reminders</h4>
-                <a href="{% url 'reminders:reminder_list' %}" style="color: #007bff; text-decoration: none; font-size: 0.9em;">View All →</a>
+                <a href="{% url 'reminders:reminder_dashboard' %}" style="color: #007bff; text-decoration: none; font-size: 0.9em;">View All →</a>
             </div>
             
             <div style="display: grid; gap: 8px;">
@@ -16,11 +16,11 @@
                             <span style="color: #721c24; font-size: 0.85em; margin-left: 8px;">Overdue since {{ reminder.date|date:"M j" }}</span>
                         </div>
                         <div style="display: flex; gap: 5px;">
-                            <a href="{% url 'reminder_toggle' reminder.pk %}" 
+                            <a href="{% url 'reminders:reminder_toggle' reminder.pk %}" 
                                style="background-color: #28a745; color: white; padding: 3px 8px; text-decoration: none; border-radius: 3px; font-size: 0.8em;">
                                 ✓ Complete
                             </a>
-                            <a href="{% url 'reminder_detail' reminder.pk %}" 
+                            <a href="{% url 'reminders:reminder_detail' reminder.pk %}" 
                                style="background-color: #dc3545; color: white; padding: 3px 8px; text-decoration: none; border-radius: 3px; font-size: 0.8em;">
                                 View
                             </a>
@@ -40,11 +40,11 @@
                             {% endif %}
                         </div>
                         <div style="display: flex; gap: 5px;">
-                            <a href="{% url 'reminder_toggle' reminder.pk %}" 
+                            <a href="{% url 'reminders:reminder_toggle' reminder.pk %}" 
                                style="background-color: #28a745; color: white; padding: 3px 8px; text-decoration: none; border-radius: 3px; font-size: 0.8em;">
                                 ✓ Complete
                             </a>
-                            <a href="{% url 'reminder_detail' reminder.pk %}" 
+                            <a href="{% url 'reminders:reminder_detail' reminder.pk %}" 
                                style="background-color: #ffc107; color: #212529; padding: 3px 8px; text-decoration: none; border-radius: 3px; font-size: 0.8em;">
                                 View
                             </a>
@@ -64,7 +64,7 @@
                             {% endif %}
                         </div>
                         <div>
-                            <a href="{% url 'reminder_detail' reminder.pk %}" 
+                            <a href="{% url 'reminders:reminder_detail' reminder.pk %}" 
                                style="background-color: #2196f3; color: white; padding: 3px 8px; text-decoration: none; border-radius: 3px; font-size: 0.8em;">
                                 View
                             </a>
@@ -79,7 +79,7 @@
                    style="background-color: #28a745; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; font-size: 0.9em;">
                     ➕ New Reminder
                 </a>
-                <a href="{% url 'reminders:reminder_list' %}?filter=today" 
+                <a href="{% url 'reminders:reminder_dashboard' %}?filter=today" 
                    style="background-color: #007bff; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; font-size: 0.9em;">
                     📅 Today's Schedule
                 </a>

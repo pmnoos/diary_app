@@ -1,16 +1,17 @@
 {% extends 'base.html' %}
-{% block title %}Welcome to Your Secure Diary App{% endblock %}
+<meta name="description" content="Diary App is a secure online journal with privacy controls, mood tracking, reminders, and image uploads. Write freely, build a daily journaling habit, and choose between hosted or self-hosted options." />
+{% block title %}Secure Online Diary App | Private Journal & Mood Tracker{% endblock %}
 
 {% block content %}
 <section class="hero is-primary is-bold is-medium">
   <div class="hero-body">
     <div class="container">
-      <h1 class="title is-2">Keep Your Precious Moments Alive</h1>
-      <h2 class="subtitle is-4">A beautiful, secure, and flexible diary for your life stories</h2>
-  <div class="buttons">
-        <a href="{% url 'signup' %}" class="button is-success is-medium">Start Writing Online</a>
-        <a href="{% url 'entry_search' %}" class="button is-info is-medium">🔍 Search Diary</a>
-        <a href="https://github.com/pmnoos/diary_app" class="button is-link is-medium" target="_blank">Run It Yourself (Advanced)</a>
+      <h1 class="title is-2">Your Secure Space to Write, Reflect & Grow</h1>
+      <h2 class="subtitle is-4">A private online journal with reminders, mood tracking, and flexible security options</h2>
+      <div class="buttons">
+        <a href="{% url 'signup' %}" class="button is-success is-medium">Start Writing Free</a>
+        <a href="{% url 'entry_search' %}" class="button is-info is-medium">🔍 Search Your Journal</a>
+        <a href="https://github.com/pmnoos/diary_app" class="button is-link is-medium" target="_blank">Self-Host for Maximum Privacy</a>
       </div>
     </div>
   </div>
@@ -19,58 +20,67 @@
 <section class="section" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
   <div class="container">
     <div class="columns is-multiline">
+
       <div class="column is-4">
         <div class="box has-text-centered">
           <span class="icon is-large"><span class="emoji">📝</span></span>
-          <h3 class="title is-5 mt-2">Beautiful, Modern UI</h3>
-          <p>Enjoy a clean, distraction-free writing experience powered by Bulma CSS.</p>
+          <h3 class="title is-5 mt-2">Modern, Distraction-Free Writing</h3>
+          <p>Enjoy a clean, responsive interface powered by Bulma CSS — perfect for daily journaling.</p>
         </div>
       </div>
+
       <div class="column is-4">
         <div class="box has-text-centered">
           <span class="icon is-large"><span class="emoji">😊</span></span>
-          <h3 class="title is-5 mt-2">Express Yourself with Emojis</h3>
-          <p>Add emotions and fun to your entries with a rich emoji panel and easy insertion.</p>
+          <h3 class="title is-5 mt-2">Mood Tracking with Emojis</h3>
+          <p>Express emotions and track your mental wellbeing with a rich emoji panel.</p>
         </div>
       </div>
+
       <div class="column is-4">
         <div class="box has-text-centered">
           <span class="icon is-large"><span class="emoji">📸</span></span>
-          <h3 class="title is-5 mt-2">Attach Images</h3>
-          <p>Upload photos to capture memories visually alongside your words.</p>
+          <h3 class="title is-5 mt-2">Attach Photos & Memories</h3>
+          <p>Upload images to capture life’s moments visually alongside your private journal entries.</p>
         </div>
       </div>
+
       <div class="column is-4">
         <div class="box has-text-centered">
           <span class="icon is-large"><span class="emoji">🔒</span></span>
-          <h3 class="title is-5 mt-2">Privacy Controls</h3>
-          <p>Mark entries as private and control who can see your stories.</p>
+          <h3 class="title is-5 mt-2">Strong Privacy Controls</h3>
+          <p>Mark entries as private, enable two-factor authentication, and keep your diary secure.</p>
         </div>
       </div>
+
+      <div class="column is-4">
+        <div class="box has-text-centered">
+          <span class="icon is-large"><span class="emoji">⏰</span></span>
+          <h3 class="title is-5 mt-2">Smart Reminders</h3>
+          <p>Stay consistent with built-in reminders that help you build a daily journaling habit.</p>
+        </div>
+      </div>
+
       <div class="column is-4">
         <div class="box has-text-centered">
           <span class="icon is-large"><span class="emoji">📅</span></span>
           <h3 class="title is-5 mt-2">Quick Date Shortcuts</h3>
-          <p>Set entry dates with a single click: today, yesterday, or two days ago.</p>
+          <p>Set entry dates instantly — today, yesterday, or two days ago — with one click.</p>
         </div>
       </div>
-      <div class="column is-4">
-        <div class="box has-text-centered">
-          <span class="icon is-large"><span class="emoji">🛡️</span></span>
-          <h3 class="title is-5 mt-2">Flexible Security</h3>
-          <p>Choose between easy online access or full privacy with self-hosting. Two-factor authentication available.</p>
-        </div>
-      </div>
+
     </div>
-  <div class="notification is-info mt-3">
-      <strong>How do you want to keep your diary?</strong>
+
+    <div class="notification is-info mt-3">
+      <strong>Choose How You Keep Your Diary</strong>
       <ul class="mt-2">
         <li><span class="icon"><span class="emoji">☁️</span></span> <strong>Online:</strong> Use our secure hosted service for convenience and access anywhere.</li>
-        <li><span class="icon"><span class="emoji">💻</span></span> <strong>Self-Hosted:</strong> Download and run the app yourself for maximum privacy.</li>
+        <li><span class="icon"><span class="emoji">💻</span></span> <strong>Self-Hosted:</strong> Download and run the app yourself for maximum privacy and control.</li>
       </ul>
     </div>
   </div>
 </section>
+
 <style>
   .hero {
     min-height: 60vh;

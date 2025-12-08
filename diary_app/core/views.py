@@ -5,11 +5,7 @@ from django.core.mail import send_mail
 from .forms import ContactForm
 from .models import ContactMessage
 
-def home_view(request):
-    context = {
-        'current_date': timezone.now()
-    }
-    return render(request, 'home.html', context)
+# home_view is now in entries/views.py
 
 def about_view(request):
     return render(request, 'about.html')

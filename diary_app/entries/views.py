@@ -1,6 +1,4 @@
 from django.shortcuts import render, get_object_or_404, redirect
-def landing(request):
-    return render(request, 'subscriptions/landing.html')
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -14,6 +12,20 @@ from .models import Entry
 from .forms import EntryForm
 
 
+def home_view(request):
+    from django.utils import timezone
+    print('DEBUG: home_view called from entries/views.py')
+    print('DEBUG: Rendering home.html template')
+    print('DEBUG: Current date:', timezone.localdate())
+    context = {
+        'current_date': timezone.localdate()
+    }
+    return render(request, 'home.html', context)
+
+def landing(request):
+    return home_view(request)
+
+
 
 
 class EntryListView(LoginRequiredMixin, ListView):
@@ -24,67 +36,54 @@ class EntryListView(LoginRequiredMixin, ListView):
     
     def get_queryset(self):
         queryset = Entry.objects.filter(author=self.request.user)
-        
         # Filter options
         view_type = self.request.GET.get('view', 'active')  # active, archived, all
-        
         if view_type == 'archived':
             queryset = queryset.filter(is_archived=True)
         elif view_type == 'all':
             pass  # Show all entries
         else:  # active (default)
             queryset = queryset.filter(is_archived=False)
-        
+
         # Time filters
         time_filter = self.request.GET.get('time', '')
-        if time_filter == 'this_year':
-            start_of_year = timezone.now().replace(month=1, day=1)
-            queryset = queryset.filter(date__gte=start_of_year.date())
+        from django.conf import settings
+        import pytz
+        tz = pytz.timezone(getattr(settings, 'TIME_ZONE', 'Australia/Brisbane'))
+        now_utc = timezone.now()
+        now_local = now_utc.astimezone(tz)
+        now = now_local.date()
+        print('NOW (UTC):', now_utc)
+        print('NOW (settings.TIME_ZONE):', now_local)
+        print('NOW (date):', now)
+        print('TIME_ZONE:', getattr(settings, 'TIME_ZONE', 'Australia/Brisbane'))
+        print('USE_TZ:', getattr(settings, 'USE_TZ', None))
+        if time_filter == 'today':
+            queryset = queryset.filter(date=now)
+        elif time_filter == 'this_year':
+            start_of_year = now.replace(month=1, day=1)
+            queryset = queryset.filter(date__gte=start_of_year, date__lte=now)
         elif time_filter == 'last_month':
-            last_month = timezone.now() - timedelta(days=30)
-            queryset = queryset.filter(date__gte=last_month.date())
+            # Get the first and last day of the previous calendar month
+            first_of_this_month = now.replace(day=1)
+            last_month_last_day = first_of_this_month - timedelta(days=1)
+            last_month_first_day = last_month_last_day.replace(day=1)
+            queryset = queryset.filter(date__gte=last_month_first_day, date__lte=last_month_last_day)
         elif time_filter == 'this_month':
-            start_of_month = timezone.now().replace(day=1)
-            queryset = queryset.filter(date__gte=start_of_month.date())
-        
+            start_of_month = now.replace(day=1)
+            queryset = queryset.filter(date__gte=start_of_month, date__lte=now)
+
         # Mood filter
         mood_filter = self.request.GET.get('mood', '')
         if mood_filter:
             queryset = queryset.filter(mood=mood_filter)
-        
+
+        # Debug: print entry dates
+        for entry in queryset:
+            print('Entry:', entry.date)
+
         return queryset.order_by('-date', '-created_at')
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['view_type'] = self.request.GET.get('view', 'active')
-        context['time_filter'] = self.request.GET.get('time', '')
-        context['mood_filter'] = self.request.GET.get('mood', '')
-        
-        # Add filter summary for display
-        filter_summary = []
-        if context['view_type'] != 'active':
-            filter_summary.append(f"View: {context['view_type']}")
-        if context['time_filter']:
-            filter_summary.append(f"Time: {context['time_filter']}")
-        if context['mood_filter']:
-            filter_summary.append(f"Mood: {context['mood_filter']}")
-        context['filter_summary'] = filter_summary
-        
-        # Statistics for the user
-        user_entries = Entry.objects.filter(author=self.request.user)
-        context['stats'] = {
-            'total': user_entries.count(),
-            'active': user_entries.filter(is_archived=False).count(),
-            'archived': user_entries.filter(is_archived=True).count(),
-            'this_year': user_entries.filter(date__year=timezone.now().year).count(),
-            'can_auto_archive': user_entries.filter(is_archived=False).exclude(date__gte=timezone.now().date() - timedelta(days=180)).count(),
-        }
-        
-        # Popular moods
-        mood_stats = user_entries.exclude(mood='').values('mood').annotate(count=Count('mood')).order_by('-count')[:5]
-        context['popular_moods'] = mood_stats
-        
-        return context
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -7,7 +7,7 @@ from .models import ContactMessage
 
 def home_view(request):
     context = {
-        'current_date': timezone.now()
+        'current_date': timezone.localdate()
     }
     return render(request, 'home.html', context)
 

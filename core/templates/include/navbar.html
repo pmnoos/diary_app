@@ -1,7 +1,6 @@
 <nav class="nav" style="background: var(--theme-background); color: var(--theme-text); border-bottom: 2px solid var(--theme-border);">
     <div style="color: var(--theme-text);">
         <a href="{% url 'home' %}">Home</a>
-        <a href="{% url 'landing' %}">Welcome</a>
         {% if user.is_authenticated %}
        
 

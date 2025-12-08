@@ -119,14 +119,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'Europe/London'  # Change this to your local timezone if different
-
-USE_I18N = True
-
+# Timezone settings
+TIME_ZONE = 'Australia/Brisbane'
 USE_TZ = True
 
+# Optional but recommended - also set language/locale
+LANGUAGE_CODE = 'en-au'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
