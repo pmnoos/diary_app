@@ -10,4 +10,5 @@ urlpatterns = [
     path('<int:pk>/delete/', views.ReminderDeleteView.as_view(), name='reminder_delete'),
     # add any additional reminder-specific routes here
         path('<int:pk>/', views.ReminderDetailView.as_view(), name='reminder_detail'),
+    path('toggle/<int:pk>/', views.toggle_reminder_complete, name='reminder_toggle'),
     ]

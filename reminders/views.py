@@ -151,7 +151,7 @@ def toggle_reminder_complete(request, pk):
         messages.success(request, f'Reminder "{reminder.title}" marked as completed! 🎉')
     
     reminder.save()
-    return redirect('reminder_list')
+    return redirect('reminders:reminder_dashboard')
 
 
 @login_required
