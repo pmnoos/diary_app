@@ -9,15 +9,18 @@
             padding: 1rem !important;
         }
         .container {
-            max-width: 100% !important;
-            overflow-x: hidden !important;
+      max-width: 100% !important;
+      overflow-x: hidden !important;
+      overflow-y: auto !important; /* ensure vertical scrolling */
         }
         .card {
             margin-bottom: 1rem !important;
+      overflow: visible !important; /* avoid clipping content */
         }
-        .columns {
-            overflow-x: hidden !important;
-        }
+    .columns {
+      overflow-x: hidden !important;
+      overflow-y: visible !important; /* allow content to flow vertically */
+    }
     }
     
     @media (max-width: 480px) {
@@ -28,6 +31,11 @@
             padding: 1rem !important;
         }
     }
+  /* Global safety to ensure scrolling on small screens */
+  html, body {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+  }
 </style>
 <section class="section">
     <div class="container">
