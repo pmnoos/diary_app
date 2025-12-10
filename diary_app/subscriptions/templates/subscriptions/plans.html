@@ -1,76 +1,39 @@
-{% extends 'base.html' %}
-{% block title %}Subscription Plans - Diary App{% endblock %}
-
-{% block content %}
-<style>
-    /* Mobile-specific fixes for subscription plans */
-    @media (max-width: 768px) {
-        .section {
-            padding: 1rem !important;
-        }
-        .container {
-            max-width: 100% !important;
-            overflow-x: hidden !important;
-        }
-        .card {
-            margin-bottom: 1rem !important;
-        }
-        .columns {
-            overflow-x: hidden !important;
-        }
-    }
-    
-    @media (max-width: 480px) {
-        .section {
-            padding: 0.5rem !important;
-        }
-        .card-content {
-            padding: 1rem !important;
-        }
-    }
-</style>
-<section class="section">
-    <div class="container">
-        <h2 class="title is-3 has-text-centered">Choose Your Plan</h2>
-        <div class="columns is-multiline is-centered">
-          {% for plan in plans %}
-          <div class="column is-4-desktop is-6-tablet">
-            <div class="card {% if plan.plan_type == 'monthly' %}is-highlighted{% endif %}">
-              <header class="card-header">
-                <p class="card-header-title is-centered">
-                  {{ plan.name }}
-                  {% if plan.plan_type == 'monthly' %}
-                    <span class="tag is-warning ml-2">Most Popular</span>
-                  {% elif plan.plan_type == 'lifetime' %}
-                    <span class="tag is-success ml-2">Best Value</span>
-                  {% endif %}
-                </p>
-              </header>
-              <div class="card-content">
-                <div class="content has-text-centered">
-                  <p class="subtitle is-5">{{ plan.get_plan_type_display }}</p>
-                  <p class="is-size-3 has-text-weight-bold">
-                    ${{ plan.price }} 
-                    <span class="is-size-6 has-text-grey">
-                      {% if plan.duration_days == 0 %}one-time{% elif plan.duration_days <= 31 %}/month{% elif plan.duration_days <= 366 %}/year{% endif %}
-                    </span>
-                  </p>
-                  <p class="has-text-grey mb-2">
-                    {% for key, value in plan.features.items %}
-                      <strong>{{ key|capfirst }}:</strong> {{ value }}{% if not forloop.last %}<br>{% endif %}
-                    {% endfor %}
-                  </p>
-                </div>
-              </div>
-              <footer class="card-footer">
-                <a href="{% url 'subscriptions:upgrade' plan.id %}" class="button {% if plan.plan_type == 'free' %}is-primary{% elif plan.plan_type == 'monthly' %}is-link{% else %}is-success{% endif %} is-fullwidth">
-                  {% if plan.plan_type == 'free' %}Start Free Trial{% elif plan.plan_type == 'monthly' %}Choose Monthly{% else %}Go Lifetime{% endif %}
-                </a>
-              </footer>
-            </div>
-          </div>
-          {% endfor %}
+<div class="columns is-multiline is-centered">
+  {% for plan in plans %}
+  <div class="column is-12-mobile is-6-tablet is-4-desktop">
+    <div class="card {% if plan.plan_type == 'monthly' %}is-highlighted{% endif %}">
+      <header class="card-header">
+        <p class="card-header-title is-centered">
+          {{ plan.name }}
+          {% if plan.plan_type == 'monthly' %}
+            <span class="tag is-warning ml-2">Most Popular</span>
+          {% elif plan.plan_type == 'lifetime' %}
+            <span class="tag is-success ml-2">Best Value</span>
+          {% endif %}
+        </p>
+      </header>
+      <div class="card-content">
+        <div class="content has-text-centered">
+          <p class="subtitle is-5">{{ plan.get_plan_type_display }}</p>
+          <p class="is-size-3 has-text-weight-bold">
+            ${{ plan.price }}
+            <span class="is-size-6 has-text-grey">
+              {% if plan.duration_days == 0 %}one-time{% elif plan.duration_days <= 31 %}/month{% elif plan.duration_days <= 366 %}/year{% endif %}
+            </span>
+          </p>
+          <p class="has-text-grey mb-2">
+            {% for key, value in plan.features.items %}
+              <strong>{{ key|capfirst }}:</strong> {{ value }}{% if not forloop.last %}<br>{% endif %}
+            {% endfor %}
+          </p>
         </div>
+      </div>
+      <footer class="card-footer">
+        <a href="{% url 'subscriptions:upgrade' plan.id %}" class="button {% if plan.plan_type == 'free' %}is-primary{% elif plan.plan_type == 'monthly' %}is-link{% else %}is-success{% endif %} is-fullwidth">
+          {% if plan.plan_type == 'free' %}Start Free Trial{% elif plan.plan_type == 'monthly' %}Choose Monthly{% else %}Go Lifetime{% endif %}
+        </a>
+      </footer>
     </div>
-</section>
-{% endblock %}
+  </div>
+  {% endfor %}
+</div>
