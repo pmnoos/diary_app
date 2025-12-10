@@ -19,6 +19,8 @@ except ImportError:
     STRIPE_AVAILABLE = False
     logger.warning("Stripe not installed. Payment processing will be disabled.")
 
+def features(request):
+    return render(request, "subscriptions/features.html")
 
 @login_required
 def subscription_plans(request):
